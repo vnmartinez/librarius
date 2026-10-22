@@ -1159,7 +1159,7 @@ def validar_nomes(ws: Workspace, semestre: Path, perfil: Perfil) -> list[Achado]
 - Consumes: `disciplinas()`, `Workspace`, `Perfil`, `Achado`.
 - Produces: `pastas_do_readme(texto: str) -> list[str]` (nomes do primeiro bloco ```` ```text ```` após "Estrutura principal", ou do primeiro bloco de código se não houver o título; linhas `├── X/` ou `└── X/`, só 1º nível); `validar_estrutura(ws, semestre, perfil) -> list[Achado]` com `readme-desatualizado` (aviso; mensagem cita as pastas que faltam no README e as que o README cita mas não existem) e `subpasta-padrao-ausente` (aviso, por disciplina e subpasta).
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_estrutura.py
@@ -1206,9 +1206,9 @@ def test_pasta_protegida_conta_como_existente(semestre_sintetico):
     assert "11-Relatórios" in msg        # existe (protegida) e não está no README
 ```
 
-- [ ] **Step 2: Rodar e ver falhar.**
+- [x] **Step 2: Rodar e ver falhar.**
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 ```python
 # acad/validacao/estrutura.py
@@ -1250,8 +1250,8 @@ def validar_estrutura(ws, semestre: Path, perfil) -> list[Achado]:
     return achados
 ```
 
-- [ ] **Step 4: Rodar e ver passar.**
-- [ ] **Step 5: Commit** — `git commit -m "feat: validação de estrutura do semestre"`
+- [x] **Step 4: Rodar e ver passar.**
+- [x] **Step 5: Commit** — `git commit -m "feat: validação de estrutura do semestre"`
 
 ### Tarefa 9: Leitura da planilha de cronograma
 
