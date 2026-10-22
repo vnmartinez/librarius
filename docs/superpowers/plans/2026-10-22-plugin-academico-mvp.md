@@ -2202,7 +2202,7 @@ def test_unidade_pendente_d3():
 - Produces: `importar_cronograma(linhas: list[LinhaCronograma], turma: dict, disciplina: str) -> tuple[list[Encontro], dict]` — um encontro por linha com data; `inicio`/`fim` do horário da turma cujo `dia_semana` = dia da data (senão o primeiro horário, e aviso); `origem="planilha"`; `tipo_linha` `sem-aula` → `status="cancelado"`, `motivo=topico`, `aulas=[]`; `avaliacao` → `funcao="avaliacao"`, `aulas=[]`; `aula` → `funcao="conteudo"`, `aulas=["Aula NN"]`, e entra em `aulas.yaml` (`id`, `tema`=tópico, `status="planejada"`, `objetivos=[]`, `prerequisitos=[]`, `encontros_necessarios=1`; se o mesmo `Aula NN` aparecer em mais de uma linha, a aula ganha os vários encontros e `encontros_necessarios` = quantidade). Retorna `(encontros, documento_aulas)`.
 - CLI: `acad cronograma importar <DISC> --turma TA [--raiz]` → proposta com `encontros-TA.yaml` e `aulas.yaml` (substituir se existem). Mensagem: "Li N linhas: X aulas, Y avaliações, Z dias sem aula."
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_importar_cronograma.py
@@ -2232,8 +2232,8 @@ def test_saida_bate_com_esperado():
 
 Para criar `testes/esperados/ed2-aulas.yaml`: rodar a função uma vez, **conferir à mão** contra a planilha (abrir no Excel/LibreOffice ou imprimir as linhas com `ler_cronograma`) que cada aula, tema e avaliação está certa, e só então salvar. Registrar no commit que o esperado foi conferido linha a linha.
 
-- [ ] **Step 2–4:** falhar, implementar, passar. Conferir também com `acad cronograma importar 04 --turma TA --raiz testes/amostras/fasoft/2026/Segundo\ Semestre --json` (gera proposta; não aplicar).
-- [ ] **Step 5: Commit** — `git commit -m "feat: importação do cronograma em planilha para o modelo de dados"`
+- [x] **Step 2–4:** falhar, implementar, passar. Conferir também com `acad cronograma importar 04 --turma TA --raiz testes/amostras/fasoft/2026/Segundo\ Semestre --json` (gera proposta; não aplicar).
+- [x] **Step 5: Commit** — `git commit -m "feat: importação do cronograma em planilha para o modelo de dados"`
 
 ### Tarefa 18: Distribuir aulas sobre encontros (`acad plano distribuir`)
 

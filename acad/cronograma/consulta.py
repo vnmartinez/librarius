@@ -7,6 +7,7 @@ from typing import Iterable
 
 from acad.arquivos.caminhos import sem_acento
 from acad.arquivos.privacidade import Workspace
+from acad.cronograma.classificar import tipo_linha
 from acad.cronograma.planilha import linhas_na_data
 
 STOPWORDS = {
@@ -78,16 +79,6 @@ def _materiais(ws: Workspace, disciplina: Path, numero: str | None, topico: str)
     return materiais
 
 
-def _tipo(aula: str, topico: str) -> str:
-    aula_alta, topico_alto = aula.upper(), topico.upper()
-    if any(palavra in aula_alta or palavra in topico_alto
-           for palavra in ("FERIADO", "RECESSO", "SETECH", "SEM AULA")):
-        return "sem-aula"
-    if "AVALIA" in aula_alta or "AVALIA" in topico_alto or "PROVA" in topico_alto:
-        return "avaliacao"
-    return "aula"
-
-
 def _cronogramas(ws: Workspace, pasta: Path):
     for caminho in ws.listar(pasta):
         if caminho.is_dir():
@@ -114,7 +105,7 @@ def consultar(raiz: Path, alvo: date, exclusao: Iterable[str]) -> dict:
                 "topico": linha.topico,
                 "linha": linha.linha,
                 "materiais": _materiais(ws, disciplina, linha.aula_num, linha.topico),
-                "tipo": _tipo(linha.aula, linha.topico),
+                "tipo": tipo_linha(linha.aula, linha.topico),
             })
     return {"projeto": str(raiz), "data": alvo.isoformat(),
             "quantidade_aulas": len(aulas), "aulas": aulas}
