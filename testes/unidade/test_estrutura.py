@@ -24,7 +24,7 @@ def test_le_so_estrutura_principal():
 
 def test_readme_desatualizado(semestre_sintetico):
     (semestre_sintetico / "README.md").write_text(README, encoding="utf-8")
-    perfil = carregar_perfil()
+    perfil = carregar_perfil("fasoft")
     workspace = Workspace(semestre_sintetico, perfil.exclusao)
     achados = [achado for achado in validar_estrutura(workspace, semestre_sintetico, perfil)
                if achado.codigo == "readme-desatualizado"]
@@ -34,7 +34,7 @@ def test_readme_desatualizado(semestre_sintetico):
 
 def test_subpasta_ausente(semestre_sintetico):
     (semestre_sintetico / "01 - Disc A - 3º Período" / "05 - Materiais de Referência").rmdir()
-    perfil = carregar_perfil()
+    perfil = carregar_perfil("fasoft")
     workspace = Workspace(semestre_sintetico, perfil.exclusao)
     achados = validar_estrutura(workspace, semestre_sintetico, perfil)
     assert any(achado.codigo == "subpasta-padrao-ausente" and "05 - Materiais de Referência" in achado.mensagem
@@ -42,7 +42,7 @@ def test_subpasta_ausente(semestre_sintetico):
 
 
 def test_pasta_protegida_conta_como_existente(semestre_sintetico):
-    perfil = carregar_perfil()
+    perfil = carregar_perfil("fasoft")
     workspace = Workspace(semestre_sintetico, perfil.exclusao)
     achados = validar_estrutura(workspace, semestre_sintetico, perfil)
     mensagem = next(achado.mensagem for achado in achados if achado.codigo == "readme-desatualizado")
@@ -50,7 +50,7 @@ def test_pasta_protegida_conta_como_existente(semestre_sintetico):
 
 
 def test_subpasta_protegida_existente_nao_e_ausente(semestre_sintetico):
-    perfil = carregar_perfil()
+    perfil = carregar_perfil("fasoft")
     workspace = Workspace(semestre_sintetico, perfil.exclusao)
     achados = validar_estrutura(workspace, semestre_sintetico, perfil)
     assert not any(

@@ -23,7 +23,13 @@ def _mk(caminho: Path, conteudo: str = ""):
 
 
 @pytest.fixture
-def semestre_sintetico(tmp_path) -> Path:
+def perfil_fasoft(monkeypatch):
+    from acad import contexto
+    monkeypatch.setattr(contexto, "PERFIL_PADRAO", "fasoft")
+
+
+@pytest.fixture
+def semestre_sintetico(tmp_path, perfil_fasoft) -> Path:
     raiz = tmp_path / "fasoft"
     _mk(raiz / "AGENTS.md", "# Fasoft - Diretrizes do Projeto\n")
     semestre = raiz / "2026" / "Segundo Semestre"

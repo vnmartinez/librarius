@@ -11,7 +11,7 @@ AMOSTRA_SEM = Path(__file__).resolve().parents[1] / "amostras" / "fasoft" / "202
 
 @pytest.fixture
 def achados():
-    perfil = carregar_perfil()
+    perfil = carregar_perfil("fasoft")
     workspace = Workspace(AMOSTRA_SEM, perfil.exclusao)
     return validar_nomes(workspace, AMOSTRA_SEM, perfil)
 
@@ -21,7 +21,7 @@ def _tem(achados, codigo, trecho):
 
 
 def test_disciplinas_da_amostra():
-    perfil = carregar_perfil()
+    perfil = carregar_perfil("fasoft")
     nomes = [pasta.name for pasta in disciplinas(Workspace(AMOSTRA_SEM, perfil.exclusao), AMOSTRA_SEM, perfil)]
     assert nomes == ["04 - Estrutura de Dados 2 - 5º Período"]
 
@@ -53,7 +53,7 @@ def test_mensagens_em_portugues_simples(achados):
 
 
 def test_pasta_protegida_avaliada_so_pelo_nome(semestre_sintetico):
-    perfil = carregar_perfil()
+    perfil = carregar_perfil("fasoft")
     workspace = Workspace(semestre_sintetico, perfil.exclusao)
     list(workspace.percorrer(semestre_sintetico))
     achados = validar_nomes(workspace, semestre_sintetico, perfil)

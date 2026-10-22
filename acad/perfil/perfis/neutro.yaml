@@ -1,0 +1,24 @@
+versao_esquema: 2
+perfil:
+  id: neutro
+  instituicao: "Instituição de ensino"
+  disciplina_pasta: '^(?P<nome>[^.~_].*)$'
+  subpastas_disciplina: [planejamento, aulas, atividades, projetos, referencias, codigo, arquivo]
+  pasta_arquivo: arquivo
+  pasta_avaliacoes: '(?i)^(\d{2} - )?avalia'
+  pasta_modelos: '(?i)^(\d{2} - )?modelos?$'
+  etapas_avaliacao: [AV1, AV2, AV3]
+  nomenclatura:
+    aula: '^Aula \d{2} - '
+    lista: '^(Lista|Atividade|Aula) \d{2} - '
+    pasta: '^'
+    sufixos_proibidos: ['\(Revisado\)', '_v\d+\b', '\(v\d+\)', ' - [Cc][oó]pia\b', ' \(\d+\)\.', '\.bak$']
+  carga_horaria: { unidade: null, minutos_hora_aula: null }
+  exclusao: ["*Notas*", "*notas*", "*NOTAS*", "*Alunos*", "*alunos*", "*Relatórios*", "*relatorios*",
+             "*Relatorios*", "*Entregas*", "*entregas*", "*TFC*", "*TCC*", "*tcc*", "*Estágio*", "*estagio*",
+             "*/projetos"]
+  estrutura:
+    semestre: '^(?P<ano>\d{4})[-._ ](?P<periodo>[12])$'
+    administracao: '(?i)^(\d{2} - )?administra'
+    papeis: { planejamento: planejamento, aulas: aulas, atividades: atividades, projetos: projetos,
+              referencias: referencias, codigo: codigo, arquivo: arquivo }

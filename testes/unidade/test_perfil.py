@@ -65,19 +65,19 @@ def test_perfil_fasoft_carrega():
 
 
 def test_regex_disciplina_extrai_partes():
-    correspondencia = carregar_perfil().disciplina_pasta.match("04 - Estrutura de Dados 2 - 5º Período")
+    correspondencia = carregar_perfil("fasoft").disciplina_pasta.match("04 - Estrutura de Dados 2 - 5º Período")
     assert correspondencia["num"] == "04"
     assert correspondencia["nome"] == "Estrutura de Dados 2"
     assert correspondencia["periodo"] == "5º Período"
 
 
 def test_unidade_carga_d3_hora_aula_de_50_minutos():
-    perfil = carregar_perfil()
+    perfil = carregar_perfil("fasoft")
     assert perfil.unidade_carga == "hora_aula" and perfil.minutos_hora_aula == 50
 
 
 def test_sufixos_proibidos_pegam_casos_reais():
-    perfil = carregar_perfil()
+    perfil = carregar_perfil("fasoft")
     for nome in [
         "Aula 18 - Arvores (v2).pptx", "Recepção dos Calouros (1).xlsx",
         "Cronograma - ED2.xlsx.bak", "Aula 05 - BST - copia.pptx",
@@ -91,5 +91,5 @@ def test_sufixos_proibidos_pegam_casos_reais():
 
 
 def test_exclusao_cobre_dados_de_aluno():
-    exclusao = carregar_perfil().exclusao
+    exclusao = carregar_perfil("fasoft").exclusao
     assert "*Notas*" in exclusao and "* - TFC*/02 - Alunos" in exclusao

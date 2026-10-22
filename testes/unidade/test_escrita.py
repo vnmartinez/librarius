@@ -6,7 +6,7 @@ from acad.arquivos.escrita import Operacao, aplicar, criar_proposta, desfazer, p
 from acad.erros import ErroAcad
 from acad.perfil.perfil import carregar_perfil
 
-PERFIL = carregar_perfil()
+PERFIL = carregar_perfil("fasoft")
 DISCIPLINA = "01 - Disc A - 3º Período"
 
 

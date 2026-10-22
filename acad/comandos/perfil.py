@@ -34,7 +34,7 @@ def _detectar(parser):
 def _iniciar(parser):
     parser.add_argument("semestre")
     parser.add_argument("--raiz", required=True)
-    parser.add_argument("--perfil", default="fasoft")
+    parser.add_argument("--perfil")
     parser.add_argument("--confirmar", action="store_true")
 
     def executar(args) -> Resultado:
@@ -43,14 +43,22 @@ def _iniciar(parser):
             raise ErroAcad("semestre-invalido", "Use semestre no formato AAAA-N, por exemplo 2026-2.")
         if not raiz.is_dir():
             raise ErroAcad("raiz-nao-encontrada", "Não encontrei a pasta do semestre.")
-        documento = {"versao_esquema": 1, "perfil": args.perfil,
+        avisos = []
+        escolhido = args.perfil or (contexto.carregar_configuracao() or {}).get("perfil")
+        if not escolhido:
+            escolhido = contexto.PERFIL_PADRAO
+            if escolhido == "neutro":
+                avisos.append("Usei o perfil neutro, sem marca de instituição. Se quiser, crio o perfil da sua "
+                              "instituição a partir da sua pasta.")
+        carregar_perfil(escolhido)
+        documento = {"versao_esquema": 1, "perfil": escolhido,
                      "raiz_workspace": str(raiz), "semestre_atual": args.semestre}
         esquemas.validar_ou_falhar("semestre", documento)
         if args.confirmar:
             contexto.gravar_configuracao(documento)
         mensagem = (f"Vou usar {raiz} como semestre {args.semestre}. "
                     + ("Configuração guardada." if args.confirmar else "Confirme para guardar essa escolha."))
-        return Resultado(ok=True, mensagem=mensagem, dados=documento)
+        return Resultado(ok=True, mensagem=mensagem, dados=documento, avisos=avisos)
 
     return executar
 
@@ -67,7 +75,7 @@ def _disciplina_criar(parser):
 
     def executar(args) -> Resultado:
         if args.unidade is None:
-            padrao = carregar_perfil()
+            padrao = contexto.perfil()
             args.unidade = padrao.unidade_carga
             args.minutos_hora_aula = args.minutos_hora_aula or padrao.minutos_hora_aula
         if args.unidade == "hora_aula" and not args.minutos_hora_aula:

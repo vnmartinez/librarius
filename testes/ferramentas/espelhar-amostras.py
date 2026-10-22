@@ -25,7 +25,7 @@ def espelhar(origem_fasoft: Path, destino_fasoft: Path) -> None:
     if destino_fasoft.exists() and any(destino_fasoft.iterdir()):
         raise ValueError("Destino já contém arquivos: operação recusada.")
 
-    workspace = Workspace(origem_fasoft / SEMESTRE, carregar_perfil().exclusao)
+    workspace = Workspace(origem_fasoft / SEMESTRE, carregar_perfil("fasoft").exclusao)
     (destino_fasoft / SEMESTRE).mkdir(parents=True, exist_ok=True)
     (destino_fasoft / "AGENTS.md").write_bytes((origem_fasoft / "AGENTS.md").read_bytes())
     (destino_fasoft / SEMESTRE / "README.md").write_bytes(

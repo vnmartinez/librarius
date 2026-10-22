@@ -12,7 +12,7 @@ DRIVE = Path(r"G:\Meu Drive\Fasoft\2026\Segundo Semestre")
 
 
 @pytest.mark.drive
-def test_validar_drive_real_sem_escrever(capsys, monkeypatch):
+def test_validar_drive_real_sem_escrever(capsys, monkeypatch, perfil_fasoft):
     if not DRIVE.exists():
         pytest.skip("Drive ausente")
     real_open = builtins.open

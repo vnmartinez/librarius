@@ -11,6 +11,8 @@ from acad.mensagens import msg
 from acad.perfil.perfil import Perfil, carregar_perfil
 from acad.validacao.nomenclatura import disciplinas
 
+PERFIL_PADRAO = "neutro"
+
 
 def carregar_configuracao() -> dict | None:
     arquivo = dir_dados() / "configuracao.yaml"
@@ -47,7 +49,7 @@ def workspace(raiz: Path) -> Workspace:
 
 def perfil() -> Perfil:
     configuracao = carregar_configuracao()
-    return carregar_perfil((configuracao or {}).get("perfil", "fasoft"))
+    return carregar_perfil((configuracao or {}).get("perfil") or PERFIL_PADRAO)
 
 
 def raiz_padrao_consulta() -> Path:

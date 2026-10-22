@@ -97,7 +97,7 @@ def perfil_de_documento(documento: dict) -> Perfil:
     )
 
 
-def carregar_perfil(id: str = "fasoft") -> Perfil:
+def carregar_perfil(id: str) -> Perfil:
     documento = ler_documento_perfil(id)
     validar_perfil_ou_falhar(documento)
     return perfil_de_documento(documento)

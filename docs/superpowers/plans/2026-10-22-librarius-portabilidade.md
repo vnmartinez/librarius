@@ -911,7 +911,7 @@ git commit -m "feat: padrão visual dos slides vem do perfil, com identidade neu
 - Consumes: Tarefas 2–4.
 - Produces: `contexto.PERFIL_PADRAO = "neutro"`; `carregar_perfil(id: str)` obrigatório; fixture `perfil_fasoft`.
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_perfil_padrao.py
@@ -961,12 +961,12 @@ def test_iniciar_com_perfil_inexistente_para(tmp_path, capsys):
     assert main(["iniciar", "2027-1", "--raiz", str(semestre), "--perfil", "nao-existe", "--json"]) == 4
 ```
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_perfil_padrao.py -v`
 Expected: FAIL (`perfil-nao-encontrado` para `neutro` / `id == "fasoft"`).
 
-- [ ] **Step 3: `neutro.yaml`**
+- [x] **Step 3: `neutro.yaml`**
 
 ```yaml
 versao_esquema: 2
@@ -995,7 +995,7 @@ perfil:
               referencias: referencias, codigo: codigo, arquivo: arquivo }
 ```
 
-- [ ] **Step 4: Código**
+- [x] **Step 4: Código**
 
 `acad/perfil/perfil.py`: `def carregar_perfil(id: str) -> Perfil:` (sem padrão).
 
@@ -1028,7 +1028,7 @@ return Resultado(ok=True, mensagem=mensagem, dados=documento, avisos=avisos)
 
 `disciplina criar`: `padrao = contexto.perfil()` no lugar de `carregar_perfil()`.
 
-- [ ] **Step 5: Fixture e testes antigos**
+- [x] **Step 5: Fixture e testes antigos**
 
 Em `testes/conftest.py`:
 
@@ -1046,12 +1046,12 @@ def semestre_sintetico(tmp_path, perfil_fasoft) -> Path:
 
 Troque `carregar_perfil()` por `carregar_perfil("fasoft")` nos arquivos listados em **Files**. Depois rode a suíte; para cada teste que ainda falhar porque espera o comportamento fasoft sem usar `semestre_sintetico` (ex.: testes que usam `testes/amostras/fasoft` direto, testes de MCP e de CLI), acrescente `perfil_fasoft` aos parâmetros do teste — ou `pytestmark = pytest.mark.usefixtures("perfil_fasoft")` no módulo quando todos os testes dele usam a árvore Fasoft. Não altere asserções.
 
-- [ ] **Step 6: Rodar**
+- [x] **Step 6: Rodar**
 
 Run: `.venv/Scripts/python -m pytest -q` e `.venv/Scripts/python -m pytest -q -m "drive or hosts or rede or latex"`
 Expected: verde (marcados: `skip` onde o ambiente não tem a ferramenta, como na linha de base).
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add acad/perfil/perfis/neutro.yaml acad/perfil/perfil.py acad/contexto.py acad/comandos/perfil.py testes
