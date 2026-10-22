@@ -190,7 +190,7 @@ git commit -m "test: referência de compatibilidade dos slides e do perfil fasof
 **Interfaces:**
 - Produces (campos novos de `Perfil`): `re_semestre: re.Pattern`, `periodos: dict[str, int]` (vazio = `int(texto)`), `re_administracao: re.Pattern`, `papeis: dict[str, str]`, `modelo_slides: str | None`, `modelo_prova: str | None`. Métodos: `pasta(papel: str) -> str`, `semestre_de(pasta: Path) -> tuple[int, int] | None`, `base_semestre(pasta: Path) -> Path`, `partes_disciplina(nome: str) -> dict | None` (chaves `num`, `nome`, `periodo`, ausentes = `None`). Função `perfil_de_documento(documento: dict) -> Perfil`.
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 Acrescente a `testes/unidade/test_perfil.py`:
 
@@ -254,12 +254,12 @@ def test_v2_aceita_blocos_novos_e_recusa_chave_desconhecida():
     assert esquemas.validar("perfil", documento)
 ```
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_perfil.py -v`
 Expected: FAIL (`ImportError: perfil_de_documento`).
 
-- [ ] **Step 3: Esquema**
+- [x] **Step 3: Esquema**
 
 Em `esquemas/perfil.schema.json`: troque `"versao_esquema": {"const": 1}` por `"versao_esquema": {"enum": [1, 2]}`; tire `"semestre_pasta"` da lista `required` de `perfil`; acrescente em `perfil.properties`:
 
@@ -287,7 +287,7 @@ Em `esquemas/perfil.schema.json`: troque `"versao_esquema": {"const": 1}` por `"
 }
 ```
 
-- [ ] **Step 4: Padrões v1**
+- [x] **Step 4: Padrões v1**
 
 ```python
 # acad/perfil/padroes.py
@@ -309,7 +309,7 @@ ESTRUTURA_V1 = {
 }
 ```
 
-- [ ] **Step 5: `Perfil` ampliado**
+- [x] **Step 5: `Perfil` ampliado**
 
 Em `acad/perfil/perfil.py`: acrescente os campos ao dataclass (depois de `exclusao`), separe a montagem em `perfil_de_documento` e mantenha `carregar_perfil` lendo o empacotado (a leitura do usuário vem na Tarefa 3). Nesta tarefa `carregar_perfil` ainda tem `id: str = "fasoft"`; o padrão sai na Tarefa 5.
 
@@ -378,16 +378,16 @@ def carregar_perfil(id: str = "fasoft") -> Perfil:
 
 Regra de `periodos`: perfil sem `estrutura` → mapa v1 (`Primeiro/Segundo`); perfil com `estrutura` e sem `periodos` → mapa vazio (período numérico). `pasta_arquivo` continua obrigatório no v1 só pelo uso atual; use `perfil.get("pasta_arquivo", papeis["arquivo"])` se o campo faltar. Preencha o `# ...` com os argumentos exatos que `carregar_perfil` monta hoje (`id`, `instituicao`, `disciplina_pasta`, …, `exclusao`) — copie-os, não os resuma.
 
-- [ ] **Step 6: `fasoft.yaml` v2**
+- [x] **Step 6: `fasoft.yaml` v2**
 
 Mude `versao_esquema: 1` para `versao_esquema: 2` e acrescente ao fim de `perfil:` os blocos `estrutura` (exatamente os valores de `ESTRUTURA_V1`, com `periodos: {Primeiro: 1, Segundo: 2}`) e `modelos: {slides: "Modelo de Slides UniRV", prova: "Modelo LaTeX/modelo-prova.tex"}`. Mantenha os demais campos, inclusive `semestre_pasta` e o comentário D3.
 
-- [ ] **Step 7: Rodar**
+- [x] **Step 7: Rodar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_perfil.py testes/unidade/test_esquemas.py testes/unidade/test_compat_fasoft.py -v` e depois `.venv/Scripts/python -m pytest -q`
 Expected: tudo PASS; suíte inteira com a linha de base + os novos testes.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add esquemas/perfil.schema.json acad/perfil/padroes.py acad/perfil/perfil.py acad/perfil/perfis/fasoft.yaml testes/unidade/test_perfil.py

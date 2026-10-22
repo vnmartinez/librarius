@@ -7,7 +7,7 @@
   ],
   "properties": {
     "versao_esquema": {
-      "const": 1
+      "enum": [1, 2]
     },
     "perfil": {
       "type": "object",
@@ -15,7 +15,6 @@
       "required": [
         "id",
         "instituicao",
-        "semestre_pasta",
         "disciplina_pasta",
         "subpastas_disciplina",
         "nomenclatura",
@@ -31,6 +30,27 @@
         },
         "semestre_pasta": {
           "type": "string"
+        },
+        "estrutura": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "semestre": {"type": "string"},
+            "periodos": {"type": "object", "additionalProperties": {"enum": [1, 2]}},
+            "administracao": {"type": "string"},
+            "papeis": {
+              "type": "object", "additionalProperties": false,
+              "properties": {
+                "planejamento": {"type": "string"}, "aulas": {"type": "string"},
+                "atividades": {"type": "string"}, "projetos": {"type": "string"},
+                "referencias": {"type": "string"}, "codigo": {"type": "string"},
+                "arquivo": {"type": "string"}
+              }
+            }
+          }
+        },
+        "modelos": {
+          "type": "object", "additionalProperties": false,
+          "properties": {"slides": {"type": ["string", "null"]}, "prova": {"type": ["string", "null"]}}
         },
         "disciplina_pasta": {
           "type": "string"

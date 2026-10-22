@@ -1,4 +1,4 @@
-versao_esquema: 1
+versao_esquema: 2
 perfil:
   id: fasoft
   instituicao: "UniRV — Fasoft"
@@ -24,3 +24,18 @@ perfil:
     - "*Relatórios*"
     - "*/04 - Projetos e Entregáveis"
     - "* - Estágio"
+  estrutura:
+    semestre: '^(?P<ano>\d{4})/(?P<periodo>Primeiro|Segundo) Semestre$'
+    periodos: {Primeiro: 1, Segundo: 2}
+    administracao: '^00 - '
+    papeis:
+      planejamento: "01 - Planejamento"
+      aulas: "02 - Aulas"
+      atividades: "03 - Atividades e Listas"
+      projetos: "04 - Projetos e Entregáveis"
+      referencias: "05 - Materiais de Referência"
+      codigo: "06 - Código e Exemplos"
+      arquivo: "99 - Arquivo"
+  modelos:
+    slides: "Modelo de Slides UniRV"
+    prova: "Modelo LaTeX/modelo-prova.tex"
