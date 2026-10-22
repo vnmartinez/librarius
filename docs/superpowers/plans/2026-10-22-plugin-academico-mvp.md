@@ -2305,7 +2305,7 @@ def test_ciclo():
 - Produces: `cancelar(encontros, d: date, motivo: str) -> list[Encontro]` (cópias; encontros da data viram `cancelado`; data sem encontro → `ErroAcad("sem-encontro-na-data", "Não há aula dessa turma em 21/10.")`); `diff(antes: list[Encontro], depois: list[Encontro], avaliacoes: list[dict]) -> dict` → `{"deslocadas": [{"aula", "de": [iso], "para": [iso]}], "comprimidas": [aula cujo nº de encontros diminuiu], "sem_encontro": [aula], "avaliacoes_afetadas": [{"etapa", "data", "aulas": [aula coberta cujo último encontro agora é depois da prova ou ficou sem encontro]}]}`; `resumo_diff(d: dict) -> str` em português ("3 aulas mudam de dia: Aula 06 sai de 21/10 para 26/10; … A avaliação N2 de 18/11 passaria a cobrir a Aula 12, que ainda não teria sido dada.").
 - CLI: `acad plano replanejar <DISC> --turma TA --cancelar <data> [--motivo "..."]` → proposta substituindo `encontros-TA.yaml`; `dados` traz o diff; o professor aprova o diff, não o cronograma inteiro.
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_replanejar.py
@@ -2335,8 +2335,8 @@ def test_resumo_em_portugues():
     assert "Aula 02" in t and "07/10" in t and "09/10" in t
 ```
 
-- [ ] **Step 2–4:** falhar, implementar, passar.
-- [ ] **Step 5: Commit** — `git commit -m "feat: replanejamento com relatório do que muda"`
+- [x] **Step 2–4:** falhar, implementar, passar.
+- [x] **Step 5: Commit** — `git commit -m "feat: replanejamento com relatório do que muda"`
 
 ### Tarefa 20: Hashes e manifestos
 
