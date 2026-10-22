@@ -1761,7 +1761,7 @@ def marcar_desfeita(id: str) -> None:
   - `contexto.carregar_configuracao() -> dict | None` (`dir_dados()/configuracao.yaml`, validado com esquema `semestre`); `contexto.raiz_semestre(args) -> Path` (`--raiz` ou `raiz_workspace` da configuração; senão `ErroAcad("raiz-nao-encontrada", msg("raiz-nao-encontrada"), saida=3)`); `contexto.workspace(raiz) -> Workspace`; `contexto.perfil() -> Perfil` (da configuração, padrão `fasoft`); `contexto.localizar_disciplina(ws, semestre, ident: str) -> Path` (aceita código do `disciplina.yaml`, número `04` ou trecho do nome sem acento; ambíguo/inexistente → `ErroAcad("disciplina-nao-encontrada", …)`).
 - Subcomandos desta tarefa: `ambiente verificar` (versão do Python ≥ 3.11, imports `yaml jsonschema openpyxl`, configuração, raiz acessível; `dados.python`, `dados.faltando`), `cronograma consultar [--data AAAA-MM-DD|DD/MM/AAAA] [--raiz]` (raiz padrão: `encontrar_raiz(cwd)` ou a raiz Fasoft acima de `raiz_workspace`), `aplicar <id>`, `desfazer`.
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_cli.py
@@ -1808,9 +1808,9 @@ def test_erro_inesperado_vai_para_registro(capsys, monkeypatch):
     assert "ZeroDivisionError" not in d["mensagem"]
 ```
 
-- [ ] **Step 2: Rodar e ver falhar.**
+- [x] **Step 2: Rodar e ver falhar.**
 
-- [ ] **Step 3: Implementar** `acad/cli.py`:
+- [x] **Step 3: Implementar** `acad/cli.py`:
 
 ```python
 # acad/cli.py
@@ -1903,8 +1903,8 @@ def _consultar(p):
 
 (`contexto.raiz_padrao_consulta()` devolve `Path.cwd()` ou a `raiz_workspace` configurada.) Atualizar `acad/__main__.py` para `sys.exit(main())` sem o `try/except ImportError`.
 
-- [ ] **Step 4: Rodar e ver passar** — `$PY -m pytest testes -v -m "not drive"`.
-- [ ] **Step 5: Commit** — `git commit -m "feat: CLI acad com consulta, aplicar e desfazer"`
+- [x] **Step 4: Rodar e ver passar** — `$PY -m pytest testes -v -m "not drive"`.
+- [x] **Step 5: Commit** — `git commit -m "feat: CLI acad com consulta, aplicar e desfazer"`
 
 ### Tarefa 13: Calendário canônico (modelo, leitura e confirmação)
 
