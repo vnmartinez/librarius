@@ -1982,9 +1982,9 @@ def test_confirmar_muda_status():
   - `acad calendario importar <arquivo> --inicio D --fim D [--semestre 2026-2] [--raiz]` → proposta criando/substituindo `00 - Administração Acadêmica/calendario.yaml` (a pasta é a que casa `^00 - ` no semestre); mensagem lista quantos feriados/recessos/sábados letivos e pede conferência.
   - `acad calendario confirmar [--raiz]` → proposta substituindo o arquivo com `status: confirmado`.
 
-- [ ] **Step 1: Criar amostras sintéticas** (datas fictícias, nada institucional): `calendario-2026-2.ics` com 4 eventos — `Feriado - Nossa Senhora Aparecida` (12/10, all-day), `Recesso` (19/11–21/11, DTEND 22/11), `Sábado letivo` (17/10), `SETECH - Semana Acadêmica` (21/09–26/09); e o `.xlsx` equivalente no formato canônico (gerar com openpyxl num script `testes/ferramentas/gerar-sinteticos.py`, commitado).
+- [x] **Step 1: Criar amostras sintéticas** (datas fictícias, nada institucional): `calendario-2026-2.ics` com 4 eventos — `Feriado - Nossa Senhora Aparecida` (12/10, all-day), `Recesso` (19/11–21/11, DTEND 22/11), `Sábado letivo` (17/10), `SETECH - Semana Acadêmica` (21/09–26/09); e o `.xlsx` equivalente no formato canônico (gerar com openpyxl num script `testes/ferramentas/gerar-sinteticos.py`, commitado).
 
-- [ ] **Step 2: Testes que falham**
+- [x] **Step 2: Testes que falham**
 
 ```python
 # testes/unidade/test_importar_calendario.py
@@ -2028,8 +2028,8 @@ def test_cli_importar_gera_proposta(capsys, semestre_sintetico):
     assert "feriado" in d["mensagem"].lower()
 ```
 
-- [ ] **Step 3: Rodar e ver falhar.**
-- [ ] **Step 4: Implementar** com `icalendar.Calendar.from_ical(conteudo)` e `walk("VEVENT")` (conferir a API na documentação do pacote instalado: `$PY -c "import icalendar, inspect; print(icalendar.__version__)"` e https://icalendar.readthedocs.io — usar só o que lá estiver). Comando:
+- [x] **Step 3: Rodar e ver falhar.**
+- [x] **Step 4: Implementar** com `icalendar.Calendar.from_ical(conteudo)` e `walk("VEVENT")` (conferir a API na documentação do pacote instalado: `$PY -c "import icalendar, inspect; print(icalendar.__version__)"` e https://icalendar.readthedocs.io — usar só o que lá estiver). Comando:
 
 ```python
 # acad/comandos/calendario.py (trecho)
@@ -2056,8 +2056,8 @@ def _importar(p):
 ```
 
 (`contexto.pasta_administracao(semestre) -> Path`: primeira pasta do semestre que casa `^00 - `; criar em `contexto.py`.)
-- [ ] **Step 5: Rodar e ver passar.**
-- [ ] **Step 6: Commit** — `git commit -m "feat: importação de calendário ICS e planilha"`
+- [x] **Step 5: Rodar e ver passar.**
+- [x] **Step 6: Commit** — `git commit -m "feat: importação de calendário ICS e planilha"`
 
 ### Tarefa 15: Gerar encontros por turma (`acad encontros gerar`)
 

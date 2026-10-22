@@ -47,6 +47,14 @@ def raiz_padrao_consulta() -> Path:
     return Path((configuracao or {}).get("raiz_workspace") or Path.cwd())
 
 
+def pasta_administracao(semestre: Path) -> Path:
+    candidatas = [pasta for pasta in workspace(semestre).listar(semestre)
+                  if pasta.is_dir() and pasta.name.startswith("00 - ")]
+    if not candidatas:
+        raise ErroAcad("pasta-nao-encontrada", "Não encontrei a pasta de administração do semestre.")
+    return candidatas[0]
+
+
 def localizar_disciplina(ws: Workspace, semestre: Path, ident: str) -> Path:
     perfil_atual = perfil()
     identificador = sem_acento(ident)
