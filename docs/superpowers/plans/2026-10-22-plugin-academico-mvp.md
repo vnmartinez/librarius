@@ -2572,7 +2572,7 @@ def test_validar_drive_real_sem_escrever(capsys, monkeypatch):
   - `planejar_aula(ws, semestre, disc: Path, num: str, conteudo: dict, gerador: GeradorSlides, agora: datetime, revisar: bool = False) -> tuple[list[Operacao], list[str]]` — devolve operações e avisos. Regras: aula `aprovada`/`ministrada` sem `revisar` → `ErroAcad("aula-aprovada", "Essa aula já foi aprovada por você. Para mudar, peça para revisar a aula.", saida=1)`; arquivo existente → `substituir` (arquivamento automático); slides bloqueados → aviso "Os slides ficam para depois: ainda falta escolher o modelo." e o resto segue; estimativa: soma de `minutos` × soma da duração dos encontros da aula (de `encontros-*.yaml`), desvio > 15% → aviso "O roteiro tem 140 min, mas a aula tem 100 min."; atualiza a aula em `aulas.yaml` (`slides`/`roteiro`/`codigo`/`lista` com os caminhos, `status: rascunho`, `manifesto` com `entradas` = `{"<disc>/01 - Planejamento/aulas.yaml#Aula NN": hash_item(aula sem manifesto), "<pasta de modelos de slides>": hash_pasta(...) quando usada, "<programa da disciplina>.pdf": hash_bytes(...) quando existir}`) e inclui `substituir aulas.yaml`.
   - CLI: `acad gerar aula <DISC> --aula NN --conteudo <arquivo.json> [--revisar]` → proposta; mensagem: "Vou criar 3 arquivos na pasta de aulas e atualizar o plano da disciplina."
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_gerar_aula.py
@@ -2645,8 +2645,8 @@ def test_conteudo_invalido(semestre_sintetico, disc):
     assert e.value.codigo == "esquema-invalido"
 ```
 
-- [ ] **Step 2–4:** falhar, implementar, passar. Roteiro renderizado de `modelos/roteiro-aula.md` com `string.Template` (`${tema}`, `${objetivo}`, `${blocos}`, `${duracao_total}`); lista de `modelos/lista.md`.
-- [ ] **Step 5: Commit** — `git commit -m "feat: geração de aula com roteiro, código, lista e manifesto"`
+- [x] **Step 2–4:** falhar, implementar, passar. Roteiro renderizado de `modelos/roteiro-aula.md` com `string.Template` (`${tema}`, `${objetivo}`, `${blocos}`, `${duracao_total}`); lista de `modelos/lista.md`.
+- [x] **Step 5: Commit** — `git commit -m "feat: geração de aula com roteiro, código, lista e manifesto"`
 
 ### Tarefa 25: Ciclo de status da aula (`acad aula status`)
 

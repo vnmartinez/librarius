@@ -5,3 +5,4 @@ from acad.comandos import cronograma  # noqa: F401
 from acad.comandos import plano  # noqa: F401
 from acad.comandos import validar  # noqa: F401
 from acad.comandos import perfil  # noqa: F401
+from acad.comandos import gerar  # noqa: F401
