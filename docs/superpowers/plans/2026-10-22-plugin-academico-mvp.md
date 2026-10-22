@@ -3138,9 +3138,9 @@ def test_claude_validate_oficial():
 
 **Interfaces:**
 - Produces: `versao.ARQUIVOS = [("pyproject.toml", "project.version"), ("acad/__init__.py", "__version__"), (".claude-plugin/plugin.json", "version"), (".claude-plugin/marketplace.json", "plugins.0.version"), (".codex-plugin/plugin.json", "version")]` (o `plugin.json` da raiz fica fora: o Antigravity proíbe `version`); `versao.ler_todas(raiz) -> dict[str, str]`; `versao.aplicar(raiz, nova: str) -> None` (preserva formatação: troca só o valor com regex ancorada); `scripts/sincronizar-versao.py <nova>` e `--verificar` (sai 1 se houver mais de uma versão).
-- [ ] **Step 1: Testes que falham:** no repositório, `ler_todas` devolve um único valor; numa cópia, `aplicar("0.2.0")` muda os cinco e mais nada (`git diff --stat` simulado comparando bytes fora das linhas de versão); `--verificar` sai 1 com uma versão divergente.
-- [ ] **Step 2–4:** falhar, implementar, passar.
-- [ ] **Step 5: Commit** — `git commit -m "chore: versão única sincronizada em todos os manifestos"`
+- [x] **Step 1: Testes que falham:** no repositório, `ler_todas` devolve um único valor; numa cópia, `aplicar("0.2.0")` muda os cinco e mais nada (`git diff --stat` simulado comparando bytes fora das linhas de versão); `--verificar` sai 1 com uma versão divergente.
+- [x] **Step 2–4:** falhar, implementar, passar.
+- [x] **Step 5: Commit** — `git commit -m "chore: versão única sincronizada em todos os manifestos"`
 
 ### Tarefa 38: Pacotes de skills para o ChatGPT
 
