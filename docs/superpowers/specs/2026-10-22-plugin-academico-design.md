@@ -121,19 +121,21 @@ librarius/
 │   ├── usando-agente-academico/  organizador-academico/  planejador-semestre/
 │   ├── distribuidor-ementa/  gerador-aulas/  gerador-avaliacoes/  validador-academico/
 ├── acad/
-│   ├── __init__.py  __main__.py  cli.py  mcp.py  saida.py  erros.py  mensagens.py
+│   ├── __init__.py  __main__.py  cli.py  contexto.py  config.py  mcp.py  saida.py  erros.py  mensagens.py
+│   ├── comandos/        # um módulo por grupo de subcomandos (registrados no cli)
+│   ├── plataformas/     # validação de skills e manifestos, versão, empacotador ChatGPT
 │   ├── arquivos/        # privacidade.py, escrita.py, diario.py (desfazer), caminhos.py
 │   ├── esquemas.py      # carga e validação JSON Schema
 │   ├── perfil/          # perfil.py, detectar.py, perfis/fasoft.yaml
 │   ├── calendario/      # modelo.py, importar_ics.py, importar_xlsx.py
-│   ├── cronograma/      # planilha.py (leitura .xlsx), consulta.py (paridade skill cronograma), exportar_planilha.py
+│   ├── cronograma/      # planilha.py, classificar.py, consulta.py (paridade skill cronograma), importar.py, exportar_planilha.py
 │   ├── encontros/       # gerar.py, carga.py
-│   ├── planejamento/    # distribuir.py, replanejar.py
+│   ├── planejamento/    # arquivos.py (leitura dos YAML), distribuir.py, replanejar.py, status.py
 │   ├── manifestos/      # hashes.py, manifesto.py
 │   ├── geracao/         # aula.py, slides.py, avaliacao.py, latex.py
 │   ├── exportadores/    # ics.py
 │   └── validacao/       # nomenclatura.py, estrutura.py, regras.py, achados.py, validar.py
-├── esquemas/  *.schema.json (semestre, calendario, disciplina, turma, encontro, aula, questao, avaliacao, manifesto, perfil)
+├── esquemas/  *.schema.json (semestre, calendario, disciplina, turma, encontro, aula, questao, avaliacao, manifesto, perfil, conteudo-aula, conteudo-avaliacao)
 ├── modelos/  roteiro-aula.md, lista.md, prova.tex (genéricos, sem marca institucional)
 ├── plataformas/<host>/FONTE.md
 ├── scripts/  acad.py, sincronizar-versao.py, sincronizar-skills.py, validar-manifestos.py, empacotar-chatgpt.py, trechos/
@@ -253,8 +255,9 @@ Códigos de saída: 0 ok; 1 validação com achados de nível `erro`; 2 uso inco
 | Subcomando | Função | Grava? |
 |---|---|---|
 | `acad ambiente verificar` | Python, dependências, raiz, perfil | não |
-| `acad perfil detectar --raiz <pasta>` | Detecta semestre, disciplinas e pastas; propõe perfil | proposta (estado local) |
-| `acad iniciar <semestre>` | Cria `configuracao.yaml` | proposta (estado local) |
+| `acad perfil detectar --raiz <pasta>` | Detecta semestre, disciplinas e pastas; propõe perfil | não |
+| `acad iniciar <semestre> [--confirmar]` | Cria `configuracao.yaml` (estado local, fora do workspace) | só com `--confirmar` |
+| `acad disciplina criar` / `acad turma criar` / `acad disciplina estrutura` | `disciplina.yaml`, `turma-<ID>.yaml`, subpastas padrão | proposta |
 | `acad calendario importar <arquivo>` / `confirmar` | ICS ou XLSX → `calendario.yaml` rascunho; confirmar muda status | proposta |
 | `acad cronograma importar <DISC> --turma <ID>` | `.xlsx` → `encontros-<ID>.yaml` + `aulas.yaml` | proposta |
 | `acad cronograma consultar [--data D] [--disciplina X]` | "Aula de hoje" com paridade da skill `cronograma` | não |
