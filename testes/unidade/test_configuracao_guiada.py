@@ -66,3 +66,10 @@ def test_criar_disciplina_e_turma_so_propõe(capsys, semestre_sintetico):
     assert turma["proposta"]["itens"][0]["destino"].endswith("turma-TA.yaml")
     pasta = semestre_sintetico / "01 - Disc A - 3º Período" / "01 - Planejamento"
     assert not (pasta / "disciplina.yaml").exists() and not (pasta / "turma-TA.yaml").exists()
+
+
+def test_disciplina_sem_unidade_usa_hora_aula_de_50_do_perfil(capsys, semestre_sintetico):
+    codigo = main(["disciplina", "criar", "DA", "--pasta", "01 - Disc A - 3º Período",
+                   "--nome", "Disc A", "--carga", "72", "--raiz", str(semestre_sintetico), "--json"])
+    carga = json.loads(capsys.readouterr().out)["dados"]["disciplina"]["carga_horaria"]
+    assert codigo == 0 and carga["unidade"] == "hora_aula" and carga["minutos_hora_aula"] == 50

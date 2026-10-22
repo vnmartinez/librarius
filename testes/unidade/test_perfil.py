@@ -15,9 +15,9 @@ def test_regex_disciplina_extrai_partes():
     assert correspondencia["periodo"] == "5º Período"
 
 
-def test_unidade_carga_pendente_d3():
+def test_unidade_carga_d3_hora_aula_de_50_minutos():
     perfil = carregar_perfil()
-    assert perfil.unidade_carga is None and perfil.minutos_hora_aula is None
+    assert perfil.unidade_carga == "hora_aula" and perfil.minutos_hora_aula == 50
 
 
 def test_sufixos_proibidos_pegam_casos_reais():

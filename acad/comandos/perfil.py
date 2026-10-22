@@ -8,6 +8,7 @@ from acad.arquivos.escrita import Operacao, criar_proposta
 from acad.cli import registrar
 from acad.erros import ErroAcad
 from acad.perfil.detectar import detectar
+from acad.perfil.perfil import carregar_perfil
 from acad.saida import Resultado
 
 
@@ -65,6 +66,10 @@ def _disciplina_criar(parser):
     parser.add_argument("--raiz")
 
     def executar(args) -> Resultado:
+        if args.unidade is None:
+            padrao = carregar_perfil()
+            args.unidade = padrao.unidade_carga
+            args.minutos_hora_aula = args.minutos_hora_aula or padrao.minutos_hora_aula
         if args.unidade == "hora_aula" and not args.minutos_hora_aula:
             raise ErroAcad("minutos-hora-aula-ausentes",
                            "Falta informar os minutos de cada hora-aula.")

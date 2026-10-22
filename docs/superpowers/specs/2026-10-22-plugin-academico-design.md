@@ -29,7 +29,7 @@ Regra: cada decisão bloqueia só a parte que depende dela; o resto segue.
 |---|---|---|---|---|
 | D1 | Hospedagem de servidor MCP remoto para superfícies em nuvem e como ele acessa o Google Drive | Qualquer acesso a dados do professor a partir de ChatGPT, Claude web e execuções em nuvem do Codex; item "servidor MCP remoto" (já é v3) | Todo o núcleo, MCP local stdio, todos os hosts locais, zip de skills do ChatGPT | Skills, em superfície sem disco local, dizem em português simples que precisam do computador do professor e param |
 | D2 | ChatGPT recebe só skills ou também conector MCP remoto | Conector MCP no ChatGPT; teste de leitura do Drive no ChatGPT na matriz | Empacotador `dist/chatgpt/<skill>.zip` e teste "skills carregam no ChatGPT" (critério de pronto §15) | Só skills |
-| D3 | Unidade de carga horária da UniRV (hora-aula ou hora-relógio) e duração da hora-aula | Valor padrão de `carga_horaria.unidade` e `minutos_hora_aula` no perfil Fasoft; veredito final da regra `carga-horaria-incompativel` sobre dados reais | Cálculo nas duas unidades, esquema, testes com amostras sintéticas, todas as outras regras | Perfil Fasoft sai com `unidade: null`; o validador emite `carga-unidade-nao-confirmada` (aviso) em vez de julgar |
+| D3 | Unidade de carga horária da UniRV (hora-aula ou hora-relógio) e duração da hora-aula | Valor padrão de `carga_horaria.unidade` e `minutos_hora_aula` no perfil Fasoft; veredito final da regra `carga-horaria-incompativel` sobre dados reais | Cálculo nas duas unidades, esquema, testes com amostras sintéticas, todas as outras regras | **FECHADA em 22/10/2026:** hora-aula de 50 minutos (perfil Fasoft `unidade: hora_aula`, `minutos_hora_aula: 50`). Motivo: a Ficha Carga Horária 2026-2 dá 4 créditos por disciplina com 2 encontros de 100 min por semana (19:00–20:40) = 2 tempos de 50 min por encontro. `carga-horaria-incompativel` passa a julgar; `carga-unidade-nao-confirmada` só aparece se nem a disciplina nem o perfil declararem unidade |
 | D4 | Template de slides de referência em `09 - Modelos` | Gerador de `.pptx` (tarefa marcada BLOQUEADA no plano) e o teste de aceite "primeira aula com slides" | Roteiro `.md`, código em `06 - Código e Exemplos`, lista em `03 - Atividades e Listas`, manifesto, prova LaTeX | Candidato encontrado (ver §2.1). Interface `GeradorSlides` existe desde já com implementação de teste |
 
 ### 2.1 Achado relevante para D4
@@ -291,7 +291,7 @@ Subcomandos do briefing (`acad iniciar 2026-2`, `acad calendario importar`, …)
 | `numero-aula-repetido` | aviso | mesmo `Aula NN` com temas diferentes em `02 - Aulas` |
 | `readme-desatualizado` | aviso | pastas reais ≠ pastas listadas no `README.md` do semestre |
 | `subpasta-padrao-ausente` | aviso | disciplina sem uma das subpastas do perfil |
-| `carga-unidade-nao-confirmada` | aviso | unidade nula (D3) |
+| `carga-unidade-nao-confirmada` | aviso | unidade nula na disciplina e no perfil (D3 fechada: o perfil Fasoft declara hora-aula de 50 min) |
 | `carga-horaria-incompativel` | erro | soma dos encontros não cancelados ≠ carga exigida, na unidade declarada |
 | `encontro-em-dia-nao-letivo` | erro | encontro em feriado/recesso sem exceção |
 | `objetivo-sem-aula` / `objetivo-sem-avaliacao` | aviso | cobertura |

@@ -21,15 +21,19 @@ def _numero(valor: float) -> str:
     return f"{valor:.1f}".replace(".", ",").removesuffix(",0")
 
 
-def verificar_carga(encontros: list[Encontro], carga_horaria: dict) -> list[Achado]:
+def verificar_carga(encontros: list[Encontro], carga_horaria: dict, padrao: dict | None = None) -> list[Achado]:
+    """`padrao` (unidade e minutos do perfil) vale quando a disciplina não declara a sua."""
     unidade = carga_horaria.get("unidade")
+    minutos_hora_aula = carga_horaria.get("minutos_hora_aula")
+    if unidade is None and padrao:
+        unidade = padrao.get("unidade")
+        minutos_hora_aula = padrao.get("minutos_hora_aula")
     if unidade is None:
         return [Achado(
             "carga-unidade-nao-confirmada", "aviso",
             "Ainda falta você me dizer se a carga da disciplina é contada em hora-aula ou em hora cheia.",
         )]
-    calculado = em_unidade(minutos_validos(encontros), unidade,
-                           carga_horaria.get("minutos_hora_aula"))
+    calculado = em_unidade(minutos_validos(encontros), unidade, minutos_hora_aula)
     esperado = float(carga_horaria["valor"])
     diferenca = esperado - calculado
     if abs(diferenca) <= 0.01:

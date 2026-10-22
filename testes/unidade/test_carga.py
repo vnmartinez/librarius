@@ -32,6 +32,13 @@ def test_hora_aula_50():
     assert verificar_carga(_encontros(36), {"valor": 72, "unidade": "hora_aula", "minutos_hora_aula": 50}) == []
 
 
-def test_unidade_pendente_d3():
+def test_unidade_nula_usa_o_padrao_do_perfil():
+    padrao = {"unidade": "hora_aula", "minutos_hora_aula": 50}
+    assert verificar_carga(_encontros(36), {"valor": 72, "unidade": None, "minutos_hora_aula": None}, padrao) == []
+    [achado] = verificar_carga(_encontros(36), {"valor": 60, "unidade": None, "minutos_hora_aula": None}, padrao)
+    assert achado.codigo == "carga-horaria-incompativel" and achado.nivel == "erro"
+
+
+def test_sem_unidade_em_lugar_nenhum_ainda_avisa():
     [achado] = verificar_carga(_encontros(36), {"valor": 60, "unidade": None, "minutos_hora_aula": None})
     assert achado.codigo == "carga-unidade-nao-confirmada" and achado.nivel == "aviso"

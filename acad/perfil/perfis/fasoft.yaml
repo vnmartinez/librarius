@@ -16,7 +16,8 @@ perfil:
     lista: '^(Lista|Atividade|Aula) \d{2} - '
     pasta: '^\d{2} - '
     sufixos_proibidos: ['\(Revisado\)', '_v\d+\b', '\(v\d+\)', ' - [Cc][oó]pia\b', ' \(\d+\)\.', '\.bak$']
-  carga_horaria: { unidade: null, minutos_hora_aula: null }
+  # D3 (22/10/2026): hora-aula de 50 min; Ficha Carga Horária 2026-2 = 2 encontros de 100 min por semana.
+  carga_horaria: { unidade: hora_aula, minutos_hora_aula: 50 }
   exclusao:
     - "*Notas*"
     - "* - TFC*/02 - Alunos"

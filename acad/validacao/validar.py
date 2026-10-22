@@ -75,7 +75,9 @@ def validar_semestre(ws, semestre: Path, perfil, disciplina: Path | None = None)
             dados_disc = documento_disc["disciplina"]
             achados += regras.regra_cobertura(dados_disc, aulas, avaliacoes)
             if encontros and dados_disc.get("carga_horaria"):
-                achados += verificar_carga(encontros, dados_disc["carga_horaria"])
+                achados += verificar_carga(
+                    encontros, dados_disc["carga_horaria"],
+                    {"unidade": perfil.unidade_carga, "minutos_hora_aula": perfil.minutos_hora_aula})
         if calendario:
             achados += regras.regra_dia_nao_letivo(encontros, calendario)
         achados += regras.regra_prerequisitos(aulas, encontros)

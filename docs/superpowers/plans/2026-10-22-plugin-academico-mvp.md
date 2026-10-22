@@ -3285,6 +3285,6 @@ Esta tarefa instala o plugin nos hosts reais da máquina: **só com autorizaçã
 
 - Fases em sequência (briefing §0). Dentro da Fase 2: 7→8→9→10→11→12 em ordem; 13→14→15→16→17; 18→19; 20→21→22; 23 após 12; 24→25; 26 **BLOQUEADA (D4)**; 27 após 21; 28 e 29 após 17.
 - D1/D2: não bloqueiam nenhuma tarefa deste plano (ChatGPT recebe só skills; MCP remoto é v3).
-- D3: nenhuma tarefa bloqueada; o veredito da carga real fica como aviso até a decisão.
+- D3: **fechada em 22/10/2026** (hora-aula de 50 min no perfil Fasoft); a regra de carga julga de verdade.
 - D4: só a Tarefa 26 e o item "quatro aulas com slides" do critério de pronto.
 - Ao fim de cada fase: `$PY -m pytest -m "not drive and not hosts and not rede and not latex" -v` verde, depois os marcadores disponíveis na máquina.
