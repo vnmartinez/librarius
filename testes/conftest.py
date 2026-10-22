@@ -23,7 +23,13 @@ def _mk(caminho: Path, conteudo: str = ""):
 
 
 @pytest.fixture
-def semestre_sintetico(tmp_path) -> Path:
+def perfil_fasoft(monkeypatch):
+    from acad import contexto
+    monkeypatch.setattr(contexto, "PERFIL_PADRAO", "fasoft")
+
+
+@pytest.fixture
+def semestre_sintetico(tmp_path, perfil_fasoft) -> Path:
     raiz = tmp_path / "fasoft"
     _mk(raiz / "AGENTS.md", "# Fasoft - Diretrizes do Projeto\n")
     semestre = raiz / "2026" / "Segundo Semestre"
@@ -42,6 +48,20 @@ def semestre_sintetico(tmp_path) -> Path:
         (semestre / "08 - Avaliações" / etapa).mkdir(parents=True)
     (semestre / "09 - Modelos").mkdir()
     _mk(semestre / "11-Relatórios" / "rel.docx", "x")
+    return semestre
+
+
+@pytest.fixture
+def semestre_neutro(tmp_path) -> Path:
+    semestre = tmp_path / "Materiais" / "2027-1"
+    (semestre / "administracao").mkdir(parents=True)
+    (semestre / "avaliacoes" / "AV1").mkdir(parents=True)
+    (semestre / "modelos").mkdir()
+    for disciplina in ("Algoritmos", "Banco de Dados"):
+        for subpasta in ("planejamento", "aulas", "atividades", "referencias", "codigo", "arquivo"):
+            (semestre / disciplina / subpasta).mkdir(parents=True)
+    _mk(semestre / "Algoritmos" / "projetos" / "entrega-aluno.txt", "nome do aluno")
+    _mk(semestre / "Notas 2027-1.xlsx", "x")
     return semestre
 
 

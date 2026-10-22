@@ -36,8 +36,10 @@ def _gerar_aula(parser):
             conteudo = json.loads(Path(args.conteudo).read_text(encoding="utf-8"))
         except (OSError, UnicodeError, json.JSONDecodeError) as erro:
             raise ErroAcad("conteudo-invalido", "Não consegui ler o arquivo com o conteúdo da aula.", str(erro)) from erro
+        perfil = contexto.perfil()
         operacoes, avisos = planejar_aula(ws, semestre, disc, args.aula, conteudo,
-                                          obter_gerador(ws.ler_bytes), datetime.now().astimezone(), args.revisar)
+                                          obter_gerador(ws.ler_bytes, perfil.slides), datetime.now().astimezone(),
+                                          args.revisar, perfil=perfil)
         proposta = criar_proposta(semestre, operacoes, "Confira os materiais da aula antes de aplicar.")
         quantidade = len(operacoes) - 1
         return Resultado(ok=True,
@@ -90,10 +92,12 @@ def _gerar_avaliacao(parser):
         if avaliacoes_dir is None:
             raise ErroAcad("pasta-avaliacoes-ausente", "Não encontrei a pasta de avaliações do semestre.")
         base_destino = f"{avaliacoes_dir.name}/{args.etapa}"
+        perfil = contexto.perfil()
         pasta_modelos = next((p for p in ws.listar(semestre)
-                              if p.is_dir() and contexto.perfil().pasta_modelos.match(p.name)), None)
-        modelo_institucional = (pasta_modelos / "Modelo LaTeX" / "modelo-prova.tex"
-                               if pasta_modelos else None)
+                              if p.is_dir() and perfil.pasta_modelos.match(p.name)), None)
+        modelo_institucional = (pasta_modelos / perfil.modelo_prova
+                               if pasta_modelos and perfil.modelo_prova else None)
+        avisos_modelo = []
         if modelo_institucional and ws.existe(modelo_institucional):
             modelo = ws.ler_texto(modelo_institucional)
             pasta_apoio = modelo_institucional.parent
@@ -102,12 +106,13 @@ def _gerar_avaliacao(parser):
             modelo = (Path(__file__).resolve().parents[2] / "modelos" / "prova.tex").read_text(encoding="utf-8")
             pasta_apoio = None
             entrada_modelo = None
+            avisos_modelo.append("Usei o modelo simples de prova, sem o cabeçalho da instituição.")
         entradas = {"questoes.json": hash_bytes(conteudo_bytes)}
         if entrada_modelo:
             entradas[entrada_modelo] = hash_bytes(modelo.encode("utf-8"))
         operacoes = []
         artefatos = []
-        avisos = []
+        avisos = list(avisos_modelo)
         caminhos_provas = []
         caminho_gabarito = ""
         dados = {"titulo": args.descricao.upper(), "disciplina": nome_disciplina,
@@ -153,7 +158,7 @@ def _gerar_avaliacao(parser):
                      "manifesto": montar_manifesto(artefatos, entradas, __version__, datetime.now().astimezone())}
         documento = {"versao_esquema": 1, "avaliacao": avaliacao}
         esquemas.validar_ou_falhar("avaliacao", documento)
-        destino_yaml = f"{disc.name}/01 - Planejamento/avaliacoes/{args.etapa}-{args.turma}.yaml"
+        destino_yaml = f"{disc.name}/{perfil.pasta('planejamento')}/avaliacoes/{args.etapa}-{args.turma}.yaml"
         operacoes.append(Operacao("substituir" if ws.existe(semestre / destino_yaml) else "criar",
                                   destino_yaml, esquemas.para_yaml(documento).encode("utf-8"),
                                   "plano da avaliação"))

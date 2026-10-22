@@ -1,4 +1,4 @@
-versao_esquema: 1
+versao_esquema: 2
 perfil:
   id: fasoft
   instituicao: "UniRV — Fasoft"
@@ -24,3 +24,42 @@ perfil:
     - "*Relatórios*"
     - "*/04 - Projetos e Entregáveis"
     - "* - Estágio"
+  estrutura:
+    semestre: '^(?P<ano>\d{4})/(?P<periodo>Primeiro|Segundo) Semestre$'
+    periodos: {Primeiro: 1, Segundo: 2}
+    administracao: '^00 - '
+    papeis:
+      planejamento: "01 - Planejamento"
+      aulas: "02 - Aulas"
+      atividades: "03 - Atividades e Listas"
+      projetos: "04 - Projetos e Entregáveis"
+      referencias: "05 - Materiais de Referência"
+      codigo: "06 - Código e Exemplos"
+      arquivo: "99 - Arquivo"
+  modelos:
+    slides: "Modelo de Slides UniRV"
+    prova: "Modelo LaTeX/modelo-prova.tex"
+  slides:
+    tamanho: {largura_emu: 9144000, altura_emu: 5143500}
+    fontes: {texto: Calibri, codigo: Courier New}
+    paleta:
+      principal: "015537"
+      secundaria: "0E7A4E"
+      claro: "E4EFE9"
+      claro2: "F2F7F4"
+      tinta: "1C2B24"
+      corpo: "2E3B34"
+      apagado: "6A7A72"
+      linha: "C9D8D0"
+      fundo: "FFFFFF"
+      subtitulo_capa: "D7E7DF"
+      codigo_fundo: "10231B"
+      codigo_comentario: "8FB79E"
+      codigo_texto: "D8E8DF"
+    capa:
+      linhas: ["UNIVERSIDADE DE RIO VERDE (UniRV)", "Bacharelado em Engenharia de Software"]
+      local: "RIO VERDE — {ano}"
+    logos:
+      cabecalho: logo-header-unirv.png
+      capa: [logo-unirv.png, logo-fasoft.png]
+    limites: {topicos: 6, linhas_codigo: 16, linhas_tabela: 8}

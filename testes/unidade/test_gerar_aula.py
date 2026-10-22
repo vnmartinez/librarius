@@ -1,4 +1,5 @@
 from datetime import datetime
+from dataclasses import replace
 
 import pytest
 import yaml
@@ -8,6 +9,7 @@ from acad.erros import ErroAcad
 from acad.geracao.aula import planejar_aula
 from acad.geracao.nomes import arquivos_da_aula, slug
 from acad.geracao.slides import GeradorSlidesFalso, obter_gerador
+from acad.perfil.perfil import carregar_perfil
 
 
 DISC = "01 - Disc A - 3º Período"
@@ -34,8 +36,35 @@ def disc(semestre_sintetico):
     return pasta
 
 
+def _planejar(ws, semestre, disc, perfil):
+    return planejar_aula(ws, semestre, disc, "03", CONTEUDO, GeradorSlidesFalso(),
+                         datetime(2026, 9, 1).astimezone(), False, perfil=perfil)
+
+
+def test_modelo_de_slides_com_outro_nome(disc, semestre_sintetico):
+    (semestre_sintetico / "09 - Modelos" / "Slides da Casa").mkdir()
+    perfil = replace(carregar_perfil("fasoft"), modelo_slides="Slides da Casa")
+    ws = Workspace(semestre_sintetico, perfil.exclusao)
+    _, avisos = _planejar(ws, semestre_sintetico, disc, perfil)
+    assert not any("logotipos" in aviso for aviso in avisos)
+
+
+def test_sem_modelo_declarado_nao_avisa_logo(disc, semestre_sintetico):
+    perfil = replace(carregar_perfil("fasoft"), modelo_slides=None)
+    ws = Workspace(semestre_sintetico, perfil.exclusao)
+    _, avisos = _planejar(ws, semestre_sintetico, disc, perfil)
+    assert not any("logotipos" in aviso for aviso in avisos)
+
+
+def test_modelo_declarado_ausente_avisa(disc, semestre_sintetico):
+    perfil = carregar_perfil("fasoft")
+    ws = Workspace(semestre_sintetico, perfil.exclusao)
+    _, avisos = _planejar(ws, semestre_sintetico, disc, perfil)
+    assert any("logotipos" in aviso for aviso in avisos)
+
+
 def test_nomes_canonicos():
-    nomes = arquivos_da_aula("03", "Rotações AVL: casos?")
+    nomes = arquivos_da_aula("03", "Rotações AVL: casos?", carregar_perfil("fasoft"))
     assert nomes["roteiro"] == "02 - Aulas/Aula 03 - Roteiro de Aula - Rotações AVL casos.md"
     assert nomes["codigo"] == "06 - Código e Exemplos/aula-03-rotacoes-avl-casos"
     assert slug("Árvore B+") == "arvore-b"

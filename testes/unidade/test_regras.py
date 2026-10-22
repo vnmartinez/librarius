@@ -69,7 +69,7 @@ def test_manifesto_aponta_artefato_ausente_e_entrada_alterada(tmp_path):
     assert any("plano da aula" in a.mensagem for a in achados)
 
 
-def test_slide_com_tema_mas_numero_divergente(tmp_path):
+def test_slide_com_tema_mas_numero_divergente(tmp_path, perfil_fasoft):
     disc = tmp_path / "01 - Disc"
     pasta = disc / "02 - Aulas"
     pasta.mkdir(parents=True)

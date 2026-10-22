@@ -42,7 +42,7 @@ def _datas():
 @pytest.mark.parametrize("alvo", _datas(), ids=str)
 def test_paridade_com_oraculo_nas_amostras(alvo):
     esperado = _oraculo(AMOSTRA, alvo)
-    obtido = consultar(AMOSTRA, alvo, carregar_perfil().exclusao)
+    obtido = consultar(AMOSTRA, alvo, carregar_perfil("fasoft"))
     assert obtido["quantidade_aulas"] == esperado["quantidade_aulas"]
     assert _normalizar(obtido) == _normalizar(esperado)
 
@@ -52,7 +52,7 @@ def test_paridade_no_drive_real():
     raiz = Path(r"G:\Meu Drive\Fasoft")
     if not raiz.exists():
         pytest.skip("Drive ausente")
-    obtido = consultar(raiz, date(2026, 7, 28), carregar_perfil().exclusao)
+    obtido = consultar(raiz, date(2026, 7, 28), carregar_perfil("fasoft"))
     assert any(
         aula["disciplina"] == "04 - Estrutura de Dados 2 - 5º Período"
         and aula["aula"] == "Aula 01"

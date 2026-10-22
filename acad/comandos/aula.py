@@ -36,7 +36,7 @@ def _status(parser):
                               esquemas.para_yaml(documento).encode("utf-8"), "estado da aula")]
         if args.novo == "ministrada":
             encontrados = []
-            planejamento = disc / "01 - Planejamento"
+            planejamento = disc / contexto.perfil().pasta("planejamento")
             for arquivo in ws.listar(planejamento):
                 if not arquivo.name.startswith("encontros-") or arquivo.suffix.lower() != ".yaml":
                     continue

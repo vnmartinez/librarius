@@ -10,7 +10,7 @@ from acad.perfil.perfil import carregar_perfil
 
 @pytest.fixture
 def ws(semestre_sintetico):
-    return Workspace(semestre_sintetico, carregar_perfil().exclusao)
+    return Workspace(semestre_sintetico, carregar_perfil("fasoft").exclusao)
 
 
 def test_excluidos_reconhecidos(ws, semestre_sintetico):

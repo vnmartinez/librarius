@@ -119,13 +119,16 @@ def regra_manifestos(ws, semestre: Path, disc: Path, aulas: list[dict]) -> list[
     return achados
 
 
-def regra_slide_divergente(ws, disc: Path, aulas: list[dict]) -> list[Achado]:
+def regra_slide_divergente(ws, disc: Path, aulas: list[dict], perfil=None) -> list[Achado]:
+    if perfil is None:
+        from acad import contexto
+        perfil = contexto.perfil()
     achados = []
     for aula in aulas:
         numero = re.search(r"\d+", aula["id"])
         if not numero:
             continue
-        materiais = _materiais(ws, disc, numero.group().zfill(2), aula.get("tema", ""))
+        materiais = _materiais(ws, disc, numero.group().zfill(2), aula.get("tema", ""), perfil)
         if not materiais["slides"] and materiais["slides_divergentes"]:
             achados.append(Achado("slide-numeracao-divergente", "aviso",
                                    f"{aula['id']} tem slides de tema parecido com outra numeração: "

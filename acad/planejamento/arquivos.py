@@ -8,11 +8,13 @@ from acad.encontros.gerar import Encontro
 
 
 def _planejamento(disciplina: Path) -> Path:
-    return Path(disciplina) / "01 - Planejamento"
+    from acad import contexto
+    return Path(disciplina) / contexto.perfil().pasta("planejamento")
 
 
 def caminho(disciplina: Path, nome: str) -> str:
-    return f"{Path(disciplina).name}/01 - Planejamento/{nome}"
+    from acad import contexto
+    return f"{Path(disciplina).name}/{contexto.perfil().pasta('planejamento')}/{nome}"
 
 
 def ler_turma(ws, disciplina: Path, id: str) -> dict:

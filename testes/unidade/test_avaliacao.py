@@ -85,3 +85,4 @@ def test_cli_propõe_arquivos_na_pasta_de_avaliacoes(capsys, semestre_sintetico,
     destinos = [item["destino"] for item in resultado["proposta"]["itens"]]
     assert any("08 - Avaliações/N1/" in destino and destino.endswith(".tex") for destino in destinos)
     assert any(destino.endswith("01 - Planejamento/avaliacoes/N1-TA.yaml") for destino in destinos)
+    assert "Usei o modelo simples de prova, sem o cabeçalho da instituição." in resultado["avisos"]

@@ -39,7 +39,7 @@ def validar_semestre(ws, semestre: Path, perfil, disciplina: Path | None = None)
 
     calendario = None
     administracao = next((p for p in ws.listar(semestre)
-                          if p.is_dir() and p.name.startswith("00 - ")), None)
+                          if p.is_dir() and perfil.re_administracao.match(p.name)), None)
     if administracao:
         dados_cal = documento(administracao / "calendario.yaml", "calendario")
         if dados_cal:
@@ -49,7 +49,7 @@ def validar_semestre(ws, semestre: Path, perfil, disciplina: Path | None = None)
                                "O calendário ainda não está cadastrado; pulei as regras de dias letivos."))
 
     for disc in ([disciplina] if disciplina is not None else disciplinas(ws, semestre, perfil)):
-        planejamento = disc / "01 - Planejamento"
+        planejamento = disc / perfil.pasta("planejamento")
         documento_disc = documento(planejamento / "disciplina.yaml", "disciplina")
         documento_aulas = documento(planejamento / "aulas.yaml", "aula")
         aulas = (documento_aulas or {}).get("aulas", [])
@@ -84,8 +84,8 @@ def validar_semestre(ws, semestre: Path, perfil, disciplina: Path | None = None)
         for avaliacao in avaliacoes:
             achados += regras.regra_avaliacao_nao_ministrada(avaliacao, aulas, encontros)
         achados += regras.regra_manifestos(ws, semestre, disc, aulas)
-        achados += regras.regra_numero_repetido(ws, disc / "02 - Aulas")
-        achados += regras.regra_slide_divergente(ws, disc, aulas)
+        achados += regras.regra_numero_repetido(ws, disc / perfil.pasta("aulas"))
+        achados += regras.regra_slide_divergente(ws, disc, aulas, perfil)
     prioridade = {"erro": 0, "aviso": 1, "info": 2}
     return sorted(achados, key=lambda a: (prioridade[a.nivel], a.caminho, a.codigo))
 

@@ -25,11 +25,13 @@ metadata:
 
 ## Passo a passo
 
-1. Rode `acad perfil detectar` e mostre ao professor o que foi encontrado (instituição, pasta dos materiais). Confirme antes de seguir.
-2. Com o "sim" dele, rode `acad iniciar` com a opção `--confirmar` para registrar o semestre.
-3. Para cada disciplina, rode `acad disciplina criar`; depois `acad turma criar`, perguntando os horários um de cada vez.
-4. Rode `acad disciplina estrutura`: ela devolve uma proposta com as subpastas padrão. Mostre o resumo e só aplique com o "sim".
-5. Rode `acad validar` e conte as divergências em linguagem simples. Não corrija nada sem confirmação; cada correção vira uma proposta.
+1. Pergunte de qual instituição é o professor. Rode `acad perfil listar`. Se já houver um perfil dela, use esse.
+2. Se não houver, peça a pasta do semestre e rode `acad perfil criar --raiz <pasta> --id <nome-curto> --instituicao "<nome>"`. Use `--cor`, `--rodape` e `--local` só se o professor disser a cor e os textos da capa. Mostre o resumo e, com o "sim", rode `acad aplicar <id>`. Se um colega mandou o perfil, use `acad perfil importar --arquivo <arquivo>` e peça o "sim" antes de aplicar.
+3. Rode `acad iniciar <semestre> --raiz <pasta> --perfil <nome-curto>`; com o "sim", repita com `--confirmar` para registrar a escolha.
+4. Rode `acad perfil detectar --raiz <pasta>` e mostre ao professor o que foi encontrado. Confirme antes de seguir.
+5. Para cada disciplina, rode `acad disciplina criar`; depois `acad turma criar`, perguntando os horários um de cada vez.
+6. Rode `acad disciplina estrutura`: ela devolve uma proposta com as subpastas padrão. Mostre o resumo e só aplique com o "sim".
+7. Rode `acad validar` e conte as divergências em linguagem simples. Não corrija nada sem confirmação; cada correção vira uma proposta.
 
 ## Exemplos de pedidos
 
