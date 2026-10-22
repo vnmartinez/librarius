@@ -1015,7 +1015,7 @@ Regras exatas:
 - Qualquer arquivo do semestre fora de `<…>/99 - Arquivo/**` cujo nome casa algum `sufixos_proibidos` → `sufixo-proibido` (erro).
 - `06 - Código e Exemplos/**` não tem regra de prefixo (convenção `aula-NN-*`).
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_nomenclatura.py
@@ -1070,9 +1070,9 @@ def test_pasta_protegida_avaliada_so_pelo_nome(semestre_sintetico):
     assert any(x.codigo == "pasta-sem-prefixo" and x.caminho == "11-Relatórios" for x in a)
 ```
 
-- [ ] **Step 2: Rodar e ver falhar.**
+- [x] **Step 2: Rodar e ver falhar.**
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 ```python
 # acad/validacao/achados.py
@@ -1146,8 +1146,8 @@ def validar_nomes(ws: Workspace, semestre: Path, perfil: Perfil) -> list[Achado]
     return achados
 ```
 
-- [ ] **Step 4: Rodar e ver passar** — `$PY -m pytest testes/unidade/test_nomenclatura.py -v`.
-- [ ] **Step 5: Commit** — `git commit -m "feat: regras de nomenclatura do AGENTS.md como validação"`
+- [x] **Step 4: Rodar e ver passar** — `$PY -m pytest testes/unidade/test_nomenclatura.py -v`.
+- [x] **Step 5: Commit** — `git commit -m "feat: regras de nomenclatura do AGENTS.md como validação"`
 
 ### Tarefa 8: Regras de estrutura (README do semestre e subpastas padrão)
 
