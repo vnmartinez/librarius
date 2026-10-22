@@ -2860,7 +2860,7 @@ Conteúdo de `scripts/trechos/chamar-nucleo.md`:
 7. Arquivos de alunos (notas, pastas de TFC, relatórios, entregas) nunca são abertos, nem se pedirem de passagem; se o professor pedir de forma explícita, explique que esta versão não trabalha com dados de alunos.
 ```
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_skills.py
@@ -2896,10 +2896,10 @@ def test_regra_de_nome_pega_erros(tmp_path):
     assert any("pasta" in p for p in probs) and any("Quando usar" in p for p in probs)
 ```
 
-- [ ] **Step 2: Rodar e ver falhar** (pasta `skills/` ainda não existe).
-- [ ] **Step 3: Implementar** `acad/plataformas/skills.py` e `scripts/sincronizar-skills.py`. Os testes por skill passam na Tarefa 32; nesta tarefa, `test_regra_de_nome_pega_erros` deve passar.
-- [ ] **Step 4: Rodar** — `$PY -m pytest testes/unidade/test_skills.py::test_regra_de_nome_pega_erros -v` → PASS.
-- [ ] **Step 5: Commit** — `git commit -m "feat: conformidade das skills com o padrão Agent Skills"`
+- [x] **Step 2: Rodar e ver falhar** (pasta `skills/` ainda não existe).
+- [x] **Step 3: Implementar** `acad/plataformas/skills.py` e `scripts/sincronizar-skills.py`. Os testes por skill passam na Tarefa 32; nesta tarefa, `test_regra_de_nome_pega_erros` deve passar.
+- [x] **Step 4: Rodar** — `$PY -m pytest testes/unidade/test_skills.py::test_regra_de_nome_pega_erros -v` → PASS.
+- [x] **Step 5: Commit** — `git commit -m "feat: conformidade das skills com o padrão Agent Skills"`
 
 ### Tarefa 32: As sete skills e o `AGENTS.md` de fallback
 
