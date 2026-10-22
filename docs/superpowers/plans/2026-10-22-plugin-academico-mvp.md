@@ -2768,7 +2768,7 @@ def test_titulo_presente():
 - Produces (spec §4.2): `python <raiz>/scripts/acad.py <args do acad>` em qualquer host local. Funções testáveis: `raiz() -> Path` (`Path(__file__).resolve().parents[1]`), `versao() -> str` (de `pyproject.toml` via `tomllib`), `dependencias() -> list[str]` (`[project].dependencies`), `dir_dados() -> Path` (`ACAD_DADOS`, `CLAUDE_PLUGIN_DATA`, `PLUGIN_DATA`, `%LOCALAPPDATA%\librarius`, `~/.local/share/librarius`), `python_do_ambiente(amb: Path) -> Path` (`Scripts/python.exe` no Windows, `bin/python` fora), `preparar(amb: Path, executar=subprocess.run) -> Path` (cria venv com `uv venv` se `shutil.which("uv")`, senão `sys.executable -m venv`; instala dependências com `uv pip install --python …` ou `pip install`; grava `amb/.pronto` com a lista de dependências; se `.pronto` igual, não faz nada), `main(argv) -> int` (Python < 3.11 → mensagem e saída 3; falha de instalação → "Não consegui baixar os componentes de que preciso. Confira a internet e tente de novo." e saída 3; senão executa `[python_do_ambiente, "-m", "acad", *argv]` com `PYTHONPATH=<raiz>` e `PYTHONUTF8=1`, repassando a saída e o código).
 - O núcleo roda **a partir da raiz do plugin** (não é instalado como pacote no ambiente): assim `esquemas/`, `modelos/` e `acad/` são sempre os da versão instalada do plugin.
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_lancador.py
@@ -2827,10 +2827,10 @@ def test_lancador_cria_ambiente_e_roda(tmp_path):
 
 Registrar o marcador `rede` no `conftest.py` (`"rede": "baixa dependências da internet"`).
 
-- [ ] **Step 2: Rodar e ver falhar.**
-- [ ] **Step 3: Implementar** `scripts/acad.py` só com biblioteca padrão (`os, sys, shutil, subprocess, tomllib, pathlib, venv`), mensagens em português simples, sem `print` de caminhos longos. `class FalhaInstalacao(Exception)`.
-- [ ] **Step 4: Rodar e ver passar** — `$PY -m pytest testes/unidade/test_lancador.py -v` e `$PY -m pytest -m rede -v` (rede real; leva minutos na primeira vez).
-- [ ] **Step 5: Commit** — `git commit -m "feat: lançador que prepara o ambiente sem instalação manual"`
+- [x] **Step 2: Rodar e ver falhar.**
+- [x] **Step 3: Implementar** `scripts/acad.py` só com biblioteca padrão (`os, sys, shutil, subprocess, tomllib, pathlib, venv`), mensagens em português simples, sem `print` de caminhos longos. `class FalhaInstalacao(Exception)`.
+- [x] **Step 4: Rodar e ver passar** — `$PY -m pytest testes/unidade/test_lancador.py -v` e `$PY -m pytest -m rede -v` (rede real; leva minutos na primeira vez).
+- [x] **Step 5: Commit** — `git commit -m "feat: lançador que prepara o ambiente sem instalação manual"`
 
 ### Tarefa 31: Infraestrutura das skills (trecho comum, sincronização e testes de conformidade)
 

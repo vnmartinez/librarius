@@ -7,6 +7,7 @@ def pytest_configure(config):
         ("drive", "lê G:\\Meu Drive\\Fasoft em modo leitura"),
         ("hosts", "exige a CLI de um host instalada"),
         ("latex", "exige tectonic ou pdflatex"),
+        ("rede", "baixa dependências da internet"),
     ]:
         config.addinivalue_line("markers", f"{nome}: {descricao}")
 

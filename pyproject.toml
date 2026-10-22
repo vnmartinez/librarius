@@ -29,4 +29,4 @@ acad = ["perfil/perfis/*.yaml"]
 
 [tool.pytest.ini_options]
 testpaths = ["testes"]
-addopts = "-m 'not drive and not hosts and not latex'"
+addopts = "-m 'not drive and not hosts and not latex and not rede'"
