@@ -1406,7 +1406,7 @@ def ler_cronograma(conteudo: bytes, ano_padrao: int) -> list[LinhaCronograma]:
   - `resumo_texto(resultado: dict) -> str` — português simples: "Terça-feira, 28/07/2026 — 1 disciplina com aula." e, por disciplina, "Aula 01 — Apresentação…: slides prontos / slides com outro número / slides faltando; roteiro: …; atividade: …".
 - CLI virá na Tarefa 12 (`acad cronograma consultar`).
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/integracao/test_paridade_cronograma.py
@@ -1483,9 +1483,9 @@ def test_resumo_texto_simples():
     assert "28/07/2026" in t and "Estrutura de Dados 2" in t and not contem_termo_tecnico(t)
 ```
 
-- [ ] **Step 2: Rodar e ver falhar** — `$PY -m pytest testes/integracao/test_paridade_cronograma.py testes/unidade/test_consulta.py -v -m "not drive"`.
+- [x] **Step 2: Rodar e ver falhar** — `$PY -m pytest testes/integracao/test_paridade_cronograma.py testes/unidade/test_consulta.py -v -m "not drive"`.
 
-- [ ] **Step 3: Implementar** `acad/cronograma/consulta.py` transcrevendo a lógica do oráculo (`testes/referencia/verificar_cronograma.py`, funções `find_fasoft_root`, `extract_keywords`, `check_materials`, `run_check`) com estas trocas obrigatórias: todo `os.listdir`/`open`/`glob` vira `Workspace.listar`/`ler_bytes`/`percorrer`; `normalize_text` vira `sem_acento`; leitura de planilha usa `linhas_na_data`; resultado inclui `tipo`. Esqueleto:
+- [x] **Step 3: Implementar** `acad/cronograma/consulta.py` transcrevendo a lógica do oráculo (`testes/referencia/verificar_cronograma.py`, funções `find_fasoft_root`, `extract_keywords`, `check_materials`, `run_check`) com estas trocas obrigatórias: todo `os.listdir`/`open`/`glob` vira `Workspace.listar`/`ler_bytes`/`percorrer`; `normalize_text` vira `sem_acento`; leitura de planilha usa `linhas_na_data`; resultado inclui `tipo`. Esqueleto:
 
 ```python
 # acad/cronograma/consulta.py
@@ -1601,8 +1601,8 @@ def resumo_texto(r: dict) -> str:
 
 Se a paridade falhar, a referência é o oráculo: leia a função correspondente nele e ajuste o `acad`, nunca o oráculo.
 
-- [ ] **Step 4: Rodar e ver passar** — `$PY -m pytest testes/integracao testes/unidade/test_consulta.py -v -m "not drive"`; depois `$PY -m pytest -m drive -v` (só leitura do Drive).
-- [ ] **Step 5: Commit** — `git commit -m "feat: consulta de aula do dia com paridade da skill cronograma"`
+- [x] **Step 4: Rodar e ver passar** — `$PY -m pytest testes/integracao testes/unidade/test_consulta.py -v -m "not drive"`; depois `$PY -m pytest -m drive -v` (só leitura do Drive).
+- [x] **Step 5: Commit** — `git commit -m "feat: consulta de aula do dia com paridade da skill cronograma"`
 
 ### Tarefa 11: Escrita por proposta, arquivo morto e desfazer
 
