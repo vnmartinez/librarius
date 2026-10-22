@@ -3126,9 +3126,9 @@ def test_claude_validate_oficial():
 
 **Interfaces:**
 - Produces: `opencode.json` de exemplo (`$schema: "https://opencode.ai/config.json"`, `skills: ["<pasta do clone>/skills"]` — no arquivo do repositório, `"./skills"`, que resolve a partir do diretório de trabalho quando o OpenCode é aberto na raiz do clone); `.opencode/INSTALAR.md` — roteiro que o próprio agente segue: (1) clonar `https://github.com/vnmartinez/librarius` numa pasta fora do Drive (perguntar ao professor; padrão `%USERPROFILE%\librarius`), (2) se o OpenCode aceitar a opção `skills` (v2), acrescentar o caminho das skills ao `opencode.json` global; senão, criar links (junction no Windows: `mklink /J`) de cada skill em `~/.config/opencode/skills/<nome>`, (3) rodar `python <clone>/scripts/acad.py ambiente verificar`, (4) dizer ao professor, em português simples, que terminou e como pedir ajuda. `validar_opencode(raiz) -> list[str]`: `opencode.json` é JSON estrito, `skills` é lista de strings, cada caminho relativo existe; `INSTALAR.md` cita as duas formas (v2 e estável).
-- [ ] **Step 0:** reler `plataformas/opencode/FONTE.md` e as três URLs.
-- [ ] **Step 1–4:** testes que falham (JSON inválido; `skills` como string), implementar, passar.
-- [ ] **Step 5: Commit** — `git commit -m "feat: adaptador OpenCode com roteiro de instalação"`
+- [x] **Step 0:** reler `plataformas/opencode/FONTE.md` e as três URLs.
+- [x] **Step 1–4:** testes que falham (JSON inválido; `skills` como string), implementar, passar.
+- [x] **Step 5: Commit** — `git commit -m "feat: adaptador OpenCode com roteiro de instalação"`
 
 ### Tarefa 37: Sincronização de versão
 

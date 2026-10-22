@@ -155,5 +155,29 @@ def validar_antigravity(raiz: Path) -> list[str]:
     return achados
 
 
+def validar_opencode(raiz: Path) -> list[str]:
+    achados: list[str] = []
+    m = _json(raiz / "opencode.json", achados)
+    if m is not None:
+        skills = m.get("skills")
+        if not isinstance(skills, list) or not all(isinstance(x, str) for x in skills):
+            achados.append("opencode.json: skills deve ser uma lista de textos")
+        else:
+            for c in skills:
+                if c.startswith(("http://", "https://", "~/")) or Path(c).is_absolute():
+                    continue
+                if not (raiz / c).exists():
+                    achados.append(f"opencode.json: caminho de skills não existe: {c}")
+    roteiro = raiz / ".opencode" / "INSTALAR.md"
+    if not roteiro.exists():
+        achados.append("falta .opencode/INSTALAR.md")
+    else:
+        t = roteiro.read_text(encoding="utf-8")
+        if "`skills`" not in t or "mklink /J" not in t:
+            achados.append("INSTALAR.md deve cobrir a versão 2 (opção skills) e a estável (junção)")
+    return achados
+
+
 def validar_todos(raiz: Path) -> dict[str, list[str]]:
-    return {"claude": validar_claude(raiz), "codex": validar_codex(raiz), "antigravity": validar_antigravity(raiz)}
+    return {"claude": validar_claude(raiz), "codex": validar_codex(raiz), "antigravity": validar_antigravity(raiz),
+            "opencode": validar_opencode(raiz)}
