@@ -1998,29 +1998,29 @@ git commit -m "test: ponta a ponta de professor de outra instituição com perfi
 
 ### Task 13: Verificação final e critérios de aceite
 
-- [ ] **Step 1: Suíte completa**
+- [x] **Step 1: Suíte completa**
 
 Run: `.venv/Scripts/python -m pytest -q` e `.venv/Scripts/python -m pytest -q -m "drive or hosts or rede or latex"`
 Expected: verde; número de testes = linha de base + novos. Copie as duas últimas linhas da saída para o relatório.
 
-- [ ] **Step 2: Nenhuma marca no código executável (aceite 3)**
+- [x] **Step 2: Nenhuma marca no código executável (aceite 3)**
 
 Run: `grep -rnE "UniRV|Rio Verde|RIO VERDE|fasoft|Fasoft" acad --include=*.py`
 Expected: só docstrings/comentários históricos e a chave `raiz_fasoft` em `acad/perfil/detectar.py`. Qualquer outro valor: mova para `fasoft.yaml`.
 
-- [ ] **Step 3: Compatibilidade**
+- [x] **Step 3: Compatibilidade**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_compat_fasoft.py testes/unidade/test_perfil.py -v`
 Expected: PASS. Confira com `git diff d944cbe -- testes/esperados/slides-fasoft.json` que a referência não foi alterada desde a Tarefa 1 (`git log --format=%h -- testes/esperados/slides-fasoft.json` mostra um único commit).
 
-- [ ] **Step 4: Manifestos e versão**
+- [x] **Step 4: Manifestos e versão**
 
 Run: `.venv/Scripts/python scripts/validar-manifestos.py`
 Expected: sem erro.
 
-- [ ] **Step 5: Spec atualizada** — se algo divergiu da spec durante a execução (nome de campo, mensagem), atualize `docs/superpowers/specs/2026-10-22-librarius-portabilidade-design.md` no mesmo commit.
+- [x] **Step 5: Spec atualizada** — se algo divergiu da spec durante a execução (nome de campo, mensagem), atualize `docs/superpowers/specs/2026-10-22-librarius-portabilidade-design.md` no mesmo commit.
 
-- [ ] **Step 6: Commit (se houver ajuste)**
+- [x] **Step 6: Commit (se houver ajuste)**
 
 ```bash
 git add -A docs acad testes
