@@ -24,6 +24,11 @@ def _sessao_mcp(ferramenta, argumentos, dados):
 
 
 def test_lista_e_chama_ferramentas(tmp_path):
+    from acad import esquemas
+    (tmp_path / "configuracao.yaml").write_text(esquemas.para_yaml({
+        "versao_esquema": 1, "perfil": "fasoft", "raiz_workspace": str(AMOSTRA),
+        "semestre_atual": "2026-2",
+    }), encoding="utf-8")
     nomes, resposta = _sessao_mcp("cronograma-consultar", {"data": "2026-07-28", "raiz": str(AMOSTRA)}, tmp_path)
     assert {"ambiente-verificar", "cronograma-consultar", "validar", "encontros-gerar", "plano-distribuir",
             "plano-replanejar", "gerar-aula", "gerar-avaliacao", "aplicar", "desfazer"} <= set(nomes)

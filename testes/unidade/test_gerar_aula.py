@@ -64,7 +64,7 @@ def test_modelo_declarado_ausente_avisa(disc, semestre_sintetico):
 
 
 def test_nomes_canonicos():
-    nomes = arquivos_da_aula("03", "Rotações AVL: casos?")
+    nomes = arquivos_da_aula("03", "Rotações AVL: casos?", carregar_perfil("fasoft"))
     assert nomes["roteiro"] == "02 - Aulas/Aula 03 - Roteiro de Aula - Rotações AVL casos.md"
     assert nomes["codigo"] == "06 - Código e Exemplos/aula-03-rotacoes-avl-casos"
     assert slug("Árvore B+") == "arvore-b"

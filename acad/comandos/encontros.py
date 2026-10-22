@@ -33,7 +33,7 @@ def _gerar(parser):
         if calendario.status != "confirmado":
             raise ErroAcad("calendario-nao-confirmado", "O calendário ainda não foi conferido por você.", saida=1)
         disciplina = contexto.localizar_disciplina(ws, semestre, args.disciplina)
-        arquivo_turma = disciplina / "01 - Planejamento" / f"turma-{args.turma}.yaml"
+        arquivo_turma = disciplina / contexto.perfil().pasta("planejamento") / f"turma-{args.turma}.yaml"
         turma = ler_turma(ws, disciplina, args.turma)
         anteriores = ler_encontros(ws, disciplina, args.turma)
         encontros = gerar_encontros(calendario, turma, anteriores)

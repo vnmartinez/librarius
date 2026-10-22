@@ -1192,7 +1192,7 @@ git commit -m "feat: modelos de slides e prova pelo perfil, com aviso no modelo 
 - Consumes: `Perfil.pasta`, `partes_disciplina`, `semestre_de`, `re_administracao`.
 - Produces: `arquivos_da_aula(num: str, tema: str, perfil: Perfil) -> dict[str, str]`; `consultar(raiz: Path, alvo: date, perfil: Perfil) -> dict`.
 
-- [ ] **Step 1: Fixture neutra e testes que falham**
+- [x] **Step 1: Fixture neutra e testes que falham**
 
 Acrescente em `testes/conftest.py`:
 
@@ -1251,24 +1251,24 @@ def test_validar_sem_erro_de_estrutura(semestre_neutro):
 
 `localizar_disciplina` usa `contexto.perfil()`, que sem configuração já é `neutro`; não use `perfil_fasoft` nestes testes.
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_estrutura_neutra.py -v`
 Expected: FAIL (`arquivos_da_aula() takes 2 positional arguments`; disciplinas vazias).
 
-- [ ] **Step 3: Aplicar as substituições da lista Files**, uma por arquivo. Atualize `test_gerar_aula.py:38` para `arquivos_da_aula("03", "Rotações AVL: casos?", carregar_perfil("fasoft"))`.
+- [x] **Step 3: Aplicar as substituições da lista Files**, uma por arquivo. Atualize `test_gerar_aula.py:38` para `arquivos_da_aula("03", "Rotações AVL: casos?", carregar_perfil("fasoft"))`.
 
-- [ ] **Step 4: Conferir que não sobrou literal**
+- [x] **Step 4: Conferir que não sobrou literal**
 
 Run: `grep -rnE '"0[0-9] - |"99 - |startswith\("Primeiro"\)|"Modelos"' acad --include=*.py`
 Expected: só `acad/perfil/padroes.py` e `acad/perfil/detectar.py` (Tarefa 8).
 
-- [ ] **Step 5: Rodar**
+- [x] **Step 5: Rodar**
 
 Run: `.venv/Scripts/python -m pytest -q` e `.venv/Scripts/python -m pytest -q -m drive`
 Expected: verde (`drive` passa ou fica `skip` sem o Drive, como na linha de base).
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add acad testes

@@ -3,7 +3,6 @@ from __future__ import annotations
 import re
 from datetime import date
 from pathlib import Path
-from typing import Iterable
 
 from acad.arquivos.caminhos import sem_acento
 from acad.arquivos.privacidade import Workspace
@@ -41,7 +40,7 @@ def palavras_chave(texto: str) -> list[str]:
             if palavra not in STOPWORDS]
 
 
-def _materiais(ws: Workspace, disciplina: Path, numero: str | None, topico: str) -> dict:
+def _materiais(ws: Workspace, disciplina: Path, numero: str | None, topico: str, perfil) -> dict:
     materiais = {chave: [] for chave in (
         "slides", "slides_divergentes", "roteiros_resumos", "atividades",
         "atividades_relacionadas", "codigos",
@@ -51,7 +50,7 @@ def _materiais(ws: Workspace, disciplina: Path, numero: str | None, topico: str)
     def combina(nome: str) -> bool:
         return sum(1 for palavra in palavras if palavra in sem_acento(nome)) >= 2
 
-    aulas = disciplina / "02 - Aulas"
+    aulas = disciplina / perfil.pasta("aulas")
     if ws.existe(aulas):
         for arquivo in ws.listar(aulas):
             nome = arquivo.name
@@ -64,7 +63,7 @@ def _materiais(ws: Workspace, disciplina: Path, numero: str | None, topico: str)
             elif baixo.endswith(EXT_SLIDE) and combina(nome):
                 materiais["slides_divergentes"].append(nome)
 
-    atividades = disciplina / "03 - Atividades e Listas"
+    atividades = disciplina / perfil.pasta("atividades")
     if ws.existe(atividades):
         for arquivo in ws.listar(atividades):
             if numero and f"Aula {numero}" in arquivo.name:
@@ -72,27 +71,27 @@ def _materiais(ws: Workspace, disciplina: Path, numero: str | None, topico: str)
             elif combina(arquivo.name):
                 materiais["atividades_relacionadas"].append(arquivo.name)
 
-    codigos = disciplina / "06 - Código e Exemplos"
+    codigos = disciplina / perfil.pasta("codigo")
     if ws.existe(codigos):
         materiais["codigos"] = [arquivo.name for arquivo in ws.listar(codigos)
                                 if numero and f"aula-{numero}" in arquivo.name.lower()]
     return materiais
 
 
-def _cronogramas(ws: Workspace, pasta: Path):
+def _cronogramas(ws: Workspace, pasta: Path, perfil):
     for caminho in ws.listar(pasta):
         if caminho.is_dir():
-            if not caminho.name.startswith(".") and caminho.name != "99 - Arquivo":
-                yield from _cronogramas(ws, caminho)
+            if not caminho.name.startswith(".") and caminho.name != perfil.pasta("arquivo"):
+                yield from _cronogramas(ws, caminho, perfil)
         elif "Cronograma" in caminho.name and caminho.name.endswith(".xlsx"):
             yield caminho
 
 
-def consultar(raiz: Path, alvo: date, exclusao: Iterable[str]) -> dict:
+def consultar(raiz: Path, alvo: date, perfil) -> dict:
     raiz = Path(raiz).resolve()
-    ws = Workspace(raiz, exclusao)
+    ws = Workspace(raiz, perfil.exclusao)
     aulas = []
-    for cronograma in _cronogramas(ws, raiz):
+    for cronograma in _cronogramas(ws, raiz, perfil):
         disciplina = cronograma.parent.parent
         for linha in linhas_na_data(ws.ler_bytes(cronograma), alvo):
             aulas.append({
@@ -104,7 +103,7 @@ def consultar(raiz: Path, alvo: date, exclusao: Iterable[str]) -> dict:
                 "aula_num": linha.aula_num,
                 "topico": linha.topico,
                 "linha": linha.linha,
-                "materiais": _materiais(ws, disciplina, linha.aula_num, linha.topico),
+                "materiais": _materiais(ws, disciplina, linha.aula_num, linha.topico, perfil),
                 "tipo": tipo_linha(linha.aula, linha.topico),
             })
     return {"projeto": str(raiz), "data": alvo.isoformat(),

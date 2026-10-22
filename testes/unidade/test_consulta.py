@@ -16,12 +16,12 @@ def test_palavras_chave_sem_acento_e_stopwords():
 
 
 def test_tipo_avaliacao():
-    resultado = consultar(AMOSTRA, date(2026, 9, 1), carregar_perfil("fasoft").exclusao)
+    resultado = consultar(AMOSTRA, date(2026, 9, 1), carregar_perfil("fasoft"))
     assert resultado["aulas"][0]["tipo"] == "avaliacao"
 
 
 def test_resumo_texto_simples():
     from acad.mensagens import contem_termo_tecnico
-    texto = resumo_texto(consultar(AMOSTRA, date(2026, 7, 28), carregar_perfil("fasoft").exclusao))
+    texto = resumo_texto(consultar(AMOSTRA, date(2026, 7, 28), carregar_perfil("fasoft")))
     assert "28/07/2026" in texto and "Estrutura de Dados 2" in texto
     assert not contem_termo_tecnico(texto)

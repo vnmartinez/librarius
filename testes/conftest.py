@@ -51,6 +51,20 @@ def semestre_sintetico(tmp_path, perfil_fasoft) -> Path:
     return semestre
 
 
+@pytest.fixture
+def semestre_neutro(tmp_path) -> Path:
+    semestre = tmp_path / "Materiais" / "2027-1"
+    (semestre / "administracao").mkdir(parents=True)
+    (semestre / "avaliacoes" / "AV1").mkdir(parents=True)
+    (semestre / "modelos").mkdir()
+    for disciplina in ("Algoritmos", "Banco de Dados"):
+        for subpasta in ("planejamento", "aulas", "atividades", "referencias", "codigo", "arquivo"):
+            (semestre / disciplina / subpasta).mkdir(parents=True)
+    _mk(semestre / "Algoritmos" / "projetos" / "entrega-aluno.txt", "nome do aluno")
+    _mk(semestre / "Notas 2027-1.xlsx", "x")
+    return semestre
+
+
 @pytest.fixture(autouse=True)
 def bloquear_drive(monkeypatch):
     monkeypatch.setenv("ACAD_BLOQUEAR_ESCRITA", r"G:\;G:/;/g/")

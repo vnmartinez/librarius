@@ -30,7 +30,7 @@ def _importar(parser):
         semestre = contexto.raiz_semestre(args)
         ws = contexto.workspace(semestre)
         disciplina = contexto.localizar_disciplina(ws, semestre, args.disciplina)
-        planejamento = disciplina / "01 - Planejamento"
+        planejamento = disciplina / contexto.perfil().pasta("planejamento")
         planilhas = [arquivo for arquivo in ws.listar(planejamento)
                      if "Cronograma" in arquivo.name and arquivo.suffix.lower() == ".xlsx"]
         if len(planilhas) != 1:

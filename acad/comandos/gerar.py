@@ -158,7 +158,7 @@ def _gerar_avaliacao(parser):
                      "manifesto": montar_manifesto(artefatos, entradas, __version__, datetime.now().astimezone())}
         documento = {"versao_esquema": 1, "avaliacao": avaliacao}
         esquemas.validar_ou_falhar("avaliacao", documento)
-        destino_yaml = f"{disc.name}/01 - Planejamento/avaliacoes/{args.etapa}-{args.turma}.yaml"
+        destino_yaml = f"{disc.name}/{perfil.pasta('planejamento')}/avaliacoes/{args.etapa}-{args.turma}.yaml"
         operacoes.append(Operacao("substituir" if ws.existe(semestre / destino_yaml) else "criar",
                                   destino_yaml, esquemas.para_yaml(documento).encode("utf-8"),
                                   "plano da avaliação"))

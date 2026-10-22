@@ -16,17 +16,17 @@ def test_ambiente_verificar(capsys):
     assert codigo == 0 and resultado["ok"] and resultado["dados"]["faltando"] == []
 
 
-def test_consultar_json(capsys):
+def test_consultar_json(capsys, perfil_fasoft):
     codigo, resultado = _json(capsys, ["cronograma", "consultar", "--data", "2026-07-28", "--raiz", str(AMOSTRA)])
     assert codigo == 0 and resultado["dados"]["quantidade_aulas"] == 1
 
 
-def test_consultar_aceita_data_brasileira(capsys):
+def test_consultar_aceita_data_brasileira(capsys, perfil_fasoft):
     _, resultado = _json(capsys, ["cronograma", "consultar", "--data", "28/07/2026", "--raiz", str(AMOSTRA)])
     assert resultado["dados"]["data"] == "2026-07-28"
 
 
-def test_consultar_texto(capsys):
+def test_consultar_texto(capsys, perfil_fasoft):
     assert main(["cronograma", "consultar", "--data", "2026-07-28", "--raiz", str(AMOSTRA)]) == 0
     assert "Estrutura de Dados 2" in capsys.readouterr().out
 

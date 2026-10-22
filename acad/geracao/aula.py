@@ -44,8 +44,8 @@ def _lista(conteudo: dict) -> str:
     return modelo.substitute(tema=conteudo["tema"], questoes="\n\n".join(questoes))
 
 
-def _duracao_encontros(ws, disc: Path, id_aula: str) -> int:
-    planejamento = disc / "01 - Planejamento"
+def _duracao_encontros(ws, disc: Path, id_aula: str, perfil) -> int:
+    planejamento = disc / perfil.pasta("planejamento")
     total = 0
     for arquivo in ws.listar(planejamento):
         if arquivo.name.startswith("encontros-") and arquivo.suffix.lower() == ".yaml":
@@ -70,7 +70,7 @@ def planejar_aula(ws, semestre: Path, disc: Path, num: str, conteudo: dict,
         raise ErroAcad("aula-aprovada",
                        "Essa aula já foi aprovada por você. Para mudar, peça para revisar a aula.", saida=1)
 
-    nomes = arquivos_da_aula(num, conteudo["tema"])
+    nomes = arquivos_da_aula(num, conteudo["tema"], perfil)
     prefixo = disc.relative_to(semestre).as_posix()
     operacoes = []
     avisos = []
@@ -85,7 +85,7 @@ def planejar_aula(ws, semestre: Path, disc: Path, num: str, conteudo: dict,
     aula["roteiro"] = f"{prefixo}/{nomes['roteiro']}"
     duracao = sum(bloco["minutos"] for bloco in conteudo["roteiro"]["blocos"])
     aula["duracao_estimada_min"] = duracao
-    minutos_disponiveis = _duracao_encontros(ws, disc, id_aula)
+    minutos_disponiveis = _duracao_encontros(ws, disc, id_aula, perfil)
     if minutos_disponiveis and abs(duracao - minutos_disponiveis) / minutos_disponiveis > 0.15:
         avisos.append(f"O roteiro tem {duracao} min, mas a aula tem {minutos_disponiveis} min.")
 
@@ -108,7 +108,7 @@ def planejar_aula(ws, semestre: Path, disc: Path, num: str, conteudo: dict,
         if pasta_modelos is not None and perfil.modelo_slides:
             candidato = pasta_modelos / perfil.modelo_slides
             modelo_slides = candidato if candidato.is_dir() else None
-        dados_disciplina = ler_disciplina(ws, disc) if ws.existe(disc / "01 - Planejamento" / "disciplina.yaml") else {}
+        dados_disciplina = ler_disciplina(ws, disc) if ws.existe(disc / perfil.pasta("planejamento") / "disciplina.yaml") else {}
         contexto = {**conteudo, "aula_id": id_aula, "curso": dados_disciplina.get("nome", "")}
         adicionar(nomes["slides"], gerador.gerar(contexto, modelo_slides), "slides da aula")
         aula["slides"] = f"{prefixo}/{nomes['slides']}"
@@ -119,17 +119,17 @@ def planejar_aula(ws, semestre: Path, disc: Path, num: str, conteudo: dict,
 
     aula["tema"] = conteudo["tema"]
     aula["status"] = "rascunho"
-    entradas = {f"{prefixo}/01 - Planejamento/aulas.yaml#{id_aula}": hash_item(aula)}
+    entradas = {f"{prefixo}/{perfil.pasta('planejamento')}/aulas.yaml#{id_aula}": hash_item(aula)}
     if pasta_modelos and "slides" in aula:
         entradas[pasta_modelos.relative_to(semestre).as_posix()] = hash_pasta(ws, pasta_modelos)
-    referencia = disc / "05 - Materiais de Referência"
+    referencia = disc / perfil.pasta("referencias")
     if ws.existe(referencia):
         for arquivo in ws.listar(referencia):
             if arquivo.is_file() and arquivo.suffix.lower() == ".pdf" and "programa" in arquivo.name.lower():
                 entradas[arquivo.relative_to(semestre).as_posix()] = hash_bytes(ws.ler_bytes(arquivo))
     aula["manifesto"] = montar_manifesto(artefatos, entradas, __version__, agora)
     esquemas.validar_ou_falhar("aula", documento)
-    arquivo_aulas = f"{prefixo}/01 - Planejamento/aulas.yaml"
+    arquivo_aulas = f"{prefixo}/{perfil.pasta('planejamento')}/aulas.yaml"
     operacoes.append(_operacao(ws, semestre, arquivo_aulas,
                                esquemas.para_yaml(documento).encode("utf-8"), "plano da disciplina"))
     return operacoes, avisos

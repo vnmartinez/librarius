@@ -59,7 +59,7 @@ def raiz_padrao_consulta() -> Path:
 
 def pasta_administracao(semestre: Path) -> Path:
     candidatas = [pasta for pasta in workspace(semestre).listar(semestre)
-                  if pasta.is_dir() and pasta.name.startswith("00 - ")]
+                  if pasta.is_dir() and perfil().re_administracao.match(pasta.name)]
     if not candidatas:
         raise ErroAcad("pasta-nao-encontrada", "Não encontrei a pasta de administração do semestre.")
     return candidatas[0]
@@ -70,15 +70,15 @@ def localizar_disciplina(ws: Workspace, semestre: Path, ident: str) -> Path:
     identificador = sem_acento(ident)
     candidatas = []
     for pasta in disciplinas(ws, semestre, perfil_atual):
-        correspondencia = perfil_atual.disciplina_pasta.match(pasta.name)
+        partes = perfil_atual.partes_disciplina(pasta.name)
         codigo = ""
-        arquivo = pasta / "01 - Planejamento" / "disciplina.yaml"
+        arquivo = pasta / perfil_atual.pasta("planejamento") / "disciplina.yaml"
         if ws.existe(arquivo):
             documento = esquemas.carregar_yaml(ws.ler_texto(arquivo))
             codigo = documento.get("disciplina", {}).get("codigo", "")
-        if (identificador == sem_acento(correspondencia["num"])
+        if (identificador == sem_acento(partes["num"] or "")
                 or identificador == sem_acento(codigo)
-                or identificador in sem_acento(correspondencia["nome"])):
+                or identificador in sem_acento(partes["nome"] or "")):
             candidatas.append(pasta)
     if len(candidatas) != 1:
         raise ErroAcad("disciplina-nao-encontrada",

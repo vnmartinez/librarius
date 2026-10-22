@@ -15,7 +15,7 @@ def disciplinas(ws: Workspace, semestre: Path, perfil: Perfil) -> list[Path]:
         and perfil.disciplina_pasta.match(caminho.name)
         and not perfil.pasta_avaliacoes.match(caminho.name)
         and not perfil.pasta_modelos.match(caminho.name)
-        and ws.existe(caminho / perfil.subpastas_disciplina[0])
+        and ws.existe(caminho / perfil.pasta("planejamento"))
     ]
 
 
@@ -42,8 +42,8 @@ def validar_nomes(ws: Workspace, semestre: Path, perfil: Perfil) -> list[Achado]
             if subpasta.is_dir() and not perfil.re_pasta.match(subpasta.name):
                 achados.append(Achado("pasta-sem-prefixo", "erro",
                                       f"A pasta “{subpasta.name}” não começa com número e traço.", rel(subpasta)))
-        aulas = disciplina / "02 - Aulas"
-        listas = disciplina / "03 - Atividades e Listas"
+        aulas = disciplina / perfil.pasta("aulas")
+        listas = disciplina / perfil.pasta("atividades")
         if ws.existe(aulas):
             for caminho in ws.listar(aulas):
                 if caminho.is_dir() and not perfil.re_pasta.match(caminho.name):

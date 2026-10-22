@@ -86,17 +86,17 @@ def _disciplina_criar(parser):
         pasta = semestre / args.pasta
         if not pasta.is_dir() or ws.excluido(pasta):
             raise ErroAcad("disciplina-nao-encontrada", "Não encontrei essa pasta de disciplina.")
-        periodo = 1 if semestre.name.startswith("Primeiro") else 2
+        ano, periodo = contexto.perfil().semestre_de(semestre) or (int(semestre.parent.name), 2)
         carga = {"valor": args.carga, "unidade": args.unidade}
         if args.minutos_hora_aula:
             carga["minutos_hora_aula"] = args.minutos_hora_aula
         documento = {"versao_esquema": 1, "disciplina": {
             "codigo": args.codigo.upper(), "nome": args.nome, "pasta": pasta.name,
-            "semestre": f"{semestre.parent.name}-{periodo}", "carga_horaria": carga,
+            "semestre": f"{ano}-{periodo}", "carga_horaria": carga,
             "planejamento": {"status": "rascunho"},
         }}
         esquemas.validar_ou_falhar("disciplina", documento)
-        destino = f"{pasta.name}/01 - Planejamento/disciplina.yaml"
+        destino = f"{pasta.name}/{contexto.perfil().pasta('planejamento')}/disciplina.yaml"
         tipo = "substituir" if ws.existe(semestre / destino) else "criar"
         proposta = criar_proposta(semestre, [Operacao(tipo, destino, esquemas.para_yaml(documento).encode("utf-8"),
                                                       "cadastro da disciplina")], "Confira os dados da disciplina.")
@@ -130,14 +130,14 @@ def _turma_criar(parser):
         semestre = contexto.raiz_semestre(args)
         ws = contexto.workspace(semestre)
         disc = contexto.localizar_disciplina(ws, semestre, args.disciplina)
-        arquivo_disc = disc / "01 - Planejamento" / "disciplina.yaml"
+        arquivo_disc = disc / contexto.perfil().pasta("planejamento") / "disciplina.yaml"
         codigo = (esquemas.carregar_yaml(ws.ler_texto(arquivo_disc))["disciplina"]["codigo"]
                   if ws.existe(arquivo_disc) else args.disciplina.upper())
         documento = {"versao_esquema": 1, "turma": {
             "id": args.turma, "disciplina": codigo, "fuso": args.fuso, "horarios": horarios,
         }}
         esquemas.validar_ou_falhar("turma", documento)
-        destino = f"{disc.name}/01 - Planejamento/turma-{args.turma}.yaml"
+        destino = f"{disc.name}/{contexto.perfil().pasta('planejamento')}/turma-{args.turma}.yaml"
         tipo = "substituir" if ws.existe(semestre / destino) else "criar"
         proposta = criar_proposta(semestre, [Operacao(tipo, destino, esquemas.para_yaml(documento).encode("utf-8"),
                                                       "horário da turma")], "Confira o horário da turma.")
