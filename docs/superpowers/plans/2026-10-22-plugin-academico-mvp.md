@@ -2402,7 +2402,7 @@ def test_divergencias():
   - `regra_manifestos(ws, semestre, disc, aulas)` — para aulas com `manifesto`: artefato inexistente → `artefato-ausente` (erro); `divergencias` não vazias → `manifesto-desatualizado` (aviso, cita quais entradas mudaram em linguagem simples: "o plano da aula", "o modelo de slides", "o programa da disciplina"; mapear por padrão do caminho).
   - `regra_slide_divergente(ws, disc, aulas)` — reaproveita `consulta._materiais` para cada aula de `aulas.yaml`: sem `slides` e com `slides_divergentes` → `slide-numeracao-divergente` (aviso).
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_regras.py
@@ -2454,8 +2454,8 @@ def test_numero_repetido_na_amostra():
 
 (Mensagem de `numero-aula-repetido`: `“Aula NN” aparece em slides de temas diferentes: …`.) Incluir testes de `regra_manifestos` com um `aulas.yaml` sintético: artefato ausente e entrada alterada.
 
-- [ ] **Step 2–4:** falhar, implementar, passar.
-- [ ] **Step 5: Commit** — `git commit -m "feat: regras de calendário, pré-requisitos, cobertura e manifestos"`
+- [x] **Step 2–4:** falhar, implementar, passar.
+- [x] **Step 5: Commit** — `git commit -m "feat: regras de calendário, pré-requisitos, cobertura e manifestos"`
 
 ### Tarefa 22: `acad validar` e critério de pronto sobre o Drive real
 
