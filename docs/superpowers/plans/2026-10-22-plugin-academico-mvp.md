@@ -206,7 +206,7 @@ git commit -m "chore: pacote acad e ambiente de teste"
   - `config.dir_dados() -> Path` (ordem: `ACAD_DADOS`, `CLAUDE_PLUGIN_DATA`, `%LOCALAPPDATA%\librarius`, `~/.local/share/librarius`); `config.registrar_detalhe(texto: str) -> None` (anexa a `dir_dados()/registro.log`).
   - `caminhos.nfc(t: str) -> str`; `caminhos.sem_acento(t: str) -> str` (NFC→NFD, remove marcas, minúsculas); `caminhos.relativo_posix(p: Path, base: Path) -> str` (NFC, `/`).
 
-- [ ] **Step 1: Escrever os testes que falham**
+- [x] **Step 1: Escrever os testes que falham**
 
 ```python
 # testes/unidade/test_saida.py
@@ -278,12 +278,12 @@ def test_relativo_posix(tmp_path):
     assert relativo_posix(p, tmp_path) == "04 - ED2/02 - Aulas/Aula 01 - X.pptx"
 ```
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `$PY -m pytest testes/unidade/test_saida.py testes/unidade/test_config.py testes/unidade/test_caminhos.py -v`
 Expected: FAIL (módulos inexistentes).
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 ```python
 # acad/saida.py
@@ -387,12 +387,12 @@ def relativo_posix(p: Path, base: Path) -> str:
 
 `acad/arquivos/__init__.py` vazio.
 
-- [ ] **Step 4: Rodar e ver passar**
+- [x] **Step 4: Rodar e ver passar**
 
 Run: `$PY -m pytest testes/unidade -v`
 Expected: todos PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add acad testes
