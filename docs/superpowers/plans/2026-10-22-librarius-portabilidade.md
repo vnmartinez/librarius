@@ -1465,7 +1465,7 @@ git commit -m "feat: semestre e raiz reconhecidos pela estrutura do perfil, não
 - Consumes: `ler_documento_perfil("neutro")`, `paleta_de_cor`, `problemas_do_perfil`, `sem_acento` (`acad.arquivos.caminhos`), `Workspace`.
 - Produces: `inferir_perfil(semestre: Path, id: str, instituicao: str, cor: str | None = None, rodape: list[str] | None = None, local: str | None = None) -> tuple[dict, dict]` — devolve `(documento_v2, resumo)` com `resumo = {"ano": int, "periodo": int, "disciplinas": list[str], "papeis_criados": list[str]}`. Levanta `ErroAcad("semestre-nao-reconhecido", …, saida=4)`.
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_inferir.py
@@ -1541,12 +1541,12 @@ def test_nao_entra_em_pasta_protegida(semestre_neutro, monkeypatch):
     assert "projetos" not in lidos
 ```
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_inferir.py -v`
 Expected: FAIL (`ModuleNotFoundError`).
 
-- [ ] **Step 3: Implementar `acad/perfil/inferir.py`**
+- [x] **Step 3: Implementar `acad/perfil/inferir.py`**
 
 ```python
 """Monta o perfil de uma instituição pela organização da pasta do semestre (só nomes de pastas)."""
@@ -1667,12 +1667,12 @@ def _modelos(ws: Workspace, semestre: Path, regra) -> dict:
 
 Confirme como `Workspace.protegidas` está definido em `acad/arquivos/privacidade.py` (é usado em `validacao/nomenclatura.py:36` como lista de caminhos relativos em texto `a/b`). Se o formato for outro, ajuste só a expressão que recupera os nomes das subpastas protegidas — a pasta protegida conta como existente, mas **não** é listada por dentro. Se `listar` de uma pasta ainda não registra protegidas antes de ser chamado na pasta-mãe, a ordem acima (listar a disciplina primeiro) já resolve.
 
-- [ ] **Step 4: Rodar**
+- [x] **Step 4: Rodar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_inferir.py -v` e `.venv/Scripts/python -m pytest -q`
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add acad/perfil/inferir.py testes/unidade/test_inferir.py
