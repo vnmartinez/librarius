@@ -13,8 +13,9 @@ class GeradorSlidesFalso:
         return b"PPTX-FALSO:" + str(conteudo.get("tema", "")).encode("utf-8")
 
 
-def obter_gerador(ler_bytes: Callable[[Path], bytes] | None = None) -> GeradorSlides:
-    """Gerador real (D4 fechada em 22/10/2026): python-pptx no padrão visual UniRV."""
+def obter_gerador(ler_bytes: Callable[[Path], bytes] | None = None, identidade=None) -> GeradorSlides:
+    """Gerador real com identidade visual do perfil."""
+    from acad.geracao.identidade import IDENTIDADE_NEUTRA
     from acad.geracao.slides_pptx import GeradorSlidesPptx
 
-    return GeradorSlidesPptx(ler_bytes)
+    return GeradorSlidesPptx(ler_bytes, identidade or IDENTIDADE_NEUTRA)

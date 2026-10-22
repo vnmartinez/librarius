@@ -5,8 +5,10 @@ from pptx import Presentation
 from pptx.util import Emu
 
 from acad.geracao.slides_pptx import GeradorSlidesPptx, avisos_editoriais
+from acad.perfil.perfil import carregar_perfil
 
 IN = 914400
+FASOFT = carregar_perfil("fasoft").slides
 
 CONTEUDO = {
     "tema": "Rotações AVL", "aula_id": "Aula 03", "curso": "Estrutura de Dados 2",
@@ -40,7 +42,7 @@ def _png(caminho: Path, w=4, h=4):
 
 
 def _pres(template=None, conteudo=CONTEUDO):
-    return Presentation(io.BytesIO(GeradorSlidesPptx().gerar(conteudo, template)))
+    return Presentation(io.BytesIO(GeradorSlidesPptx(identidade=FASOFT).gerar(conteudo, template)))
 
 
 def _caixas(slide):
@@ -160,7 +162,7 @@ def test_leitor_injetado_e_usado(tmp_path):
         lidos.append(caminho.name)
         return caminho.read_bytes()
 
-    GeradorSlidesPptx(ler).gerar(CONTEUDO, tmp_path)
+    GeradorSlidesPptx(ler, FASOFT).gerar(CONTEUDO, tmp_path)
     assert {"logo-unirv.png", "logo-fasoft.png", "logo-header-unirv.png"} <= set(lidos)
 
 

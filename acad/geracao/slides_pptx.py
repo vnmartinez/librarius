@@ -1,4 +1,4 @@
-"""Gerador de slides `.pptx` no padrão visual UniRV / Fasoft, em python-pptx (sem Node).
+"""Gerador de slides `.pptx` com identidade visual definida pelo perfil.
 
 Reimplementa, em Python, o "Padrão Visual de Slides - UniRV Fasoft" (`09 - Modelos/Modelo de Slides
 UniRV/`): medidas, paleta e componentes são transcritos das seções do documento, que fica no
@@ -38,36 +38,8 @@ from pptx.oxml.ns import qn
 from pptx.util import Emu, Inches, Pt
 
 from acad.erros import ErroAcad
+from acad.geracao.identidade import IDENTIDADE_NEUTRA, LIMITES_PADRAO, IdentidadeSlides
 
-# §2.2 Paleta
-VERDE = "015537"
-VERDE2 = "0E7A4E"
-VERDE_CLARO = "E4EFE9"
-VERDE_CLARO2 = "F2F7F4"
-TINTA = "1C2B24"
-CORPO = "2E3B34"
-APAGADO = "6A7A72"
-LINHA = "C9D8D0"
-BRANCO = "FFFFFF"
-SUBTITULO_CAPA = "D7E7DF"
-CODIGO_FUNDO = "10231B"
-CODIGO_COMENTARIO = "8FB79E"
-CODIGO_TEXTO = "D8E8DF"
-
-# §2.3 Tipografia
-FONTE = "Calibri"
-FONTE_CODIGO = "Courier New"
-
-# §2.1 Dimensões
-LARGURA = 9144000
-ALTURA = 5143500
-
-# §2.5 Assets (lidos da pasta do modelo, no workspace)
-LOGOS = {"cabecalho": "logo-header-unirv.png", "unirv": "logo-unirv.png", "fasoft": "logo-fasoft.png"}
-
-MAX_TOPICOS = 6
-MAX_LINHAS_CODIGO = 16
-MAX_LINHAS_TABELA = 8
 TIPOS_SEM_LEAD = {"capa", "referencias"}
 
 
@@ -105,7 +77,7 @@ def _caixa_arredondada(slide, x, y, w, h, preenchimento, linha, largura_linha, r
     return _forma(slide, MSO_SHAPE.ROUNDED_RECTANGLE, x, y, w, h, preenchimento, linha, largura_linha, raio)
 
 
-def _estilizar(run, tamanho, cor, negrito=False, italico=False, fonte=FONTE):
+def _estilizar(run, tamanho, cor, negrito=False, italico=False, fonte="Calibri"):
     run.font.name = fonte
     run.font.size = Pt(tamanho)
     run.font.bold = negrito
@@ -131,7 +103,7 @@ def _texto(slide, x, y, w, h, paragrafos, alinhamento=PP_ALIGN.LEFT, ancora=MSO_
     return caixa
 
 
-def _estilo(tamanho, cor=CORPO, negrito=False, italico=False, fonte=FONTE):
+def _estilo(tamanho, cor, negrito=False, italico=False, fonte="Calibri"):
     return {"tamanho": tamanho, "cor": cor, "negrito": negrito, "italico": italico, "fonte": fonte}
 
 
@@ -150,21 +122,27 @@ def _marcador(paragrafo, nivel: int) -> None:
 class GeradorSlidesPptx:
     """`gerar(conteudo, template) -> bytes`.
 
-    `template` é a pasta `Modelo de Slides UniRV` (só para ler os logos em `assets/`); sem ela, os
-    slides saem sem logos. `ler_bytes` permite ler pela porta de leitura do workspace.
+    `template` fornece logos em `assets/`; `ler_bytes` permite ler pela porta do workspace.
     """
 
-    def __init__(self, ler_bytes: Callable[[Path], bytes] | None = None):
+    def __init__(self, ler_bytes: Callable[[Path], bytes] | None = None,
+                 identidade: IdentidadeSlides = IDENTIDADE_NEUTRA):
         self._ler = ler_bytes or (lambda caminho: caminho.read_bytes())
         self._template: Path | None = None
+        self._id = identidade
+        self._p = identidade.paleta
+
+    def _e(self, tamanho, cor, negrito=False, italico=False, codigo=False):
+        return _estilo(tamanho, cor, negrito, italico,
+                       self._id.fonte_codigo if codigo else self._id.fonte)
 
     # ---------- entrada ----------
     def gerar(self, conteudo: dict, template: Path | None) -> bytes:
         self._template = Path(template) if template else None
         itens = conteudo.get("slides", {}).get("slides", [])
         apresentacao = Presentation()
-        apresentacao.slide_width = Emu(LARGURA)
-        apresentacao.slide_height = Emu(ALTURA)
+        apresentacao.slide_width = Emu(self._id.largura_emu)
+        apresentacao.slide_height = Emu(self._id.altura_emu)
         apresentacao.core_properties.title = str(conteudo.get("tema", ""))
         apresentacao.core_properties.author = str(conteudo.get("professor", ""))
         apresentacao.core_properties.subject = str(conteudo.get("tema", ""))
@@ -181,21 +159,20 @@ class GeradorSlidesPptx:
         return saida.getvalue()
 
     # ---------- logos ----------
-    def _logo(self, slide, nome: str, x, y, w, h) -> None:
-        if self._template is None:
+    def _logo(self, slide, nome: str | None, x, y, w, h) -> None:
+        if self._template is None or not nome:
             return
         try:
-            dados = self._ler(self._template / "assets" / LOGOS[nome])
+            dados = self._ler(self._template / "assets" / nome)
         except (OSError, ErroAcad):
             return
         slide.shapes.add_picture(io.BytesIO(dados), Inches(x), Inches(y), Inches(w), Inches(h))
 
     # ---------- moldura ----------
-    @staticmethod
-    def _novo_slide(apresentacao):
+    def _novo_slide(self, apresentacao):
         slide = apresentacao.slides.add_slide(apresentacao.slide_layouts[6])
         slide.background.fill.solid()
-        slide.background.fill.fore_color.rgb = _rgb(BRANCO)
+        slide.background.fill.fore_color.rgb = _rgb(self._p["fundo"])
         return slide
 
     def _capa(self, apresentacao, conteudo: dict, item: dict):
@@ -206,65 +183,63 @@ class GeradorSlidesPptx:
         professor = item.get("professor") or conteudo.get("professor") or ""
         periodo = item.get("periodo") or conteudo.get("periodo") or ""
         ano = item.get("ano") or conteudo.get("ano") or datetime.now().year
-        _retangulo(s, 0.7, 0.5, 8.6, 1.78, VERDE)
-        _texto(s, 0.8, 0.72, 8.4, 0.62, [[(curso, _estilo(27, BRANCO, True))]], PP_ALIGN.CENTER, MSO_ANCHOR.TOP)
+        _retangulo(s, 0.7, 0.5, 8.6, 1.78, self._p["principal"])
+        _texto(s, 0.8, 0.72, 8.4, 0.62, [[(curso, self._e(27, self._p["fundo"], True))]], PP_ALIGN.CENTER, MSO_ANCHOR.TOP)
         rotulo = f"{aula} — {tema}" if aula else tema
-        _texto(s, 0.9, 1.36, 8.2, 0.78, [[(rotulo, _estilo(15, SUBTITULO_CAPA, italico=True))]], PP_ALIGN.CENTER)
+        _texto(s, 0.9, 1.36, 8.2, 0.78, [[(rotulo, self._e(15, self._p["subtitulo_capa"], italico=True))]], PP_ALIGN.CENTER)
         if professor:
-            _texto(s, 0.7, 2.42, 8.6, 0.3, [[(professor, _estilo(13.5, TINTA))]], PP_ALIGN.CENTER)
+            _texto(s, 0.7, 2.42, 8.6, 0.3, [[(professor, self._e(13.5, self._p["tinta"]))]], PP_ALIGN.CENTER)
         if periodo:
-            _texto(s, 0.7, 2.72, 8.6, 0.3, [[(periodo, _estilo(12, APAGADO, italico=True))]], PP_ALIGN.CENTER)
-        self._logo(s, "unirv", 4.02, 3.16, 0.72, 0.72)
-        self._logo(s, "fasoft", 4.96, 3.29, 0.87, 0.58)
-        _texto(s, 0.7, 4.02, 8.6, 0.26, [[("UNIVERSIDADE DE RIO VERDE (UniRV)", _estilo(11.5, CORPO))]], PP_ALIGN.CENTER)
-        _texto(s, 0.7, 4.26, 8.6, 0.26, [[("Bacharelado em Engenharia de Software", _estilo(11.5, CORPO))]], PP_ALIGN.CENTER)
-        _texto(s, 0.7, 4.62, 8.6, 0.28, [[(f"RIO VERDE — {ano}", _estilo(11, VERDE, True))]], PP_ALIGN.CENTER)
-        _retangulo(s, 0.18, 5.33, 9.35, 0.108, VERDE)
+            _texto(s, 0.7, 2.72, 8.6, 0.3, [[(periodo, self._e(12, self._p["apagado"], italico=True))]], PP_ALIGN.CENTER)
+        posicoes = [(4.02, 3.16, 0.72, 0.72), (4.96, 3.29, 0.87, 0.58)]
+        for arquivo, (x, y, w, h) in zip(self._id.logos_capa, posicoes):
+            self._logo(s, arquivo, x, y, w, h)
+        for linha, y in zip(self._id.capa_linhas, (4.02, 4.26)):
+            _texto(s, 0.7, y, 8.6, 0.26, [[(linha, self._e(11.5, self._p["corpo"]))]], PP_ALIGN.CENTER)
+        if self._id.capa_local:
+            _texto(s, 0.7, 4.62, 8.6, 0.28,
+                   [[(self._id.capa_local.format(ano=ano), self._e(11, self._p["principal"], True))]], PP_ALIGN.CENTER)
+        _retangulo(s, 0.18, 5.33, 9.35, 0.108, self._p["principal"])
         return s
 
     def _moldura(self, apresentacao, titulo: str, posicao: int):
         s = self._novo_slide(apresentacao)
-        _retangulo(s, 0.47, 0.28, 7.07, 0.63, VERDE)
-        _texto(s, 0.63, 0.28, 6.8, 0.63, [[(titulo, _estilo(14, BRANCO, True))]], ancora=MSO_ANCHOR.MIDDLE)
-        self._logo(s, "cabecalho", 7.65, 0.28, 1.91, 0.63)
-        _retangulo(s, 0.18, 5.33, 9.35, 0.108, VERDE)
-        _texto(s, 8.95, 5.02, 0.55, 0.26, [[(str(posicao), _estilo(9, APAGADO))]], PP_ALIGN.RIGHT)
+        _retangulo(s, 0.47, 0.28, 7.07, 0.63, self._p["principal"])
+        _texto(s, 0.63, 0.28, 6.8, 0.63, [[(titulo, self._e(14, self._p["fundo"], True))]], ancora=MSO_ANCHOR.MIDDLE)
+        self._logo(s, self._id.logo_cabecalho, 7.65, 0.28, 1.91, 0.63)
+        _retangulo(s, 0.18, 5.33, 9.35, 0.108, self._p["principal"])
+        _texto(s, 8.95, 5.02, 0.55, 0.26, [[(str(posicao), self._e(9, self._p["apagado"]))]], PP_ALIGN.RIGHT)
         return s
 
     # ---------- componentes (§3) ----------
-    @staticmethod
-    def _lead(s, texto: str) -> None:
-        _texto(s, 0.55, 1.02, 8.95, 0.42, [[(texto, _estilo(13, VERDE, True))]], ancora=MSO_ANCHOR.MIDDLE)
+    def _lead(self, s, texto: str) -> None:
+        _texto(s, 0.55, 1.02, 8.95, 0.42, [[(texto, self._e(13, self._p["principal"], True))]], ancora=MSO_ANCHOR.MIDDLE)
 
-    @staticmethod
-    def _nota(s, rotulo: str, texto: str, y: float = 4.35, h: float = 0.8, tamanho: float = 11.5) -> None:
-        _caixa_arredondada(s, 0.55, y, 8.9, h, VERDE_CLARO, VERDE2, 0.9, 0.05)
+    def _nota(self, s, rotulo: str, texto: str, y: float = 4.35, h: float = 0.8, tamanho: float = 11.5) -> None:
+        _caixa_arredondada(s, 0.55, y, 8.9, h, self._p["claro"], self._p["secundaria"], 0.9, 0.05)
         _texto(s, 0.71, y + 0.06, 8.58, h - 0.12,
-               [[(rotulo + "  ", _estilo(tamanho, VERDE, True)), (texto, _estilo(tamanho, CORPO))]],
+               [[(rotulo + "  ", self._e(tamanho, self._p["principal"], True)), (texto, self._e(tamanho, self._p["corpo"]))]],
                ancora=MSO_ANCHOR.MIDDLE)
 
-    @staticmethod
-    def _topicos(s, itens: list, y: float, h: float) -> None:
+    def _topicos(self, s, itens: list, y: float, h: float) -> None:
         paragrafos = []
         for item in itens:
             dados = {"t": item} if isinstance(item, str) else item
             paragrafos.append((dados.get("t", ""), dados))
-        caixa = _texto(s, 0.62, y, 8.8, h, [[(t, _estilo(d.get("sz", 13), d.get("c", CORPO), bool(d.get("b")))) ]
+        caixa = _texto(s, 0.62, y, 8.8, h, [[(t, self._e(d.get("sz", 13), d.get("c", self._p["corpo"]), bool(d.get("b")))) ]
                                               for t, d in paragrafos])
         for paragrafo, (_, dados) in zip(caixa.text_frame.paragraphs, paragrafos):
             paragrafo.space_after = Pt(7)
             _marcador(paragrafo, int(dados.get("lvl", 0)))
 
-    @staticmethod
-    def _codigo(s, linhas: list, y: float, h: float) -> None:
-        _caixa_arredondada(s, 0.55, y, 8.9, h, CODIGO_FUNDO, VERDE, 1, 0.04)
+    def _codigo(self, s, linhas: list, y: float, h: float) -> None:
+        _caixa_arredondada(s, 0.55, y, 8.9, h, self._p["codigo_fundo"], self._p["principal"], 1, 0.04)
         tamanho = 10.5 if len(linhas) <= 14 else 10
-        paragrafos = [[(l["t"], _estilo(tamanho, l.get("c", CODIGO_TEXTO), bool(l.get("b")), fonte=FONTE_CODIGO))]
+        paragrafos = [[(l["t"], self._e(tamanho, l.get("c", self._p["codigo_texto"]), bool(l.get("b")), codigo=True))]
                       for l in linhas]
         _texto(s, 0.75, y + 0.12, 8.5, h - 0.24, paragrafos)
 
-    @staticmethod
-    def _tabela(s, linhas: list, y: float) -> None:
+    def _tabela(self, s, linhas: list, y: float) -> None:
         colunas = max(len(l) for l in linhas)
         linhas = [list(l) + [""] * (colunas - len(l)) for l in linhas]
         total = int(Inches(8.9))
@@ -287,7 +262,7 @@ class GeradorSlidesPptx:
                 celula = tabela.cell(r, c)
                 cabecalho = r == 0
                 celula.fill.solid()
-                celula.fill.fore_color.rgb = _rgb(VERDE if cabecalho else (VERDE_CLARO2 if r % 2 == 0 else BRANCO))
+                celula.fill.fore_color.rgb = _rgb(self._p["principal"] if cabecalho else (self._p["claro2"] if r % 2 == 0 else self._p["fundo"]))
                 celula.margin_left = celula.margin_right = Pt(7)
                 celula.margin_top = celula.margin_bottom = Pt(4)
                 celula.vertical_anchor = MSO_ANCHOR.MIDDLE
@@ -295,10 +270,10 @@ class GeradorSlidesPptx:
                 run = paragrafo.add_run()
                 run.text = str(texto)
                 if cabecalho:
-                    _estilizar(run, 10 if denso else 11.5, BRANCO, True)
+                    _estilizar(run, 10 if denso else 11.5, self._p["fundo"], True, fonte=self._id.fonte)
                 else:
-                    _estilizar(run, 9.5 if denso else 10.5, VERDE if c == 0 else CORPO, c == 0)
-                _bordas(celula)
+                    _estilizar(run, 9.5 if denso else 10.5, self._p["principal"] if c == 0 else self._p["corpo"], c == 0, fonte=self._id.fonte)
+                _bordas(celula, self._p["linha"])
 
     def _cards(self, s, itens: list, y: float, limite_y: float) -> None:
         n = len(itens)
@@ -310,15 +285,15 @@ class GeradorSlidesPptx:
         for i, item in enumerate(itens):
             cx = 0.55 + (i % colunas) * (w + gx)
             cy = y + (i // colunas) * (h + gy)
-            _caixa_arredondada(s, cx, cy, w, h, VERDE_CLARO2, LINHA, 0.75, 0.06)
-            _forma(s, MSO_SHAPE.OVAL, cx + 0.16, cy + 0.16, 0.42, 0.42, item.get("cor", VERDE))
+            _caixa_arredondada(s, cx, cy, w, h, self._p["claro2"], self._p["linha"], 0.75, 0.06)
+            _forma(s, MSO_SHAPE.OVAL, cx + 0.16, cy + 0.16, 0.42, 0.42, item.get("cor", self._p["principal"]))
             etiqueta = str(item.get("tag") or i + 1)
             _texto(s, cx + 0.16, cy + 0.16, 0.42, 0.42,
-                   [[(etiqueta, _estilo(9 if len(etiqueta) > 2 else 13, BRANCO, True))]], PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE)
+                   [[(etiqueta, self._e(9 if len(etiqueta) > 2 else 13, self._p["fundo"], True))]], PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE)
             _texto(s, cx + 0.68, cy + 0.14, w - 0.84, 0.46,
-                   [[(item.get("titulo", ""), _estilo(12.5, VERDE, True))]], ancora=MSO_ANCHOR.MIDDLE)
+                   [[(item.get("titulo", ""), self._e(12.5, self._p["principal"], True))]], ancora=MSO_ANCHOR.MIDDLE)
             _texto(s, cx + 0.2, cy + 0.62, w - 0.4, max(0.2, h - 0.76),
-                   [[(item.get("texto", ""), _estilo(11, CORPO))]])
+                   [[(item.get("texto", ""), self._e(11, self._p["corpo"]))]])
 
     def _fluxo(self, s, etapas: list, y: float, h: float) -> None:
         n = len(etapas)
@@ -326,13 +301,13 @@ class GeradorSlidesPptx:
         largura = (8.9 - seta * (n - 1)) / n
         for i, etapa in enumerate(etapas):
             bx = 0.55 + i * (largura + seta)
-            _caixa_arredondada(s, bx, y, largura, h, VERDE_CLARO if i % 2 else VERDE_CLARO2, VERDE2, 0.9, 0.06)
+            _caixa_arredondada(s, bx, y, largura, h, self._p["claro"] if i % 2 else self._p["claro2"], self._p["secundaria"], 0.9, 0.06)
             _texto(s, bx + 0.08, y + 0.08, largura - 0.16, 0.36,
-                   [[(etapa.get("t", ""), _estilo(11.5, VERDE, True))]], PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE)
+                   [[(etapa.get("t", ""), self._e(11.5, self._p["principal"], True))]], PP_ALIGN.CENTER, MSO_ANCHOR.MIDDLE)
             _texto(s, bx + 0.08, y + 0.44, largura - 0.16, h - 0.52,
-                   [[(etapa.get("d", ""), _estilo(9.5, CORPO))]], PP_ALIGN.CENTER)
+                   [[(etapa.get("d", ""), self._e(9.5, self._p["corpo"]))]], PP_ALIGN.CENTER)
             if i < n - 1:
-                _forma(s, MSO_SHAPE.RIGHT_ARROW, bx + largura + 0.04, y + h / 2 - 0.11, seta - 0.08, 0.22, VERDE2)
+                _forma(s, MSO_SHAPE.RIGHT_ARROW, bx + largura + 0.04, y + h / 2 - 0.11, seta - 0.08, 0.22, self._p["secundaria"])
 
     # ---------- slide de conteúdo ----------
     def _conteudo(self, apresentacao, conteudo: dict, item: dict, posicao: int):
@@ -351,7 +326,7 @@ class GeradorSlidesPptx:
         elif tipo == "referencias":
             self._topicos(s, [{"t": r, "sz": 11} for r in item.get("itens", [])], 1.5, limite - 1.5)
         elif tipo == "codigo":
-            linhas = _linhas_de_codigo(item)
+            linhas = _linhas_de_codigo(item, self._p["codigo_comentario"])
             h = min(limite - y - 0.05, len(linhas) * 0.19 + 0.3)
             self._codigo(s, linhas, y, h)
         elif tipo == "tabela":
@@ -369,17 +344,17 @@ class GeradorSlidesPptx:
         return s
 
 
-def _linhas_de_codigo(item: dict) -> list[dict]:
+def _linhas_de_codigo(item: dict, cor_comentario: str) -> list[dict]:
     if "linhas" in item:
         return [{"t": l} if isinstance(l, str) else l for l in item["linhas"]]
     linhas = []
     for texto in str(item.get("codigo", "")).split("\n"):
         comentario = texto.lstrip().startswith(("//", "#", "--"))
-        linhas.append({"t": texto, **({"c": CODIGO_COMENTARIO} if comentario else {})})
+        linhas.append({"t": texto, **({"c": cor_comentario} if comentario else {})})
     return linhas
 
 
-def _bordas(celula) -> None:
+def _bordas(celula, cor_linha: str) -> None:
     """Traço fino `C9D8D0` em volta da célula (§3 `table`)."""
     tcPr = celula._tc.get_or_add_tcPr()
     for i, lado in enumerate(("a:lnL", "a:lnR", "a:lnT", "a:lnB")):
@@ -387,13 +362,14 @@ def _bordas(celula) -> None:
             tcPr.remove(antigo)
         ln = etree.Element(qn(lado), w=str(int(Pt(0.5))), cap="flat", cmpd="sng", algn="ctr")
         preenchimento = etree.SubElement(ln, qn("a:solidFill"))
-        etree.SubElement(preenchimento, qn("a:srgbClr")).set("val", LINHA)
+        etree.SubElement(preenchimento, qn("a:srgbClr")).set("val", cor_linha)
         etree.SubElement(ln, qn("a:prstDash")).set("val", "solid")
         tcPr.insert(i, ln)
 
 
-def avisos_editoriais(slides: list[dict]) -> list[str]:
+def avisos_editoriais(slides: list[dict], limites: dict | None = None) -> list[str]:
     """Regras editoriais verificáveis do padrão (§3, §4, §6); devolvem avisos em português simples."""
+    limites = limites or LIMITES_PADRAO
     avisos = []
     anterior = None
     for numero, item in enumerate(slides, 1):
@@ -401,12 +377,12 @@ def avisos_editoriais(slides: list[dict]) -> list[str]:
         titulo = item.get("titulo") or tipo
         if tipo not in TIPOS_SEM_LEAD and not item.get("lead"):
             avisos.append(f"O slide {numero} ({titulo}) está sem linha-guia.")
-        if tipo == "topicos" and len(item.get("itens", [])) > MAX_TOPICOS:
-            avisos.append(f"O slide {numero} ({titulo}) tem mais de {MAX_TOPICOS} itens; divida em dois slides.")
-        if tipo == "codigo" and len(_linhas_de_codigo(item)) > MAX_LINHAS_CODIGO:
-            avisos.append(f"O slide {numero} ({titulo}) tem mais de {MAX_LINHAS_CODIGO} linhas de código.")
-        if tipo == "tabela" and len(item.get("linhas", [])) > MAX_LINHAS_TABELA + 1:
-            avisos.append(f"O slide {numero} ({titulo}) tem mais de {MAX_LINHAS_TABELA} linhas na tabela.")
+        if tipo == "topicos" and len(item.get("itens", [])) > limites["topicos"]:
+            avisos.append(f"O slide {numero} ({titulo}) tem mais de {limites['topicos']} itens; divida em dois slides.")
+        if tipo == "codigo" and len(_linhas_de_codigo(item, "")) > limites["linhas_codigo"]:
+            avisos.append(f"O slide {numero} ({titulo}) tem mais de {limites['linhas_codigo']} linhas de código.")
+        if tipo == "tabela" and len(item.get("linhas", [])) > limites["linhas_tabela"] + 1:
+            avisos.append(f"O slide {numero} ({titulo}) tem mais de {limites['linhas_tabela']} linhas na tabela.")
         if tipo == anterior and tipo not in {"capa", "referencias"}:
             avisos.append(f"Há dois slides seguidos do mesmo tipo ({numero - 1} e {numero}); alterne o formato.")
         anterior = tipo

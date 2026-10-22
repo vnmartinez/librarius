@@ -659,7 +659,7 @@ git commit -m "feat: perfis do usuário com prioridade e erros em português sim
 - Consumes: `carregar_perfil`, `perfil_de_documento`.
 - Produces: `IdentidadeSlides(largura_emu: int, altura_emu: int, fonte: str, fonte_codigo: str, paleta: dict[str, str], capa_linhas: tuple[str, ...], capa_local: str, logo_cabecalho: str | None, logos_capa: tuple[str, ...], limites: dict[str, int])`; `IDENTIDADE_NEUTRA`; `identidade_de(bloco: dict | None) -> IdentidadeSlides`; `paleta_de_cor(cor: str) -> dict[str, str]`; `mistura(a: str, b: str, t: float) -> str`; `Perfil.slides: IdentidadeSlides`; `GeradorSlidesPptx(ler_bytes=None, identidade=IDENTIDADE_NEUTRA)`; `avisos_editoriais(slides, limites=None)`; `obter_gerador(ler_bytes=None, identidade=None)`.
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_identidade.py
@@ -723,12 +723,12 @@ def test_limites_do_perfil_nos_avisos():
 
 E em `test_compat_fasoft.py` nada muda: ele chama `gerador_fasoft()`, que você trocará no Step 6.
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_identidade.py -v`
 Expected: FAIL (`ModuleNotFoundError: acad.geracao.identidade`).
 
-- [ ] **Step 3: `acad/geracao/identidade.py`**
+- [x] **Step 3: `acad/geracao/identidade.py`**
 
 ```python
 """Identidade visual dos slides (cores, fontes, textos e logos); vem do perfil da instituição."""
@@ -799,7 +799,7 @@ def paleta_de_cor(cor: str) -> dict[str, str]:
 
 `round` do Python arredonda 0,5 para par: `mistura("000000","FFFFFF",0.5)` = `round(127.5)` = 128 = `80`. O teste confirma.
 
-- [ ] **Step 4: Esquema e perfil**
+- [x] **Step 4: Esquema e perfil**
 
 Em `esquemas/perfil.schema.json`, `perfil.properties` ganha:
 
@@ -840,7 +840,7 @@ Em `Perfil`: campo `slides: IdentidadeSlides` e, em `perfil_de_documento`, `slid
 
 Em `fasoft.yaml`, acrescente o bloco `slides:` da spec P3 com os valores exatos (paleta das 13 cores de `slides_pptx.py:43-55`, `capa.local: "RIO VERDE — {ano}"` com o travessão `—` de `slides_pptx.py:221`, logos e limites 6/16/8, tamanho 9144000 × 5143500, fontes Calibri/Courier New).
 
-- [ ] **Step 5: Refatorar `slides_pptx.py`**
+- [x] **Step 5: Refatorar `slides_pptx.py`**
 
 Regra: **nenhuma mudança de geometria nem de ordem de criação de formas** (a referência compara bytes). Passos mecânicos:
 
@@ -869,7 +869,7 @@ Regra: **nenhuma mudança de geometria nem de ordem de criação de formas** (a 
 
 `acad/geracao/slides.py`: `obter_gerador(ler_bytes=None, identidade=None)` → `GeradorSlidesPptx(ler_bytes, identidade or IDENTIDADE_NEUTRA)`; docstring sem "UniRV".
 
-- [ ] **Step 6: Ferramenta e testes antigos usam a identidade fasoft**
+- [x] **Step 6: Ferramenta e testes antigos usam a identidade fasoft**
 
 Em `testes/ferramentas/referencia_slides.py`:
 
@@ -882,12 +882,12 @@ def gerador_fasoft():
 
 Em `testes/unidade/test_slides_pptx.py`: `FASOFT = carregar_perfil("fasoft").slides`; `_pres` usa `GeradorSlidesPptx(identidade=FASOFT)`; `test_leitor_injetado_e_usado` usa `GeradorSlidesPptx(ler, FASOFT)`. Nenhuma asserção muda.
 
-- [ ] **Step 7: Rodar**
+- [x] **Step 7: Rodar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_compat_fasoft.py testes/unidade/test_identidade.py testes/unidade/test_slides_pptx.py -v` e `.venv/Scripts/python -m pytest -q`
 Expected: tudo PASS. Se `test_slides_fasoft_identicos_a_referencia` falhar, compare as partes divergentes (`resumos` dos dois lados) e corrija a ordem de criação/cor — **nunca** regrave a referência.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add acad/geracao/identidade.py acad/geracao/slides_pptx.py acad/geracao/slides.py esquemas/perfil.schema.json acad/perfil/perfil.py acad/perfil/perfis/fasoft.yaml testes/ferramentas/referencia_slides.py testes/unidade/test_slides_pptx.py testes/unidade/test_identidade.py

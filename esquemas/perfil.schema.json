@@ -52,6 +52,34 @@
           "type": "object", "additionalProperties": false,
           "properties": {"slides": {"type": ["string", "null"]}, "prova": {"type": ["string", "null"]}}
         },
+        "slides": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "tamanho": {"type": "object", "additionalProperties": false,
+                        "properties": {"largura_emu": {"type": "integer", "minimum": 1}, "altura_emu": {"type": "integer", "minimum": 1}}},
+            "fontes": {"type": "object", "additionalProperties": false,
+                       "properties": {"texto": {"type": "string"}, "codigo": {"type": "string"}}},
+            "paleta": {"type": "object", "additionalProperties": false,
+                       "properties": {
+                         "principal": {"$ref": "#/$defs/cor"}, "secundaria": {"$ref": "#/$defs/cor"},
+                         "claro": {"$ref": "#/$defs/cor"}, "claro2": {"$ref": "#/$defs/cor"},
+                         "tinta": {"$ref": "#/$defs/cor"}, "corpo": {"$ref": "#/$defs/cor"},
+                         "apagado": {"$ref": "#/$defs/cor"}, "linha": {"$ref": "#/$defs/cor"},
+                         "fundo": {"$ref": "#/$defs/cor"}, "subtitulo_capa": {"$ref": "#/$defs/cor"},
+                         "codigo_fundo": {"$ref": "#/$defs/cor"}, "codigo_comentario": {"$ref": "#/$defs/cor"},
+                         "codigo_texto": {"$ref": "#/$defs/cor"}}},
+            "capa": {"type": "object", "additionalProperties": false,
+                     "properties": {"linhas": {"type": "array", "maxItems": 2, "items": {"type": "string"}},
+                                    "local": {"type": "string"}}},
+            "logos": {"type": "object", "additionalProperties": false,
+                      "properties": {"cabecalho": {"type": ["string", "null"]},
+                                     "capa": {"type": "array", "maxItems": 2, "items": {"type": "string"}}}},
+            "limites": {"type": "object", "additionalProperties": false,
+                        "properties": {"topicos": {"type": "integer", "minimum": 1},
+                                       "linhas_codigo": {"type": "integer", "minimum": 1},
+                                       "linhas_tabela": {"type": "integer", "minimum": 1}}}
+          }
+        },
         "disciplina_pasta": {
           "type": "string"
         },
@@ -135,6 +163,7 @@
       }
     }
   },
+  "$defs": {"cor": {"type": "string", "pattern": "^[0-9A-Fa-f]{6}$"}},
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/vnmartinez/librarius/esquemas/perfil.schema.json"
 }

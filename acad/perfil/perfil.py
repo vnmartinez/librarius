@@ -8,6 +8,7 @@ from pathlib import Path
 from acad import esquemas
 from acad.config import dir_dados
 from acad.erros import ErroAcad
+from acad.geracao.identidade import IdentidadeSlides, identidade_de
 from acad.perfil.padroes import ESTRUTURA_V1
 from acad.perfil.validar import validar_perfil_ou_falhar
 
@@ -37,6 +38,7 @@ class Perfil:
     papeis: dict[str, str]
     modelo_slides: str | None
     modelo_prova: str | None
+    slides: IdentidadeSlides
 
     def pasta(self, papel: str) -> str:
         return self.papeis[papel]
@@ -91,6 +93,7 @@ def perfil_de_documento(documento: dict) -> Perfil:
         papeis=papeis,
         modelo_slides=modelos.get("slides"),
         modelo_prova=modelos.get("prova"),
+        slides=identidade_de(perfil.get("slides")),
     )
 
 

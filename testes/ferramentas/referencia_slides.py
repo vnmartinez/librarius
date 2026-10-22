@@ -28,7 +28,8 @@ def resumos(dados: bytes) -> dict[str, str]:
 
 def gerador_fasoft():
     from acad.geracao.slides_pptx import GeradorSlidesPptx
-    return GeradorSlidesPptx()
+    from acad.perfil.perfil import carregar_perfil
+    return GeradorSlidesPptx(identidade=carregar_perfil("fasoft").slides)
 
 
 def gerar_referencia() -> bytes:
