@@ -2936,7 +2936,7 @@ Corpo de cada skill (todas com as quatro seções obrigatórias e o trecho comum
 
 `AGENTS.md` (raiz): ≤ 80 linhas, versão compacta — o que é o Librarius, a lista das 7 skills com uma linha cada, as regras de conversa (§1A), as regras de segurança (somente proposta aprovada grava; lista de exclusão; nada é excluído; desfazer), e o trecho "Como chamar o núcleo".
 
-- [ ] **Step 1: Teste que falha**
+- [x] **Step 1: Teste que falha**
 
 ```python
 # testes/unidade/test_agents_md.py
@@ -2952,11 +2952,11 @@ def test_agents_md_compacto_e_completo():
     assert "acad aplicar" in t and "desfazer" in t and "alunos" in t
 ```
 
-- [ ] **Step 2: Rodar todos os testes de skills e ver falhar.**
-- [ ] **Step 3: Escrever as 7 skills e o `AGENTS.md`**; rodar `$PY scripts/sincronizar-skills.py` para inserir o trecho.
-- [ ] **Step 4: Rodar e ver passar** — `$PY -m pytest testes/unidade/test_skills.py testes/unidade/test_agents_md.py -v`; se `skills-ref` estiver disponível (`pip index versions skills-ref`), rodar `skills-ref validate skills/<nome>` em cada uma e registrar.
-- [ ] **Step 5: Teste de leitura com o professor (humano, rápido):** ler a `description` e a seção "Como conversar" em voz alta procurando jargão; trocar o que soar técnico.
-- [ ] **Step 6: Commit** — `git commit -m "feat: sete skills do MVP e AGENTS.md de fallback"`
+- [x] **Step 2: Rodar todos os testes de skills e ver falhar.**
+- [x] **Step 3: Escrever as 7 skills e o `AGENTS.md`**; rodar `$PY scripts/sincronizar-skills.py` para inserir o trecho.
+- [x] **Step 4: Rodar e ver passar** — `$PY -m pytest testes/unidade/test_skills.py testes/unidade/test_agents_md.py -v`; se `skills-ref` estiver disponível (`pip index versions skills-ref`), rodar `skills-ref validate skills/<nome>` em cada uma e registrar.
+- [x] **Step 5: Teste de leitura com o professor (humano, rápido):** ler a `description` e a seção "Como conversar" em voz alta procurando jargão; trocar o que soar técnico.
+- [x] **Step 6: Commit** — `git commit -m "feat: sete skills do MVP e AGENTS.md de fallback"`
 
 ---
 
