@@ -3,12 +3,16 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
+import yaml
+
 from acad import contexto, esquemas
 from acad.arquivos.escrita import Operacao, criar_proposta
 from acad.cli import registrar
 from acad.erros import ErroAcad
 from acad.perfil.detectar import detectar
-from acad.perfil.perfil import carregar_perfil
+from acad.perfil.inferir import inferir_perfil
+from acad.perfil.perfil import ID_PERFIL, carregar_perfil, pasta_perfis_usuario, perfis_disponiveis
+from acad.perfil.validar import validar_perfil_ou_falhar
 from acad.saida import Resultado
 
 
@@ -163,5 +167,80 @@ def _disciplina_estrutura(parser):
         mensagem = (f"Preparei {len(operacoes)} pasta(s) para essa disciplina." if operacoes
                     else "As pastas da disciplina já estão completas.")
         return Resultado(ok=True, mensagem=mensagem, proposta=proposta)
+
+    return executar
+
+
+def _checar_id(id: str) -> None:
+    if not ID_PERFIL.fullmatch(id):
+        raise ErroAcad("perfil-invalido", "O nome do perfil só pode ter letras minúsculas, números e traços.",
+                       id, saida=1)
+
+
+def _propor_perfil(documento: dict, resumo: str) -> dict:
+    validar_perfil_ou_falhar(documento)
+    pasta = pasta_perfis_usuario()
+    pasta.mkdir(parents=True, exist_ok=True)
+    id = documento["perfil"]["id"]
+    tipo = "substituir" if (pasta / f"{id}.yaml").exists() else "criar"
+    return criar_proposta(pasta, [Operacao(tipo, f"{id}.yaml", esquemas.para_yaml(documento).encode("utf-8"),
+                                           "perfil da instituição")], resumo)
+
+
+@registrar("perfil criar", "Monta o perfil da instituição a partir da pasta do semestre")
+def _perfil_criar(parser):
+    parser.add_argument("--raiz", required=True)
+    parser.add_argument("--id", required=True)
+    parser.add_argument("--instituicao", required=True)
+    parser.add_argument("--cor")
+    parser.add_argument("--rodape", action="append")
+    parser.add_argument("--local")
+
+    def executar(args) -> Resultado:
+        _checar_id(args.id)
+        raiz = Path(args.raiz)
+        if not raiz.is_dir():
+            raise ErroAcad("raiz-nao-encontrada", "Não encontrei a pasta do semestre.")
+        if args.cor and not re.fullmatch(r"[0-9A-Fa-f]{6}", args.cor):
+            raise ErroAcad("perfil-invalido", f"A cor “{args.cor}” não é válida; use seis letras ou números, como 1F3A5F.",
+                           args.cor, saida=1)
+        documento, resumo = inferir_perfil(raiz, args.id, args.instituicao, args.cor, args.rodape, args.local)
+        proposta = _propor_perfil(documento, "Confira o perfil da instituição antes de guardar.")
+        mensagem = (f"Reconheci o semestre {resumo['ano']}-{resumo['periodo']} com "
+                    f"{len(resumo['disciplinas'])} disciplinas e preparei o perfil da {args.instituicao}. "
+                    "Posso guardar?")
+        avisos = (["Vou considerar estas pastas da disciplina, que ainda não existem: "
+                   f"{', '.join(resumo['papeis_criados'])}."] if resumo["papeis_criados"] else [])
+        return Resultado(ok=True, mensagem=mensagem, dados={"resumo": resumo}, avisos=avisos, proposta=proposta)
+
+    return executar
+
+
+@registrar("perfil importar", "Traz o perfil da instituição recebido de um colega")
+def _perfil_importar(parser):
+    parser.add_argument("--arquivo", required=True)
+
+    def executar(args) -> Resultado:
+        try:
+            documento = esquemas.carregar_yaml(Path(args.arquivo).read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, yaml.YAMLError) as erro:
+            raise ErroAcad("arquivo-ilegivel", "Não consegui abrir o arquivo do perfil.", str(erro)) from erro
+        validar_perfil_ou_falhar(documento)
+        _checar_id(documento["perfil"]["id"])
+        proposta = _propor_perfil(documento, "Confira o perfil recebido antes de guardar.")
+        return Resultado(ok=True, mensagem=f"O perfil da {documento['perfil']['instituicao']} está certo. Posso guardar?",
+                         proposta=proposta)
+
+    return executar
+
+
+@registrar("perfil listar", "Mostra os perfis de instituição disponíveis")
+def _perfil_listar(parser):
+    def executar(args) -> Resultado:
+        em_uso = contexto.perfil().id
+        perfis = perfis_disponiveis()
+        nomes = ", ".join(perfis)
+        return Resultado(ok=True, mensagem=f"Perfis disponíveis: {nomes}. Em uso: {em_uso}.",
+                         dados={"perfis": perfis, "em_uso": em_uso})
 
     return executar

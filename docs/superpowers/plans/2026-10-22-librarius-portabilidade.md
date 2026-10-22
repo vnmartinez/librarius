@@ -1692,7 +1692,7 @@ git commit -m "feat: perfil da instituição inferido pela organização das pas
 - Consumes: `inferir_perfil`, `problemas_do_perfil`, `validar_perfil_ou_falhar`, `pasta_perfis_usuario`, `perfis_disponiveis`, `criar_proposta`, `Operacao`, `contexto.perfil`.
 - Produces: comandos CLI `perfil criar --raiz R --id I --instituicao T [--cor C] [--rodape L]... [--local X]`, `perfil importar --arquivo A`, `perfil listar`.
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_comando_perfil.py
@@ -1759,12 +1759,12 @@ def test_criar_com_id_invalido(capsys, semestre_neutro):
     assert codigo == 1 and "letras minúsculas" in saida["mensagem"]
 ```
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_comando_perfil.py -v`
 Expected: FAIL (comando desconhecido; `argparse` sai com 2).
 
-- [ ] **Step 3: Implementar em `acad/comandos/perfil.py`**
+- [x] **Step 3: Implementar em `acad/comandos/perfil.py`**
 
 ```python
 from acad.perfil.inferir import inferir_perfil
@@ -1846,12 +1846,12 @@ def _perfil_listar(parser):
 
 Se `esquemas.carregar_yaml` levantar `yaml.YAMLError` para arquivo malformado, capture também e use a mesma mensagem. `aplicar` e `desfazer` recebem `contexto.perfil()`; a substituição vai para `perfis/<pasta_arquivo do perfil em uso>/` — esperado (spec P4).
 
-- [ ] **Step 4: Rodar**
+- [x] **Step 4: Rodar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_comando_perfil.py testes/unidade/test_cli.py testes/integracao/test_mcp.py -v` e `.venv/Scripts/python -m pytest -q`
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add acad/comandos/perfil.py acad/mcp.py testes/unidade/test_comando_perfil.py
