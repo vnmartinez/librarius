@@ -16,7 +16,7 @@ from acad.saida import Resultado
 def _ambiente(parser):
     def executar(args) -> Resultado:
         faltando = []
-        for nome in ("yaml", "jsonschema", "openpyxl"):
+        for nome in ("yaml", "jsonschema", "openpyxl", "icalendar", "pptx", "mcp"):
             try:
                 importlib.import_module(nome)
             except ImportError:

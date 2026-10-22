@@ -5,6 +5,8 @@
   "required": ["tema", "roteiro"],
   "properties": {
     "tema": {"type": "string", "minLength": 1},
+    "professor": {"type": "string"},
+    "periodo": {"type": "string"},
     "roteiro": {
       "type": "object",
       "additionalProperties": false,
@@ -68,7 +70,7 @@
             "type": "object",
             "required": ["tipo"],
             "properties": {
-              "tipo": {"enum": ["capa", "topicos", "codigo", "tabela", "nota"]}
+              "tipo": {"enum": ["capa", "topicos", "codigo", "tabela", "nota", "cards", "fluxo", "referencias"]}
             },
             "additionalProperties": true
           }

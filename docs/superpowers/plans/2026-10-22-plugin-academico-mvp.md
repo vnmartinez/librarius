@@ -2660,11 +2660,11 @@ def test_conteudo_invalido(semestre_sintetico, disc):
 - [x] **Step 2–4:** falhar, implementar, passar.
 - [x] **Step 5: Commit** — `git commit -m "feat: ciclo de status da aula com aprovação do professor"`
 
-### Tarefa 26: Gerador de slides `.pptx` — **BLOQUEADA (D4)**
+### Tarefa 26: Gerador de slides `.pptx` (D4 fechada em 22/10/2026)
 
-**Estado da execução (2026-10-22): BLOQUEADA.** A decisão D4 sobre o modelo visual e a abordagem ainda não está registrada; esta tarefa foi pulada conforme o prompt do executor. `obter_gerador()` permanece bloqueado e a geração dos demais materiais da aula segue disponível.
+**Estado da execução (2026-10-22): FEITA.** O professor fechou a D4: gerador em python-pptx (sem Node), reimplementando o Padrão Visual do modelo UniRV. `obter_gerador(ler_bytes)` devolve `GeradorSlidesPptx`; o bloqueio `GeradorSlidesBloqueado` foi removido. Diferenças em relação ao rascunho abaixo: o construtor é `GeradorSlidesPptx(ler_bytes=None)` e a pasta do modelo entra em `gerar(conteudo, template)` (só para ler os logos de `assets/` pela porta de leitura do workspace; os logos nunca vão para o Git); além dos cinco tipos do rascunho, o gerador cobre `cards`, `fluxo` e `referencias`, e `avisos_editoriais` aplica as regras do padrão (linha-guia, limites, alternância).
 
-Só começar depois que o professor confirmar o modelo de referência (spec §2.1) e a abordagem. O executor **não** decide sozinho: se a decisão não estiver registrada no `ANDAMENTO.md`/spec, pule esta tarefa.
+**Verificação feita:** estrutura e propriedades comparadas com a saída real do `unirv-slides.js` (pptxgenjs, rodado em pasta temporária, Drive só lido): mesmas formas, posições, cores, fontes e textos em capa, tópicos+nota, código, tabela e cards. Sem LibreOffice/PowerPoint na máquina não houve comparação pixel a pixel com `referencia/*.png`.
 
 **Files (abordagem 1, recomendada):**
 - Create: `acad/geracao/slides_pptx.py`
@@ -2675,8 +2675,8 @@ Só começar depois que o professor confirmar o modelo de referência (spec §2.
 - Consumes: contrato `slides` da Tarefa 24; especificação `09 - Modelos/Modelo de Slides UniRV/Padrao Visual de Slides - UniRV Fasoft.md` (lida do workspace em tempo de execução; tokens e medidas transcritos para constantes no código, com comentário citando a seção do documento).
 - Produces: `GeradorSlidesPptx(pasta_modelo: Path).gerar(conteudo, template) -> bytes`.
 
-- [ ] **Step 1: Ler** `Padrao Visual de Slides - UniRV Fasoft.md` inteiro (somente leitura) e listar em `acad/geracao/slides_pptx.py` (docstring) as medidas, a paleta e os componentes que o MVP cobre: capa, tópicos, bloco de código, tabela, nota.
-- [ ] **Step 2: Testes que falham**
+- [x] **Step 1: Ler** `Padrao Visual de Slides - UniRV Fasoft.md` inteiro (somente leitura) e listar em `acad/geracao/slides_pptx.py` (docstring) as medidas, a paleta e os componentes que o MVP cobre: capa, tópicos, bloco de código, tabela, nota.
+- [x] **Step 2: Testes que falham**
 
 ```python
 # testes/unidade/test_slides_pptx.py
@@ -2704,9 +2704,9 @@ def test_titulo_presente():
     assert "Casos" in textos
 ```
 
-- [ ] **Step 3–4:** implementar e passar.
-- [ ] **Step 5: Conferência visual (humana):** gerar um deck de exemplo, abrir no PowerPoint e comparar com `referencia/*.png` do modelo; registrar o resultado no commit.
-- [ ] **Step 6: Commit** — `git commit -m "feat: slides no padrão visual UniRV"`
+- [x] **Step 3–4:** implementar e passar.
+- [ ] **Step 5: Conferência visual (humana, pendente):** gerar um deck de exemplo, abrir no PowerPoint e comparar com `referencia/*.png` do modelo; registrar o resultado no commit.
+- [x] **Step 6: Commit** — `git commit -m "feat: slides no padrão visual UniRV"`
 
 ### Tarefa 27: Gerar avaliação em LaTeX com gabarito (`acad gerar avaliacao`)
 
@@ -3286,5 +3286,5 @@ Esta tarefa instala o plugin nos hosts reais da máquina: **só com autorizaçã
 - Fases em sequência (briefing §0). Dentro da Fase 2: 7→8→9→10→11→12 em ordem; 13→14→15→16→17; 18→19; 20→21→22; 23 após 12; 24→25; 26 **BLOQUEADA (D4)**; 27 após 21; 28 e 29 após 17.
 - D1/D2: não bloqueiam nenhuma tarefa deste plano (ChatGPT recebe só skills; MCP remoto é v3).
 - D3: **fechada em 22/10/2026** (hora-aula de 50 min no perfil Fasoft); a regra de carga julga de verdade.
-- D4: só a Tarefa 26 e o item "quatro aulas com slides" do critério de pronto.
+- D4: **fechada em 22/10/2026** (python-pptx); Tarefa 26 feita. Resta do critério de pronto o caso completo ED2 2027-1 (precisa do calendário 2027-1).
 - Ao fim de cada fase: `$PY -m pytest -m "not drive and not hosts and not rede and not latex" -v` verde, depois os marcadores disponíveis na máquina.

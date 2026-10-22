@@ -9,9 +9,10 @@ from acad.arquivos.escrita import Operacao
 from acad.erros import ErroAcad
 from acad.geracao.nomes import arquivos_da_aula
 from acad.geracao.slides import GeradorSlides
+from acad.geracao.slides_pptx import avisos_editoriais
 from acad.manifestos.hashes import hash_bytes, hash_item, hash_pasta
 from acad.manifestos.manifesto import montar_manifesto
-from acad.planejamento.arquivos import ler_aulas, ler_encontros
+from acad.planejamento.arquivos import ler_aulas, ler_disciplina, ler_encontros
 
 
 _MODELOS = Path(__file__).resolve().parents[2] / "modelos"
@@ -98,21 +99,24 @@ def planejar_aula(ws, semestre: Path, disc: Path, num: str, conteudo: dict,
     if "lista" in conteudo:
         adicionar(nomes["lista"], _lista(conteudo).encode("utf-8"), "lista de atividades")
         aula["lista"] = f"{prefixo}/{nomes['lista']}"
+    pasta_modelos = next((p for p in ws.listar(semestre)
+                          if p.is_dir() and "Modelos" in p.name), None)
     if "slides" in conteudo:
-        try:
-            dados_slides = gerador.gerar(conteudo, None)
-            adicionar(nomes["slides"], dados_slides, "slides da aula")
-            aula["slides"] = f"{prefixo}/{nomes['slides']}"
-        except ErroAcad as erro:
-            if erro.codigo != "decisao-pendente-d4":
-                raise
-            avisos.append("Os slides ficam para depois: ainda falta escolher o modelo.")
+        modelo_slides = None
+        if pasta_modelos is not None:
+            candidato = pasta_modelos / "Modelo de Slides UniRV"
+            modelo_slides = candidato if candidato.is_dir() else None
+        dados_disciplina = ler_disciplina(ws, disc) if ws.existe(disc / "01 - Planejamento" / "disciplina.yaml") else {}
+        contexto = {**conteudo, "aula_id": id_aula, "curso": dados_disciplina.get("nome", "")}
+        adicionar(nomes["slides"], gerador.gerar(contexto, modelo_slides), "slides da aula")
+        aula["slides"] = f"{prefixo}/{nomes['slides']}"
+        avisos += avisos_editoriais(conteudo["slides"]["slides"])
+        if modelo_slides is None:
+            avisos.append("Não achei o modelo de slides na pasta de modelos; os slides saem sem os logotipos.")
 
     aula["tema"] = conteudo["tema"]
     aula["status"] = "rascunho"
     entradas = {f"{prefixo}/01 - Planejamento/aulas.yaml#{id_aula}": hash_item(aula)}
-    pasta_modelos = next((p for p in ws.listar(semestre)
-                          if p.is_dir() and "Modelos" in p.name), None)
     if pasta_modelos and "slides" in aula:
         entradas[pasta_modelos.relative_to(semestre).as_posix()] = hash_pasta(ws, pasta_modelos)
     referencia = disc / "05 - Materiais de Referência"

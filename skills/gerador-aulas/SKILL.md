@@ -29,7 +29,7 @@ metadata:
 2. Escreva o conteúdo (roteiro, exemplos, lista) numa pasta temporária fora dos materiais do professor, seguindo o formato que o núcleo pede.
 3. Rode `acad gerar aula` com `--aula` e `--conteudo`; mostre o resumo e, com o "sim", aplique com `acad aplicar`.
 4. Mudar a situação da aula para revisada ou aprovada: `acad aula status`, somente quando o professor disser.
-5. Se a resposta avisar que os slides ficam para depois, diga isso ao professor e siga com o restante.
+5. Os slides entram na mesma proposta (arquivo .pptx no modelo da instituição). Cada slide de conteúdo leva uma frase-guia que afirma a ideia do slide, e formatos diferentes se alternam (tópicos, código, tabela, cards, fluxo, nota); não passe de 6 tópicos nem de 16 linhas de código por slide. Se a resposta trouxer avisos sobre os slides (sem frase-guia, slides repetidos, texto demais), conserte o conteúdo e gere de novo antes de pedir o "sim".
 
 ## Exemplos de pedidos
 

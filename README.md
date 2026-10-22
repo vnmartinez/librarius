@@ -29,7 +29,7 @@ Claude Code e aplicativo Claude (Cowork), Codex, Antigravity (aplicativo, editor
 
 ## Estado do projeto
 
-MVP em construção. O núcleo, as sete skills e os arquivos de instalação por programa estão prontos e conferidos por testes automáticos. A geração de slides depende da escolha do modelo visual pelo professor, e a instalação real em cada programa ainda será testada na matriz de verificação.
+MVP em construção. O núcleo, as sete skills e os arquivos de instalação por programa estão prontos e conferidos por testes automáticos. Os slides saem no padrão visual da UniRV (os logotipos vêm do modelo que fica nas suas pastas, não deste repositório), e a instalação real em cada programa ainda será testada na matriz de verificação.
 
 ## Licença
 

@@ -7,7 +7,7 @@ from acad.arquivos.privacidade import Workspace
 from acad.erros import ErroAcad
 from acad.geracao.aula import planejar_aula
 from acad.geracao.nomes import arquivos_da_aula, slug
-from acad.geracao.slides import GeradorSlidesBloqueado, GeradorSlidesFalso
+from acad.geracao.slides import GeradorSlidesFalso, obter_gerador
 
 
 DISC = "01 - Disc A - 3º Período"
@@ -53,11 +53,25 @@ def test_planeja_arquivos_e_manifesto(semestre_sintetico, disc):
     assert f"{DISC}/01 - Planejamento/aulas.yaml#Aula 03" in aula["manifesto"]["entradas"]
 
 
-def test_slides_bloqueados_nao_impedem_resto(semestre_sintetico, disc):
+def test_slides_reais_sao_gerados_e_abrem(semestre_sintetico, disc):
+    import io
+    from pptx import Presentation
+
     operacoes, avisos = planejar_aula(Workspace(semestre_sintetico, []), semestre_sintetico,
-                                      disc, "03", CONTEUDO, GeradorSlidesBloqueado(), datetime(2026, 10, 20))
-    assert not any(op.destino.endswith(".pptx") for op in operacoes)
-    assert any("slides ficam para depois" in aviso.lower() for aviso in avisos)
+                                      disc, "03", CONTEUDO, obter_gerador(), datetime(2026, 10, 20))
+    pptx = next(op for op in operacoes if op.destino.endswith(".pptx"))
+    apresentacao = Presentation(io.BytesIO(pptx.conteudo))
+    assert (apresentacao.slide_width, apresentacao.slide_height) == (9144000, 5143500)
+    assert len(apresentacao.slides) == 1
+    assert any("modelo de slides" in aviso.lower() for aviso in avisos)  # sem pasta de modelo, sem logotipos
+
+
+def test_avisos_editoriais_chegam_ao_professor(semestre_sintetico, disc):
+    conteudo = {**CONTEUDO, "slides": {"slides": [
+        {"tipo": "capa"}, {"tipo": "topicos", "titulo": "Casos", "itens": ["a"]}]}}
+    _, avisos = planejar_aula(Workspace(semestre_sintetico, []), semestre_sintetico,
+                              disc, "03", conteudo, obter_gerador(), datetime(2026, 10, 20))
+    assert any("sem linha-guia" in aviso for aviso in avisos)
 
 
 def test_aula_aprovada_recusa(semestre_sintetico, disc):
@@ -103,5 +117,5 @@ def test_cli_gera_proposta_sem_gravar(capsys, semestre_sintetico, disc, tmp_path
     assert codigo == 0
     assert resultado["proposta"] and any("aulas.yaml" in item["destino"]
                                          for item in resultado["proposta"]["itens"])
-    assert any("slides ficam para depois" in aviso.lower() for aviso in resultado["avisos"])
+    assert any(item["destino"].endswith(".pptx") for item in resultado["proposta"]["itens"])
     assert not list((disc / "02 - Aulas").glob("*.md"))

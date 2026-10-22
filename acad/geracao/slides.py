@@ -1,10 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Protocol
-
-from acad.erros import ErroAcad
-from acad.mensagens import msg
+from typing import Callable, Protocol
 
 
 class GeradorSlides(Protocol):
@@ -16,10 +13,8 @@ class GeradorSlidesFalso:
         return b"PPTX-FALSO:" + str(conteudo.get("tema", "")).encode("utf-8")
 
 
-class GeradorSlidesBloqueado:
-    def gerar(self, conteudo: dict, template: Path | None) -> bytes:
-        raise ErroAcad("decisao-pendente-d4", msg("decisao-pendente", assunto="qual modelo de slides usar"), saida=4)
+def obter_gerador(ler_bytes: Callable[[Path], bytes] | None = None) -> GeradorSlides:
+    """Gerador real (D4 fechada em 22/10/2026): python-pptx no padrão visual UniRV."""
+    from acad.geracao.slides_pptx import GeradorSlidesPptx
 
-
-def obter_gerador() -> GeradorSlides:
-    return GeradorSlidesBloqueado()
+    return GeradorSlidesPptx(ler_bytes)

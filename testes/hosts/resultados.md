@@ -35,7 +35,7 @@ Legenda: ok / falhou / não se aplica / **pendente** (aguardando autorização d
 - [x] `acad cronograma consultar` reproduz a skill `cronograma` no Drive real (`pytest -m drive`, 22/10/2026).
 - [ ] Mesmo comando de consulta em Claude Code, Cowork, Codex, Antigravity (app, IDE, CLI) e OpenCode — **pendente de autorização do professor** (instalar altera a configuração dos agentes).
 - [ ] Skills carregam no ChatGPT — **pendente** (formato do envio não confirmado; ver `plataformas/chatgpt/FONTE.md`).
-- [ ] Primeiro caso de uso completo (ED2 2027-1, quatro primeiras aulas com material) — **pendente**: depende de D3 (carga horária), D4 (slides) e do calendário 2027-1.
+- [ ] Primeiro caso de uso completo (ED2 2027-1, quatro primeiras aulas com material) — **pendente** só do calendário 2027-1 (D3 e D4 fechadas em 22/10/2026; o gerador de slides já existe).
 - [ ] Teste com dois professores sem formação técnica — **pendente** (etapa humana).
 
 ## Pontos em aberto da spec §12 (a confirmar na matriz)

@@ -37,7 +37,7 @@ def _gerar_aula(parser):
         except (OSError, UnicodeError, json.JSONDecodeError) as erro:
             raise ErroAcad("conteudo-invalido", "Não consegui ler o arquivo com o conteúdo da aula.", str(erro)) from erro
         operacoes, avisos = planejar_aula(ws, semestre, disc, args.aula, conteudo,
-                                          obter_gerador(), datetime.now().astimezone(), args.revisar)
+                                          obter_gerador(ws.ler_bytes), datetime.now().astimezone(), args.revisar)
         proposta = criar_proposta(semestre, operacoes, "Confira os materiais da aula antes de aplicar.")
         quantidade = len(operacoes) - 1
         return Resultado(ok=True,
