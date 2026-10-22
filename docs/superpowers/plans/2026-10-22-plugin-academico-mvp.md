@@ -413,7 +413,7 @@ git commit -m "feat: envelope de resultado, erros e mensagens simples"
 - Produces: `esquemas.validar(nome: str, documento: dict) -> list[str]` (lista vazia = válido; cada item em português: "campo `turma.horarios[0].inicio`: formato HH:MM"); `esquemas.carregar_yaml(texto: str) -> dict` (`yaml.safe_load`, datas viram `str` ISO antes de validar); `esquemas.validar_ou_falhar(nome, doc) -> None` (levanta `ErroAcad("esquema-invalido", ..., saida=1)`).
 - Os esquemas ficam só em `esquemas/` na raiz do repositório (contrato público). O núcleo roda sempre a partir da raiz do plugin (`PYTHONPATH=<raiz>`, Tarefa 29), então `acad/esquemas.py` os encontra em `Path(__file__).resolve().parents[1] / "esquemas"`.
 
-- [ ] **Step 1: Escrever testes que falham**
+- [x] **Step 1: Escrever testes que falham**
 
 ```python
 # testes/unidade/test_esquemas.py
@@ -476,9 +476,9 @@ def test_todo_esquema_existe_e_e_estrito(nome):
     assert s["$id"].endswith(f"/esquemas/{nome}.schema.json")
 ```
 
-- [ ] **Step 2: Rodar e ver falhar** — `$PY -m pytest testes/unidade/test_esquemas.py -v` → FAIL.
+- [x] **Step 2: Rodar e ver falhar** — `$PY -m pytest testes/unidade/test_esquemas.py -v` → FAIL.
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 Adicionar `jsonschema` já está nas dependências. Escrever os esquemas (draft 2020-12) exatamente com os campos e enums da spec §5. Exemplo completo para `turma` (os demais seguem o mesmo padrão: `additionalProperties: false` em todo objeto, `versao_esquema: {"const": 1}` obrigatório na raiz, padrões `HH:MM` = `^([01]\d|2[0-3]):[0-5]\d$`, data = `^\d{4}-\d{2}-\d{2}$`):
 
@@ -565,9 +565,9 @@ def validar_ou_falhar(nome: str, documento: dict) -> None:
                        "; ".join(erros), saida=1)
 ```
 
-- [ ] **Step 4: Rodar e ver passar** — `$PY -m pytest testes/unidade/test_esquemas.py -v` → PASS.
+- [x] **Step 4: Rodar e ver passar** — `$PY -m pytest testes/unidade/test_esquemas.py -v` → PASS.
 
-- [ ] **Step 5: Commit** — `git add esquemas acad testes && git commit -m "feat: esquemas dos contratos de dados"`
+- [x] **Step 5: Commit** — `git add esquemas acad testes && git commit -m "feat: esquemas dos contratos de dados"`
 
 ### Tarefa 4: Perfil institucional Fasoft
 

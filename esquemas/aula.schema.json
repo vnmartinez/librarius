@@ -1,0 +1,146 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "versao_esquema",
+    "disciplina",
+    "aulas"
+  ],
+  "properties": {
+    "versao_esquema": {
+      "const": 1
+    },
+    "disciplina": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{2,10}$"
+    },
+    "aulas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "tema",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^Aula [0-9]{2}$"
+          },
+          "tema": {
+            "type": "string"
+          },
+          "slides": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "roteiro": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "codigo": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "lista": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "objetivos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "prerequisitos": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^Aula [0-9]{2}$"
+            }
+          },
+          "encontros_necessarios": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "duracao_estimada_min": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "status": {
+            "enum": [
+              "planejada",
+              "rascunho",
+              "revisada",
+              "aprovada",
+              "ministrada"
+            ]
+          },
+          "ministrada_em": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^E[0-9]{2,3}$"
+            }
+          },
+          "manifesto": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "artefatos",
+              "gerado_em",
+              "entradas",
+              "aprovado",
+              "versao_acad"
+            ],
+            "properties": {
+              "artefatos": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "gerado_em": {
+                "type": "string"
+              },
+              "entradas": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                }
+              },
+              "aprovado": {
+                "type": "boolean"
+              },
+              "aprovado_em": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "versao_acad": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/vnmartinez/librarius/esquemas/aula.schema.json"
+}

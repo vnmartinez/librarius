@@ -1,0 +1,164 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "versao_esquema",
+    "calendario"
+  ],
+  "properties": {
+    "versao_esquema": {
+      "const": 1
+    },
+    "calendario": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "semestre",
+        "inicio",
+        "fim",
+        "fonte",
+        "status",
+        "dias",
+        "eventos"
+      ],
+      "properties": {
+        "semestre": {
+          "type": "string",
+          "pattern": "^\\d{4}-[12]$"
+        },
+        "inicio": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "fim": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "fonte": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "tipo"
+          ],
+          "properties": {
+            "tipo": {
+              "enum": [
+                "ics",
+                "xlsx",
+                "manual"
+              ]
+            },
+            "arquivo": {
+              "type": "string"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            }
+          }
+        },
+        "status": {
+          "enum": [
+            "rascunho",
+            "confirmado"
+          ]
+        },
+        "confirmado_em": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "dias": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "data",
+              "tipo"
+            ],
+            "properties": {
+              "data": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              "tipo": {
+                "enum": [
+                  "feriado",
+                  "recesso",
+                  "sabado-letivo",
+                  "troca-de-dia",
+                  "semana-academica",
+                  "avaliacao",
+                  "outro"
+                ]
+              },
+              "descricao": {
+                "type": "string"
+              },
+              "equivale_a": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 7
+              }
+            },
+            "if": {
+              "properties": {
+                "tipo": {
+                  "enum": [
+                    "sabado-letivo",
+                    "troca-de-dia"
+                  ]
+                }
+              },
+              "required": [
+                "tipo"
+              ]
+            },
+            "then": {
+              "required": [
+                "equivale_a"
+              ]
+            }
+          }
+        },
+        "eventos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "inicio",
+              "fim",
+              "tipo"
+            ],
+            "properties": {
+              "inicio": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              "fim": {
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+              },
+              "tipo": {
+                "enum": [
+                  "semana-academica",
+                  "avaliacao",
+                  "outro",
+                  "recesso"
+                ]
+              },
+              "descricao": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/vnmartinez/librarius/esquemas/calendario.schema.json"
+}
