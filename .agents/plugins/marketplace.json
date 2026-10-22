@@ -1,0 +1,9 @@
+{
+  "name": "librarius",
+  "interface": { "displayName": "Librarius" },
+  "plugins": [
+    { "name": "librarius", "source": { "source": "local", "path": "./" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity" }
+  ]
+}

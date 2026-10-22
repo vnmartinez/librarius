@@ -12,6 +12,8 @@ Consulta: 22/10/2026. Reconfirmar antes de gerar ou alterar qualquer manifesto.
 
 ## Fatos verificados
 
+- Esquema Agent Plugins baixado em 22/10/2026 para `plataformas/codex/plugin.schema.json` (usado por `validar_codex`). `category`/`capabilities` não têm lista de valores na página de construção (exemplos: `Productivity`, `Read`, `Write`); `policy.authentication` só mostra `ON_INSTALL`. Marketplace de repositório também é lido em `.claude-plugin/marketplace.json` (compatibilidade).
+
 - Skill = pasta com `SKILL.md` (frontmatter `name` e `description` obrigatórios). Opcionais: `scripts/`, `references/`, `assets/`, `agents/openai.yaml` (`interface`, `policy.allow_implicit_invocation`, `dependencies.tools`).
 - Descoberta de skills de repositório: `.agents/skills` do diretório atual até a raiz do repositório; usuário em `$HOME/.agents/skills`.
 - Manifesto portátil canônico: `plugin.json` **na raiz**, esquema Agent Plugins (obrigatórios `$schema` e `name`; propriedades permitidas: `$schema`, `name`, `version`, `description`, `author`, `homepage`, `repository`, `license`, `keywords`, `extensions`; `additionalProperties: false`). Skills descobertas em `skills/` sem campo no manifesto.

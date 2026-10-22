@@ -90,5 +90,51 @@ def validar_claude(raiz: Path) -> list[str]:
     return achados
 
 
+def validar_codex(raiz: Path) -> list[str]:
+    import jsonschema
+
+    achados: list[str] = []
+    raiz_json = _json(raiz / "plugin.json", achados)
+    if raiz_json is not None:
+        esquema = json.loads((raiz / "plataformas" / "codex" / "plugin.schema.json").read_text(encoding="utf-8"))
+        for erro in jsonschema.Draft202012Validator(esquema).iter_errors(raiz_json):
+            achados.append(f"plugin.json da raiz: {erro.message}")
+        extras = sorted(set(raiz_json) - {"$schema", "name", "description"})
+        if extras:
+            achados.append("plugin.json da raiz só pode ter $schema, name e description (Antigravity): " + ", ".join(extras))
+    m = _json(raiz / ".codex-plugin" / "plugin.json", achados)
+    if m is not None:
+        for chave in ("name", "version", "description"):
+            if not m.get(chave):
+                achados.append(f".codex-plugin: falta {chave}")
+        if m.get("skills") != "./skills/":
+            achados.append(".codex-plugin: skills deve ser ./skills/")
+        interface = m.get("interface") if isinstance(m.get("interface"), dict) else {}
+        for chave in ("displayName", "category"):
+            if not interface.get(chave):
+                achados.append(f".codex-plugin: falta interface.{chave}")
+    mk = _json(raiz / ".agents" / "plugins" / "marketplace.json", achados)
+    if mk is not None:
+        if not mk.get("name"):
+            achados.append("marketplace do Codex sem name")
+        plugins = mk.get("plugins")
+        if not isinstance(plugins, list) or not plugins:
+            achados.append("marketplace do Codex sem plugins")
+        else:
+            p = plugins[0]
+            if p.get("name") != "librarius":
+                achados.append("plugins[0].name deve ser librarius")
+            if p.get("source") != {"source": "local", "path": "./"}:
+                achados.append("plugins[0].source deve ser local com path ./")
+            politica = p.get("policy") if isinstance(p.get("policy"), dict) else {}
+            if politica.get("installation") not in ("AVAILABLE", "INSTALLED_BY_DEFAULT", "NOT_AVAILABLE"):
+                achados.append("policy.installation inválido")
+            if not politica.get("authentication"):
+                achados.append("falta policy.authentication")
+            if not p.get("category"):
+                achados.append("falta category")
+    return achados
+
+
 def validar_todos(raiz: Path) -> dict[str, list[str]]:
-    return {"claude": validar_claude(raiz)}
+    return {"claude": validar_claude(raiz), "codex": validar_codex(raiz)}

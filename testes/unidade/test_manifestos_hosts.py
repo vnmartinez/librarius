@@ -42,3 +42,28 @@ def test_claude_validate_oficial():
         pytest.skip("claude ausente")
     r = subprocess.run(["claude", "plugin", "validate", str(RAIZ), "--strict"], capture_output=True, text=True, encoding="utf-8", errors="replace")
     assert r.returncode == 0 and "Validation passed" in r.stdout, r.stdout + r.stderr
+
+
+def _editar(d, rel, fn):
+    m = d / rel
+    j = json.loads(m.read_text(encoding="utf-8")); fn(j)
+    m.write_text(json.dumps(j), encoding="utf-8")
+
+
+def test_codex_ok():
+    assert manifestos.validar_codex(RAIZ) == []
+
+def test_codex_recusa_version_na_raiz(tmp_path):
+    d = _copia(tmp_path)
+    _editar(d, "plugin.json", lambda j: j.update(version="0.1.0"))
+    assert manifestos.validar_codex(d)
+
+def test_codex_recusa_policy_invalida(tmp_path):
+    d = _copia(tmp_path)
+    _editar(d, ".agents/plugins/marketplace.json", lambda j: j["plugins"][0]["policy"].update(installation="SEMPRE"))
+    assert any("installation" in p for p in manifestos.validar_codex(d))
+
+def test_codex_recusa_sem_category(tmp_path):
+    d = _copia(tmp_path)
+    _editar(d, ".agents/plugins/marketplace.json", lambda j: j["plugins"][0].pop("category"))
+    assert any("category" in p for p in manifestos.validar_codex(d))

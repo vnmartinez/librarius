@@ -3100,10 +3100,10 @@ def test_claude_validate_oficial():
 }
 ```
 
-- [ ] **Step 0:** reler `plataformas/codex/FONTE.md`, https://developers.openai.com/codex/plugins/build.md e https://developers.openai.com/plugins/deploy/submission (campos de `interface` e valores de `category`/`capabilities`); baixar `https://agent-plugins.org/schemas/1.0.0/plugin.schema.json` para `plataformas/codex/plugin.schema.json`.
-- [ ] **Step 1: Testes que falham:** `validar_codex(RAIZ) == []`; cópia com `"version"` no `plugin.json` da raiz falha (regra do Antigravity); cópia com `policy.installation = "SEMPRE"` falha; cópia sem `category` falha.
-- [ ] **Step 2–4:** falhar, implementar, passar.
-- [ ] **Step 5: Commit** — `git commit -m "feat: manifestos do Codex e manifesto portátil na raiz"`
+- [x] **Step 0:** reler `plataformas/codex/FONTE.md`, https://developers.openai.com/codex/plugins/build.md e https://developers.openai.com/plugins/deploy/submission (campos de `interface` e valores de `category`/`capabilities`); baixar `https://agent-plugins.org/schemas/1.0.0/plugin.schema.json` para `plataformas/codex/plugin.schema.json`.
+- [x] **Step 1: Testes que falham:** `validar_codex(RAIZ) == []`; cópia com `"version"` no `plugin.json` da raiz falha (regra do Antigravity); cópia com `policy.installation = "SEMPRE"` falha; cópia sem `category` falha.
+- [x] **Step 2–4:** falhar, implementar, passar.
+- [x] **Step 5: Commit** — `git commit -m "feat: manifestos do Codex e manifesto portátil na raiz"`
 
 ### Tarefa 35: Adaptador Antigravity (app, IDE, CLI)
 
