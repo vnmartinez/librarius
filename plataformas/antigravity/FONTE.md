@@ -17,6 +17,14 @@ Consulta: 22/10/2026. Reconfirmar antes de gerar ou alterar qualquer manifesto.
 - CLI: `agy plugin install https://github.com/<owner>/<repo>`, `agy plugin install <caminho-local>`, `agy plugin list [--json]`, `enable`, `disable`, `uninstall`.
 - Nenhum comando de validação documentado.
 
+## Verificado na CLI instalada (22/10/2026, sem instalar nada)
+
+- `agy plugin --help`: `list [--json]`, `import`, `install <alvo>` (aceita `plugin[@marketplace]`), `uninstall`, `enable`, `disable`, **`validate [path] [--strict] [--json]`** (lê só arquivos), `link`.
+- `agy plugin validate <raiz> --json` no repositório: manifesto `plugin.json` aceito como Agent Plugins (`agentPluginsSpec: true`), 7 skills detectadas, nenhum erro. Aviso (não bloqueia): `AGENTS.md` da raiz "nunca é carregado" pelo Antigravity (regras só vêm de `rules/`); mantido na raiz porque é o texto de reserva para os outros hosts. Com `--strict` esse aviso falha; por isso o teste usa o modo normal.
+- Nota: `plugin.json` com o `$schema` Agent Plugins carrega como plugin Agent Plugins enquanto a flag `enable-agent-plugins-spec` estiver ligada, e como plugin nativo caso contrário.
+- `agy plugin list --json` devolve lista de objetos `name`, `enabled`, `version`, `source`, `path`, `skills`.
+- Atenção: `.agents/plugins/` é também o local de instalação manual do Antigravity no projeto; nele o repositório guarda `marketplace.json` do Codex. Não afeta a validação; reconfirmar na matriz.
+
 ## Conflito a resolver na implementação
 
 - O `plugin.json` da raiz também é o manifesto portátil do Codex (esquema Agent Plugins, que exige `$schema`). Um arquivo só com `$schema`, `name` e `description` satisfaz os dois esquemas no papel. O superpowers usa `.antigravity-plugin/plugin.json`, com campos fora do esquema oficial (`displayName`, `version`, `logo`…), o que a documentação não descreve. A spec adota a raiz e testa as duas formas na fase de matriz.

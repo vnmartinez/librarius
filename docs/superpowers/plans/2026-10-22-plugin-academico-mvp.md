@@ -3112,11 +3112,11 @@ def test_claude_validate_oficial():
 
 **Interfaces:**
 - Produces: `validar_antigravity(raiz) -> list[str]` — `plugin.json` na raiz existe; chaves ⊆ {`$schema`, `name`, `description`}; `name` casa `^[a-zA-Z0-9-_]+$`; `skills/<nome>/SKILL.md` existem. (MCP do Antigravity entra na Tarefa 40.)
-- [ ] **Step 0:** reler https://antigravity.google/docs/plugins?tab=cli; tentar de novo o esquema https://antigravity.google/schemas/v1/plugin.json; registrar resultado.
-- [ ] **Step 1: Testes que falham:** `validar_antigravity(RAIZ) == []`; cópia com `"displayName"` na raiz falha; cópia com nome `"libra rius"` falha.
-- [ ] **Step 2–4:** falhar, implementar, passar.
-- [ ] **Step 5 (`hosts`, sem instalar):** `agy plugin --help` e `agy plugin list --json` para confirmar que a CLI existe e o formato de listagem; registrar no `FONTE.md`. **Não** rodar `agy plugin install` aqui — instalação é na matriz (Tarefa 42), com o professor.
-- [ ] **Step 6: Commit** — `git commit -m "feat: adaptador Antigravity"`
+- [x] **Step 0:** reler https://antigravity.google/docs/plugins?tab=cli; tentar de novo o esquema https://antigravity.google/schemas/v1/plugin.json; registrar resultado.
+- [x] **Step 1: Testes que falham:** `validar_antigravity(RAIZ) == []`; cópia com `"displayName"` na raiz falha; cópia com nome `"libra rius"` falha.
+- [x] **Step 2–4:** falhar, implementar, passar.
+- [x] **Step 5 (`hosts`, sem instalar):** `agy plugin --help` e `agy plugin list --json` para confirmar que a CLI existe e o formato de listagem; registrar no `FONTE.md`. **Não** rodar `agy plugin install` aqui — instalação é na matriz (Tarefa 42), com o professor.
+- [x] **Step 6: Commit** — `git commit -m "feat: adaptador Antigravity"`
 
 ### Tarefa 36: Adaptador OpenCode
 

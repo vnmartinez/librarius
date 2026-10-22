@@ -67,3 +67,29 @@ def test_codex_recusa_sem_category(tmp_path):
     d = _copia(tmp_path)
     _editar(d, ".agents/plugins/marketplace.json", lambda j: j["plugins"][0].pop("category"))
     assert any("category" in p for p in manifestos.validar_codex(d))
+
+
+def test_antigravity_ok():
+    assert manifestos.validar_antigravity(RAIZ) == []
+
+def test_antigravity_recusa_chave_extra(tmp_path):
+    d = _copia(tmp_path)
+    _editar(d, "plugin.json", lambda j: j.update(displayName="Librarius"))
+    assert any("displayName" in p for p in manifestos.validar_antigravity(d))
+
+def test_antigravity_recusa_nome_invalido(tmp_path):
+    d = _copia(tmp_path)
+    _editar(d, "plugin.json", lambda j: j.update(name="libra rius"))
+    assert manifestos.validar_antigravity(d)
+
+
+@pytest.mark.hosts
+def test_antigravity_validate_oficial():
+    import subprocess
+    if not shutil.which("agy"):
+        pytest.skip("agy ausente")
+    r = subprocess.run(["agy", "plugin", "validate", str(RAIZ), "--json"], capture_output=True, text=True, encoding="utf-8", errors="replace")
+    assert r.returncode == 0, (r.stdout or "") + (r.stderr or "")
+    dados = json.loads(r.stdout)
+    assert dados["components"]["skills"] == 7
+    assert not [f for f in dados["findings"] if f["severity"] == "error"]

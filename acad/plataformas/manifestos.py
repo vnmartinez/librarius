@@ -136,5 +136,24 @@ def validar_codex(raiz: Path) -> list[str]:
     return achados
 
 
+def validar_antigravity(raiz: Path) -> list[str]:
+    achados: list[str] = []
+    m = _json(raiz / "plugin.json", achados)
+    if m is not None:
+        extras = sorted(set(m) - {"$schema", "name", "description"})
+        if extras:
+            achados.append("plugin.json só pode ter $schema, name e description: " + ", ".join(extras))
+        if not isinstance(m.get("name"), str) or not re.match(r"^[a-zA-Z0-9-_]+$", m["name"]):
+            achados.append("name deve casar com ^[a-zA-Z0-9-_]+$")
+    skills = raiz / "skills"
+    pastas = [p for p in skills.iterdir() if p.is_dir()] if skills.exists() else []
+    if not pastas:
+        achados.append("não há skills/")
+    for p in pastas:
+        if not (p / "SKILL.md").exists():
+            achados.append(f"falta SKILL.md em skills/{p.name}")
+    return achados
+
+
 def validar_todos(raiz: Path) -> dict[str, list[str]]:
-    return {"claude": validar_claude(raiz), "codex": validar_codex(raiz)}
+    return {"claude": validar_claude(raiz), "codex": validar_codex(raiz), "antigravity": validar_antigravity(raiz)}
