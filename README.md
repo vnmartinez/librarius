@@ -1,31 +1,35 @@
 # Librarius
 
-Plugin para agentes de IA que auxilia professores acadêmicos nas atividades com **arquivos no computador**: organizar material de disciplina, padronizar nomes de PDFs e slides, separar provas e gabaritos por turma/semestre, converter formatos, encontrar documento perdido e montar listas de leitura.
+Assistente de IA para professores universitários. Ajuda a planejar o semestre, preparar aulas e provas e conferir a organização das pastas, **sem conhecimento de programação**: você conversa, o Librarius explica o que vai fazer e só grava depois do seu "sim".
 
 O nome vem do *librarius* romano — o copista e escritor de livros.
 
-## Estado
+## O que faz
 
-Em definição de escopo. Nenhum código de produção escrito ainda.
+- Responde "qual é a minha aula de hoje?" e "tem slide pronto?" a partir do cronograma.
+- Importa o calendário da instituição e a planilha do cronograma, gera os encontros de cada turma e leva as aulas para a agenda.
+- Distribui o programa da disciplina pelos encontros e refaz o plano quando uma aula é cancelada.
+- Prepara o material da aula (roteiro, código de exemplo, lista de exercícios) e provas com gabarito, em versões diferentes.
+- Confere carga horária, feriados, nomes de arquivos e materiais desatualizados. Essas conferências são feitas por programa, não por opinião da IA.
 
-## Público
+## Para quem
 
-Professores do ensino superior que já usam agentes de código no dia a dia.
+Professores do ensino superior, sem formação técnica. Tudo é dito em português simples.
 
-## Agentes alvo
+## Privacidade
 
-| Agente | Distribuição prevista |
-|---|---|
-| OpenCode | plugin nativo (npm `librarius`) |
-| Claude Code | pacote de skill/plugin |
-| Codex | regras + skills |
-| Gemini / Antigravity | regras + skills |
+- **Fica no seu computador:** suas pastas, planilhas, o histórico do que foi alterado e o botão de desfazer.
+- **Vai para o serviço de IA que você usa:** só o texto necessário para cada pedido, como o tema de uma aula ou a lista de datas.
+- **Nunca é lido:** qualquer coisa de alunos (notas, trabalhos, pastas de TFC, relatórios, entregas). Esta versão não trabalha com dados de alunos.
+- Nada é gravado sem a sua aprovação, nada é apagado (o que é substituído vai para uma pasta de arquivo) e tudo pode ser desfeito.
 
-## Próximos passos
+## Programas de IA suportados
 
-- Definir o MVP: 3 a 4 tarefas de arquivo com dor real.
-- Especificação técnica e plano de implementação em `docs/superpowers/`.
-- Implementação com TDD e revisão de código.
+Claude Code e aplicativo Claude (Cowork), Codex, Antigravity (aplicativo, editor e terminal), OpenCode e, de forma limitada (só conversar e redigir), ChatGPT. Veja [INSTALAR.md](INSTALAR.md).
+
+## Estado do projeto
+
+MVP em construção. O núcleo, as sete skills e os arquivos de instalação por programa estão prontos e conferidos por testes automáticos. A geração de slides depende da escolha do modelo visual pelo professor, e a instalação real em cada programa ainda será testada na matriz de verificação.
 
 ## Licença
 

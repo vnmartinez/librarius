@@ -3164,7 +3164,7 @@ def test_claude_validate_oficial():
 
 **Interfaces:**
 - Produces: `INSTALAR.md` com uma seção por superfície (Claude Code, app Claude/Cowork, Codex, Antigravity app/IDE/CLI, OpenCode, ChatGPT), cada uma com o caminho **sem terminal** primeiro (passos na interface gráfica, conforme `FONTE.md`; onde a interface não estiver documentada, dizer "peça ao assistente: 'instale o Librarius a partir de github.com/vnmartinez/librarius'"), e uma seção final `## Para usuários avançados` com todos os comandos de terminal (`claude plugin marketplace add vnmartinez/librarius`, `claude plugin install librarius@librarius`, `codex plugin marketplace add vnmartinez/librarius`, `agy plugin install https://github.com/vnmartinez/librarius`, OpenCode via `.opencode/INSTALAR.md`). `README.md` reescrito para o público do briefing (§1A): o que o Librarius faz, para quem, privacidade em linguagem simples (o que fica no computador, o que vai para o serviço de IA, o que nunca é lido), hosts suportados, estado do projeto, licença.
-- [ ] **Step 1: Teste que falha**
+- [x] **Step 1: Teste que falha**
 
 ```python
 # testes/unidade/test_documentacao.py
@@ -3186,8 +3186,8 @@ def test_readme_publico_certo():
     assert "alunos" in t and "MIT" in t
 ```
 
-- [ ] **Step 2–4:** falhar, escrever, passar.
-- [ ] **Step 5: Commit** — `git commit -m "docs: instalação por host e README para professores"`
+- [x] **Step 2–4:** falhar, escrever, passar.
+- [x] **Step 5: Commit** — `git commit -m "docs: instalação por host e README para professores"`
 
 ---
 
