@@ -1921,7 +1921,7 @@ def _consultar(p):
   - `dia(c, d: date) -> DiaEspecial | None`; `letivo(c, d) -> bool` (False em `feriado`/`recesso`; dia fora de `inicio..fim` também False); `dia_semana_efetivo(c, d) -> int` (`equivale_a` em `sabado-letivo`/`troca-de-dia`, senão `d.isoweekday()`).
   - `confirmar(c, agora: datetime) -> Calendario` — exige `status == "rascunho"` e todo `sabado-letivo`/`troca-de-dia` com `equivale_a`; senão `ErroAcad("calendario-incompleto", "Falta dizer qual dia da semana o sábado letivo de 17/10 substitui.")`.
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_calendario.py
@@ -1962,10 +1962,10 @@ def test_confirmar_muda_status():
 
 (`de_documento(doc, validar=True)` — `validar=False` só para montar o caso inválido do teste; o esquema da Tarefa 3 já recusa `equivale_a` nulo.)
 
-- [ ] **Step 2: Rodar e ver falhar.**
-- [ ] **Step 3: Implementar** `modelo.py` conforme a interface (conversões `date.fromisoformat`; `para_documento` reproduz a ordem de chaves do documento de entrada: `semestre, inicio, fim, fonte, status, confirmado_em, dias, eventos`; omite `descricao` vazia e `equivale_a` nulo).
-- [ ] **Step 4: Rodar e ver passar.**
-- [ ] **Step 5: Commit** — `git commit -m "feat: calendário acadêmico canônico"`
+- [x] **Step 2: Rodar e ver falhar.**
+- [x] **Step 3: Implementar** `modelo.py` conforme a interface (conversões `date.fromisoformat`; `para_documento` reproduz a ordem de chaves do documento de entrada: `semestre, inicio, fim, fonte, status, confirmado_em, dias, eventos`; omite `descricao` vazia e `equivale_a` nulo).
+- [x] **Step 4: Rodar e ver passar.**
+- [x] **Step 5: Commit** — `git commit -m "feat: calendário acadêmico canônico"`
 
 ### Tarefa 14: Importar calendário de ICS e XLSX (`acad calendario importar|confirmar`)
 

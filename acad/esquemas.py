@@ -34,6 +34,10 @@ def carregar_yaml(texto: str) -> dict:
     return _datas_para_texto(yaml.safe_load(texto) or {})
 
 
+def para_yaml(documento: dict) -> str:
+    return yaml.safe_dump(documento, allow_unicode=True, sort_keys=False)
+
+
 def validar(nome: str, documento: dict) -> list[str]:
     validador = Draft202012Validator(carregar_esquema(nome))
     erros = []
