@@ -1903,7 +1903,7 @@ git commit -m "docs: skills orientam a criar o perfil da instituição"
 **Interfaces:**
 - Consumes: todos os comandos CLI (`perfil criar`, `aplicar`, `iniciar`, `perfil detectar`, `disciplina criar`, `validar`, `gerar aula`, `cronograma consultar`) e a fixture `semestre_neutro`.
 
-- [ ] **Step 1: Escrever o teste**
+- [x] **Step 1: Escrever o teste**
 
 ```python
 # testes/integracao/test_outra_instituicao.py
@@ -1982,12 +1982,12 @@ def test_professor_de_outra_instituicao(capsys, semestre_neutro, tmp_path):
 
 Ajustes permitidos ao escrever (confira a forma real antes): o argumento `--aula` de `gerar aula` aceita `01` ou `Aula 01` — use o que os testes de `test_gerar_aula.py`/`test_cli.py` usam; o campo de `validar` que traz os achados (pode ser `dados["achados"]` em vez de `erros`) — confira em `acad/comandos/validar.py` e troque a asserção para "nenhum achado de nível `erro` cujo código comece por `pasta-` ou `nome-`". Não afrouxe as asserções de marca, figura e cor.
 
-- [ ] **Step 2: Rodar e corrigir o que faltar**
+- [x] **Step 2: Rodar e corrigir o que faltar**
 
 Run: `.venv/Scripts/python -m pytest testes/integracao/test_outra_instituicao.py -v`
 Expected: PASS. Se falhar por um literal Fasoft que escapou da Tarefa 7, corrija no código (com teste unitário próprio na tarefa afetada) e registre no commit.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add testes/integracao/test_outra_instituicao.py
