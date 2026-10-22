@@ -42,3 +42,8 @@ def semestre_sintetico(tmp_path) -> Path:
     (semestre / "09 - Modelos").mkdir()
     _mk(semestre / "11-Relatórios" / "rel.docx", "x")
     return semestre
+
+
+@pytest.fixture(autouse=True)
+def bloquear_drive(monkeypatch):
+    monkeypatch.setenv("ACAD_BLOQUEAR_ESCRITA", r"G:\;G:/;/g/")

@@ -1622,7 +1622,7 @@ Se a paridade falhar, a referência é o oráculo: leia a função correspondent
   - Nome no arquivo morto: mesmo nome; se já existir, acrescenta ` - anterior AAAA-MM-DD` antes da extensão (e ` (2)`… se ainda colidir — dentro de `99 - Arquivo` o validador não cobra sufixos).
   - `diario.registrar(entrada: dict)`, `diario.ultima_aplicada() -> dict | None`, `diario.marcar_desfeita(id)` em `dir_dados()/diario.jsonl`.
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/conftest.py (acrescentar, autouse)
@@ -1710,9 +1710,9 @@ def test_proposta_aplicada_duas_vezes(semestre_sintetico):
         aplicar(pr["id"], P)
 ```
 
-- [ ] **Step 2: Rodar e ver falhar.**
+- [x] **Step 2: Rodar e ver falhar.**
 
-- [ ] **Step 3: Implementar** `escrita.py` e `diario.py` conforme a interface. Pontos que os testes cobram: normalizar `destino` com `PurePosixPath`, recusar absoluto e `..`; resolver `(raiz / destino).resolve()` e exigir `is_relative_to(raiz.resolve())`; checar `ACAD_BLOQUEAR_ESCRITA` comparando `str(raiz.resolve()).lower()` e a forma com `/` contra cada prefixo em minúsculas; mover com `os.replace` (mesmo volume) e `shutil.move` como alternativa; o diário guarda, por item, `{"acao": "criado"|"arquivado"|"pasta-criada", "destino", "arquivo_morto", "sha256"}`; `desfazer` percorre os itens ao contrário.
+- [x] **Step 3: Implementar** `escrita.py` e `diario.py` conforme a interface. Pontos que os testes cobram: normalizar `destino` com `PurePosixPath`, recusar absoluto e `..`; resolver `(raiz / destino).resolve()` e exigir `is_relative_to(raiz.resolve())`; checar `ACAD_BLOQUEAR_ESCRITA` comparando `str(raiz.resolve()).lower()` e a forma com `/` contra cada prefixo em minúsculas; mover com `os.replace` (mesmo volume) e `shutil.move` como alternativa; o diário guarda, por item, `{"acao": "criado"|"arquivado"|"pasta-criada", "destino", "arquivo_morto", "sha256"}`; `desfazer` percorre os itens ao contrário.
 
 ```python
 # acad/arquivos/diario.py
@@ -1744,8 +1744,8 @@ def marcar_desfeita(id: str) -> None:
     registrar({"tipo": "desfeita", "id": id})
 ```
 
-- [ ] **Step 4: Rodar e ver passar** — `$PY -m pytest testes/unidade/test_escrita.py -v`.
-- [ ] **Step 5: Commit** — `git commit -m "feat: escrita por proposta com arquivo morto e desfazer"`
+- [x] **Step 4: Rodar e ver passar** — `$PY -m pytest testes/unidade/test_escrita.py -v`.
+- [x] **Step 5: Commit** — `git commit -m "feat: escrita por proposta com arquivo morto e desfazer"`
 
 ### Tarefa 12: CLI base (`ambiente verificar`, `cronograma consultar`, `aplicar`, `desfazer`)
 
