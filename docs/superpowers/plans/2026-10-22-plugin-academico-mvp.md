@@ -579,7 +579,7 @@ def validar_ou_falhar(nome: str, documento: dict) -> None:
 - Consumes: `esquemas.validar_ou_falhar("perfil", doc)`.
 - Produces: `@dataclass(frozen=True) Perfil` com `id, instituicao, disciplina_pasta: re.Pattern, subpastas_disciplina: tuple[str,...], pasta_avaliacoes: re.Pattern, pasta_modelos: re.Pattern, pasta_arquivo: str ("99 - Arquivo"), etapas_avaliacao: tuple[str,...], re_aula: re.Pattern, re_lista: re.Pattern, re_pasta: re.Pattern, sufixos_proibidos: tuple[re.Pattern,...], unidade_carga: str|None, minutos_hora_aula: int|None, exclusao: tuple[str,...]`; `carregar_perfil(id: str = "fasoft") -> Perfil`.
 
-- [ ] **Step 1: Teste que falha**
+- [x] **Step 1: Teste que falha**
 
 ```python
 # testes/unidade/test_perfil.py
@@ -611,9 +611,9 @@ def test_exclusao_cobre_dados_de_aluno():
     assert "*Notas*" in ex and "* - TFC*/02 - Alunos" in ex
 ```
 
-- [ ] **Step 2: Rodar e ver falhar.**
+- [x] **Step 2: Rodar e ver falhar.**
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 ```yaml
 # acad/perfil/perfis/fasoft.yaml
@@ -692,8 +692,8 @@ def carregar_perfil(id: str = "fasoft") -> Perfil:
 
 `acad/perfil/__init__.py` vazio. Confirmar `package-data` inclui `perfil/perfis/*.yaml` e reinstalar: `$PY -m pip install -e ".[teste]"`.
 
-- [ ] **Step 4: Rodar e ver passar.**
-- [ ] **Step 5: Commit** — `git commit -m "feat: perfil institucional Fasoft"`
+- [x] **Step 4: Rodar e ver passar.**
+- [x] **Step 5: Commit** — `git commit -m "feat: perfil institucional Fasoft"`
 
 ### Tarefa 5: Workspace com lista de exclusão (única porta de leitura)
 

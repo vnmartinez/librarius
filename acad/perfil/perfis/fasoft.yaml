@@ -1,0 +1,25 @@
+versao_esquema: 1
+perfil:
+  id: fasoft
+  instituicao: "UniRV — Fasoft"
+  semestre_pasta: "{ano}/{Primeiro|Segundo} Semestre"
+  disciplina_pasta: '^(?P<num>\d{2}) - (?P<nome>.+?)(?: - (?P<periodo>\d+º Período|Turma Especial))?$'
+  subpastas_disciplina: ["01 - Planejamento", "02 - Aulas", "03 - Atividades e Listas",
+                         "04 - Projetos e Entregáveis", "05 - Materiais de Referência",
+                         "06 - Código e Exemplos", "99 - Arquivo"]
+  pasta_arquivo: "99 - Arquivo"
+  pasta_avaliacoes: '^\d{2} - Avaliações$'
+  pasta_modelos: '^\d{2} - Modelos$'
+  etapas_avaliacao: [N1, N2, N3]
+  nomenclatura:
+    aula: '^Aula \d{2} - '
+    lista: '^(Lista|Atividade|Aula) \d{2} - '
+    pasta: '^\d{2} - '
+    sufixos_proibidos: ['\(Revisado\)', '_v\d+\b', '\(v\d+\)', ' - [Cc][oó]pia\b', ' \(\d+\)\.', '\.bak$']
+  carga_horaria: { unidade: null, minutos_hora_aula: null }
+  exclusao:
+    - "*Notas*"
+    - "* - TFC*/02 - Alunos"
+    - "*Relatórios*"
+    - "*/04 - Projetos e Entregáveis"
+    - "* - Estágio"

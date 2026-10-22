@@ -41,6 +41,9 @@
             "type": "string"
           }
         },
+        "pasta_arquivo": {
+          "type": "string"
+        },
         "pasta_avaliacoes": {
           "type": "string"
         },
