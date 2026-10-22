@@ -2467,7 +2467,7 @@ def test_numero_repetido_na_amostra():
 - Consumes: todas as regras das Tarefas 7, 8, 16, 21; `planejamento.arquivos.*`; `carregar_calendario` (opcional: sem `calendario.yaml`, regras de calendário são puladas com `info` "calendário ainda não cadastrado").
 - Produces: `validar_semestre(ws, semestre: Path, perfil, disciplina: Path | None = None) -> list[Achado]` (YAML inválido → `esquema-invalido`, sem derrubar o resto); `resumo_validacao(achados, protegidas: int) -> str` ("Encontrei 3 problemas e 5 avisos." + até 10 itens + `mensagens.msg("pastas-protegidas", n=…)`); CLI `acad validar [<DISC>] [--raiz]` → saída 1 se houver `erro`, `dados.achados` = lista de dicts.
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_validar.py
@@ -2531,11 +2531,11 @@ def test_validar_drive_real_sem_escrever(capsys, monkeypatch):
 
 (O `registro.log` e o estado ficam em `ACAD_DADOS`, que aponta para `tmp_path` — fora do Drive.)
 
-- [ ] **Step 2: Rodar e ver falhar.**
-- [ ] **Step 3: Implementar** `validar_semestre` chamando, por disciplina: nomenclatura/estrutura (uma vez por semestre), leitura tolerante dos YAML (`try`/`ErroAcad` → achado `esquema-invalido` com o nome do arquivo), carga (para cada turma com encontros), dia não letivo, pré-requisitos, cobertura, avaliações, manifestos, número repetido, slide divergente. Ordenar achados por (`nivel` erro→aviso→info, `caminho`, `codigo`).
-- [ ] **Step 4: Rodar e ver passar** — `$PY -m pytest -m "not drive" -v` e depois `$PY -m pytest -m drive -v`.
-- [ ] **Step 5: Registrar o resultado no Drive real** (somente leitura): `$PY -m acad validar --raiz "G:\Meu Drive\Fasoft\2026\Segundo Semestre" > "$SCRATCH/validar-drive.txt"` e colar o resumo (sem nomes de aluno — não deve haver) na descrição do commit.
-- [ ] **Step 6: Commit** — `git commit -m "feat: acad validar sobre o semestre inteiro"`
+- [x] **Step 2: Rodar e ver falhar.**
+- [x] **Step 3: Implementar** `validar_semestre` chamando, por disciplina: nomenclatura/estrutura (uma vez por semestre), leitura tolerante dos YAML (`try`/`ErroAcad` → achado `esquema-invalido` com o nome do arquivo), carga (para cada turma com encontros), dia não letivo, pré-requisitos, cobertura, avaliações, manifestos, número repetido, slide divergente. Ordenar achados por (`nivel` erro→aviso→info, `caminho`, `codigo`).
+- [x] **Step 4: Rodar e ver passar** — `$PY -m pytest -m "not drive" -v` e depois `$PY -m pytest -m drive -v`.
+- [x] **Step 5: Registrar o resultado no Drive real** (somente leitura): `$PY -m acad validar --raiz "G:\Meu Drive\Fasoft\2026\Segundo Semestre" > "$SCRATCH/validar-drive.txt"` e colar o resumo (sem nomes de aluno — não deve haver) na descrição do commit.
+- [x] **Step 6: Commit** — `git commit -m "feat: acad validar sobre o semestre inteiro"`
 
 ### Tarefa 23: Núcleo da configuração guiada (`perfil detectar`, `iniciar`, `disciplina criar`, `turma criar`, `disciplina estrutura`)
 
