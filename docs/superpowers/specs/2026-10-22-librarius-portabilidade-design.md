@@ -165,7 +165,7 @@ exclusao: ["*Notas*", "*notas*", "*NOTAS*", "*Alunos*", "*alunos*", "*Relatório
 - **Slides:** antes de qualquer refatoração, um teste de referência grava os resumos SHA-256 de todas as partes do `.pptx` gerado com o `CONTEUDO` de `testes/unidade/test_slides_pptx.py` e os três logos sintéticos (exceto `docProps/core.xml`, que tem data) em `testes/esperados/slides-fasoft.json`. Depois da refatoração, o mesmo conteúdo gerado com a identidade do perfil fasoft tem os mesmos resumos.
 - **Perfil:** um teste carrega uma cópia v1 literal do `fasoft.yaml` de `d944cbe` (`testes/esperados/perfil-fasoft-v1.yaml`) e prova que é válida e produz o mesmo `Perfil` (estrutura igual) que o `fasoft.yaml` v2, exceto `slides` (neutra no v1) e `modelos` (vazio no v1).
 - **Validação e cronograma:** os testes existentes (`test_validar`, `test_nomenclatura`, `test_consulta`, `test_paridade_cronograma`, `test_drive_somente_leitura`, `test_slides_drive`) continuam verdes com o perfil fasoft explícito.
-- **Testes que dependiam do padrão silencioso:** recebem o perfil fasoft por uma fixture `perfil_fasoft` (grava `configuracao.yaml` com `perfil: fasoft` no `ACAD_DADOS` isolado); nenhum teste deixa de ser executado.
+- **Testes que dependiam do padrão silencioso:** recebem o perfil fasoft por uma fixture `perfil_fasoft`, que troca `acad.contexto.PERFIL_PADRAO` (valor de produção `"neutro"`) por `"fasoft"` via `monkeypatch`; `semestre_sintetico` (árvore no formato Fasoft) depende dela. Chamadas `carregar_perfil()` sem argumento nos testes passam a `carregar_perfil("fasoft")`. Nenhum teste deixa de ser executado.
 
 ## 5. Critérios de aceite
 
