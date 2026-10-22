@@ -28,3 +28,21 @@ Legenda: ok / falhou / não se aplica / **pendente** (aguardando autorização d
 | Antigravity — terminal (`agy`) | — | — | 0.1.0 | pendente | pendente | pendente | pendente | pendente | pendente | |
 | OpenCode (terminal, aplicativo e extensão do editor) | — | — | 0.1.0 | pendente | pendente | pendente | pendente | pendente | pendente | |
 | ChatGPT | — | — | 0.1.0 | pendente | pendente | não se aplica | não se aplica | não se aplica | não se aplica | |
+
+## Critério de pronto do MVP (briefing §15)
+
+- [x] `acad validar` sobre o Segundo Semestre de 2026 real, somente leitura, sem LLM (`pytest -m drive`, 22/10/2026).
+- [x] `acad cronograma consultar` reproduz a skill `cronograma` no Drive real (`pytest -m drive`, 22/10/2026).
+- [ ] Mesmo comando de consulta em Claude Code, Cowork, Codex, Antigravity (app, IDE, CLI) e OpenCode — **pendente de autorização do professor** (instalar altera a configuração dos agentes).
+- [ ] Skills carregam no ChatGPT — **pendente** (formato do envio não confirmado; ver `plataformas/chatgpt/FONTE.md`).
+- [ ] Primeiro caso de uso completo (ED2 2027-1, quatro primeiras aulas com material) — **pendente**: depende de D3 (carga horária), D4 (slides) e do calendário 2027-1.
+- [ ] Teste com dois professores sem formação técnica — **pendente** (etapa humana).
+
+## Pontos em aberto da spec §12 (a confirmar na matriz)
+
+- Codex aceita `path: "./"` no marketplace e substitui `${CLAUDE_PLUGIN_ROOT}` no `.mcp.json`? Qual dos dois (`mcp.json` portátil ou `.mcp.json`) carrega?
+- Antigravity aceita o `plugin.json` da raiz com `$schema` Agent Plugins? (`agy plugin validate` já aceita como Agent Plugins; falta o teste de instalação.) Sem a flag `enable-agent-plugins-spec`, o MCP nativo (`mcp_config.json`) não foi criado por falta de documentação da variável da raiz.
+- OpenCode do professor: estável ou v2? (a máquina de desenvolvimento tem a v2.1.3.)
+- Cowork carrega MCP stdio?
+- Formato do envio de skills ao ChatGPT.
+- No Windows, `python` pode não existir no PATH (usar `py -3`); o `.mcp.json` assume `python`.

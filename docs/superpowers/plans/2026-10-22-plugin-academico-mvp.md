@@ -3260,6 +3260,8 @@ Acrescentar a `test_manifestos_hosts.py`: `.mcp.json` válido (Claude: `mcpServe
 
 ### Tarefa 42: Execução da matriz e critério de pronto (humano + agente)
 
+> **Estado (22/10/2026):** só as verificações automáticas não invasivas foram feitas (ver `testes/hosts/resultados.md`). Os Steps 1–3 e os itens humanos do Step 4 ficam **pendentes de autorização do professor**: nada foi instalado em nenhum host.
+
 Esta tarefa instala o plugin nos hosts reais da máquina: **só com autorização explícita do professor**, porque altera a configuração dos agentes dele. Leitura do Drive continua somente leitura.
 
 **Files:**
@@ -3269,8 +3271,8 @@ Esta tarefa instala o plugin nos hosts reais da máquina: **só com autorizaçã
 - [ ] **Step 2:** para cada host autorizado, seguir o roteiro (caminho sem terminal primeiro; avançado se a interface não permitir) e preencher `resultados.md`.
 - [ ] **Step 3:** confirmar os pontos em aberto da spec §12: Codex aceita `path: "./"` e substitui `${CLAUDE_PLUGIN_ROOT}` no `.mcp.json`?; Antigravity aceita o `plugin.json` da raiz com `$schema` Agent Plugins? (se não: testar `.antigravity-plugin/plugin.json` e registrar); OpenCode estável ou v2?; Cowork carrega MCP stdio? Cada resposta vai para o `FONTE.md` do host; se exigir mudança de manifesto, abrir tarefa nova (TDD) antes de seguir.
 - [ ] **Step 4: Critério de pronto do MVP (briefing §15), checklist:**
-  - [ ] `acad validar` roda sem LLM sobre o Segundo Semestre de 2026 real (somente leitura) — Tarefa 22.
-  - [ ] `acad cronograma consultar` reproduz a skill `cronograma` no Drive real — Tarefa 10 (`-m drive`).
+  - [x] `acad validar` roda sem LLM sobre o Segundo Semestre de 2026 real (somente leitura) — Tarefa 22 (`-m drive`, verde em 22/10/2026).
+  - [x] `acad cronograma consultar` reproduz a skill `cronograma` no Drive real — Tarefa 10 (`-m drive`, verde em 22/10/2026).
   - [ ] O mesmo comando de consulta roda em Claude Code, Claude Cowork, Codex, Antigravity (app, IDE e CLI) e OpenCode — `resultados.md`.
   - [ ] As skills carregam no ChatGPT — `resultados.md`.
   - [ ] Primeiro caso de uso completo: ED2 2027-1 até as quatro primeiras aulas com material gerado, validado e aprovado — **depende de D3 (carga) e D4 (slides)** e do calendário 2027-1; registrar como pendente se as decisões não vierem.
