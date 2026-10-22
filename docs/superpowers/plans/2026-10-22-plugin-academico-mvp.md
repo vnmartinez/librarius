@@ -1266,7 +1266,7 @@ def validar_estrutura(ws, semestre: Path, perfil) -> list[Achado]:
   - `linhas_na_data(conteudo: bytes, alvo: date) -> list[LinhaCronograma]` — **comportamento do oráculo**: aba ativa, linhas 1..min(max_row,149), colunas 1..min(max_col,6), a linha casa se qualquer célula for a data; `aula` = col. 4 ou col. 3; `topico` col. 5; `semana` col. 2 (sem herdar); `aula_num` = `re.search(r"Aula\s*(\d+)", aula, I)` com `zfill(2)`.
   - `ler_cronograma(conteudo: bytes, ano_padrao: int) -> list[LinhaCronograma]` — leitura por cabeçalho (linha com células `Datas` e `Aulas`, sem acento e sem diferenciar maiúsculas; tópicos em `Tópicos`/`Topicos`, semana em `Semanas`), todas as linhas até a primeira sem data e sem aula, **semana herdada** da linha anterior quando vazia. Sem cabeçalho → `ErroAcad("planilha-sem-cabecalho", "Não reconheci as colunas da planilha do cronograma (Datas, Aulas, Tópicos).")`.
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_planilha.py
@@ -1306,9 +1306,9 @@ def test_sem_cabecalho():
     assert e.value.codigo == "planilha-sem-cabecalho"
 ```
 
-- [ ] **Step 2: Rodar e ver falhar.**
+- [x] **Step 2: Rodar e ver falhar.**
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 ```python
 # acad/cronograma/planilha.py
@@ -1387,8 +1387,8 @@ def ler_cronograma(conteudo: bytes, ano_padrao: int) -> list[LinhaCronograma]:
     return saida
 ```
 
-- [ ] **Step 4: Rodar e ver passar.**
-- [ ] **Step 5: Commit** — `git commit -m "feat: leitura da planilha de cronograma"`
+- [x] **Step 4: Rodar e ver passar.**
+- [x] **Step 5: Commit** — `git commit -m "feat: leitura da planilha de cronograma"`
 
 ### Tarefa 10: Consulta "aula de hoje" com paridade da skill `cronograma`
 
