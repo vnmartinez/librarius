@@ -82,11 +82,11 @@ Run: `.venv/Scripts/python -c "import pptx; print(pptx.__version__)"` e anote a 
 **Interfaces:**
 - Produces: `resumos(dados: bytes) -> dict[str, str]`; `gerar_referencia() -> bytes` (gera o `.pptx` fasoft com conteúdo e logos fixos); `ARQUIVO_REFERENCIA: Path`. A Tarefa 4 troca só a função que constrói o gerador.
 
-- [ ] **Step 1: Copiar o perfil v1**
+- [x] **Step 1: Copiar o perfil v1**
 
 Run: `git show d944cbe:acad/perfil/perfis/fasoft.yaml > testes/esperados/perfil-fasoft-v1.yaml` (Bash). Confira que o arquivo começa com `versao_esquema: 1`.
 
-- [ ] **Step 2: Escrever a ferramenta**
+- [x] **Step 2: Escrever a ferramenta**
 
 ```python
 # testes/ferramentas/referencia_slides.py
@@ -139,12 +139,12 @@ if __name__ == "__main__":
     print(ARQUIVO_REFERENCIA)
 ```
 
-- [ ] **Step 3: Gravar a referência com o código de `d944cbe`**
+- [x] **Step 3: Gravar a referência com o código de `d944cbe`**
 
 Run: `git diff --quiet d944cbe -- acad && .venv/Scripts/python testes/ferramentas/referencia_slides.py`
 Expected: imprime o caminho do JSON; o `git diff` não acusa mudança em `acad/` (garante que a referência vem do código original).
 
-- [ ] **Step 4: Escrever o teste de compatibilidade**
+- [x] **Step 4: Escrever o teste de compatibilidade**
 
 ```python
 # testes/unidade/test_compat_fasoft.py
@@ -164,12 +164,12 @@ def test_slides_fasoft_identicos_a_referencia():
     assert resumos(gerar_referencia()) == referencia["partes"]
 ```
 
-- [ ] **Step 5: Rodar**
+- [x] **Step 5: Rodar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_compat_fasoft.py -v`
 Expected: PASS (mesmo código que gerou a referência). Rode duas vezes para confirmar que a geração é determinística.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add testes/ferramentas/referencia_slides.py testes/esperados/slides-fasoft.json testes/esperados/perfil-fasoft-v1.yaml testes/unidade/test_compat_fasoft.py
