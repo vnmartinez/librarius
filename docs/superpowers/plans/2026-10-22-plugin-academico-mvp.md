@@ -3253,10 +3253,10 @@ Acrescentar a `test_manifestos_hosts.py`: `.mcp.json` válido (Claude: `mcpServe
 **Interfaces:**
 - Produces: cada roteiro com (a) pré-requisitos; (b) **caminho do professor, sem terminal** (passo a passo na interface do host, baseado no `FONTE.md`); (c) caminho avançado (comandos do `INSTALAR.md`); (d) as seis checagens da spec §15 com o resultado esperado e onde anotar: 1) plugin aparece instalado; 2) a skill `usando-agente-academico` carrega ("o que você sabe fazer?"); 3) `acad ambiente verificar` roda pelo lançador; 4) "qual a aula de hoje de Estrutura de Dados 2?" (ou `--data` fixa) bate com a saída do oráculo para a mesma data; 5) leitura do Drive real em modo leitura (hosts locais); 6) ferramentas MCP aparecem (onde houver). `resultados.md`: tabela host × checagem com data, versão do host, versão do plugin, resultado (ok / falhou / não se aplica) e observação. `ChatGPT`: só checagens 1–2 (skills carregam), 4 e 5 = "não se aplica (D1/D2)".
 - `testes/integracao/test_hosts.py` (marcador `hosts`, só comandos que **não alteram** a configuração do usuário): `claude plugin validate . --strict`; `codex plugin marketplace --help` e `codex plugin marketplace list` (só leitura); `agy plugin list --json`; `opencode --version`. Cada um pulado se a CLI não existir.
-- [ ] **Step 1: Escrever `test_hosts.py`** e rodar `$PY -m pytest -m hosts -v`; registrar a saída em `resultados.md` (seção "verificações automáticas").
-- [ ] **Step 2: Escrever os oito roteiros e `resultados.md`** (tabela vazia).
-- [ ] **Step 3: Revisar** os roteiros contra os `FONTE.md`: nenhum passo de interface que não esteja documentado; onde não houver documentação, o passo é "peça ao assistente para instalar a partir do endereço do repositório".
-- [ ] **Step 4: Commit** — `git commit -m "test: roteiros da matriz de instalação por host"`
+- [x] **Step 1: Escrever `test_hosts.py`** e rodar `$PY -m pytest -m hosts -v`; registrar a saída em `resultados.md` (seção "verificações automáticas").
+- [x] **Step 2: Escrever os oito roteiros e `resultados.md`** (tabela vazia).
+- [x] **Step 3: Revisar** os roteiros contra os `FONTE.md`: nenhum passo de interface que não esteja documentado; onde não houver documentação, o passo é "peça ao assistente para instalar a partir do endereço do repositório".
+- [x] **Step 4: Commit** — `git commit -m "test: roteiros da matriz de instalação por host"`
 
 ### Tarefa 42: Execução da matriz e critério de pronto (humano + agente)
 
