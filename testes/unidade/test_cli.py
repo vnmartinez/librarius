@@ -42,7 +42,7 @@ def test_desfazer_sem_nada(capsys):
     assert codigo == 0 and "Não há alteração" in resultado["mensagem"]
 
 
-def test_erro_inesperado_vai_para_registro(capsys, monkeypatch):
+def test_erro_inesperado_vai_para_registro(capsys, monkeypatch, perfil_fasoft):
     import acad.cronograma.consulta as consulta
 
     monkeypatch.setattr(consulta, "consultar", lambda *args, **kwargs: 1 / 0)

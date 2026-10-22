@@ -8,7 +8,7 @@ AMOSTRA = Path(__file__).resolve().parents[1] / "amostras" / "fasoft"
 
 
 def test_encontra_raiz_subindo():
-    assert encontrar_raiz(AMOSTRA / "2026" / "Segundo Semestre") == AMOSTRA
+    assert encontrar_raiz(AMOSTRA / "2026" / "Segundo Semestre", carregar_perfil("fasoft")) == AMOSTRA
 
 
 def test_palavras_chave_sem_acento_e_stopwords():

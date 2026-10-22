@@ -8,6 +8,7 @@ from acad.arquivos.caminhos import sem_acento
 from acad.arquivos.privacidade import Workspace
 from acad.cronograma.classificar import tipo_linha
 from acad.cronograma.planilha import linhas_na_data
+from acad.erros import ErroAcad
 
 STOPWORDS = {
     "para", "como", "sobre", "pela", "pelo", "com", "sem", "das", "dos",
@@ -18,18 +19,39 @@ EXT_DOC = (".md", ".docx", ".doc", ".txt")
 DIAS = ["Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado", "Domingo"]
 
 
-def encontrar_raiz(inicio: Path) -> Path | None:
+def semestre_valido(pasta: Path, perfil) -> bool:
+    if not pasta.is_dir() or perfil.semestre_de(pasta) is None:
+        return False
+    from acad.validacao.nomenclatura import disciplinas
+    try:
+        return bool(disciplinas(Workspace(pasta, perfil.exclusao), pasta, perfil))
+    except (OSError, ErroAcad):
+        return False
+
+
+def _semestre_em(pasta: Path, perfil, profundidade: int = 2) -> Path | None:
+    if semestre_valido(pasta, perfil):
+        return pasta
+    if profundidade == 0 or not pasta.is_dir():
+        return None
+    try:
+        filhos = Workspace(pasta, perfil.exclusao).listar(pasta)
+    except (OSError, ErroAcad):
+        return None
+    for filho in filhos:
+        if filho.is_dir() and not filho.name.startswith("."):
+            achado = _semestre_em(filho, perfil, profundidade - 1)
+            if achado is not None:
+                return achado
+    return None
+
+
+def encontrar_raiz(inicio: Path, perfil) -> Path | None:
     atual = Path(inicio).resolve()
     while True:
-        arquivo = atual / "AGENTS.md"
-        if arquivo.exists():
-            try:
-                if "Fasoft" in arquivo.read_text(encoding="utf-8"):
-                    return atual
-            except OSError:
-                pass
-        if atual.name.lower() == "fasoft" and ((atual / ".agents").exists() or (atual / "2026").exists()):
-            return atual
+        semestre = _semestre_em(atual, perfil)
+        if semestre is not None:
+            return perfil.base_semestre(semestre)
         if atual.parent == atual:
             return None
         atual = atual.parent

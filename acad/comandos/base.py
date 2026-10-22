@@ -41,7 +41,8 @@ def _consultar(parser):
 
     def executar(args) -> Resultado:
         alvo = ler_data(args.data)
-        raiz = consulta.encontrar_raiz(Path(args.raiz) if args.raiz else contexto.raiz_padrao_consulta())
+        raiz = consulta.encontrar_raiz(Path(args.raiz) if args.raiz else contexto.raiz_padrao_consulta(),
+                                      contexto.perfil())
         if raiz is None:
             raise ErroAcad("raiz-nao-encontrada", mensagens.msg("raiz-nao-encontrada"), saida=3)
         resultado = consulta.consultar(raiz, alvo, contexto.perfil())

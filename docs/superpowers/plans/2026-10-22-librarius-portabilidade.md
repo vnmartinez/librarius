@@ -1289,7 +1289,7 @@ git commit -m "refactor: nomes de subpasta e período lidos do perfil"
 - Consumes: `Perfil.semestre_de`, `base_semestre`, `disciplinas` (de `acad.validacao.nomenclatura`).
 - Produces: `encontrar_raiz(inicio: Path, perfil: Perfil) -> Path | None`; `semestre_valido(pasta: Path, perfil: Perfil) -> bool` (em `consulta.py`); `detectar(raiz, perfil)` devolve também `"raiz"` (mesmo valor de `"raiz_fasoft"`).
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_raiz_estrutura.py
@@ -1335,12 +1335,12 @@ def test_detectar_outra_instituicao(semestre_neutro):
 
 Atualize `testes/unidade/test_consulta.py:11` para `encontrar_raiz(AMOSTRA / "2026" / "Segundo Semestre", carregar_perfil("fasoft")) == AMOSTRA`.
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_raiz_estrutura.py testes/unidade/test_consulta.py -v`
 Expected: FAIL (`encontrar_raiz() takes 1 positional argument`).
 
-- [ ] **Step 3: `encontrar_raiz`**
+- [x] **Step 3: `encontrar_raiz`**
 
 ```python
 def semestre_valido(pasta: Path, perfil) -> bool:
@@ -1376,7 +1376,7 @@ def encontrar_raiz(inicio: Path, perfil) -> Path | None:
 
 Se `Workspace.listar` falhar em pasta sem permissão, envolva o `for` em `try/except OSError: return None`. `acad/comandos/base.py:44`: `consulta.encontrar_raiz(..., contexto.perfil())`.
 
-- [ ] **Step 4: Reescrever `detectar.py`**
+- [x] **Step 4: Reescrever `detectar.py`**
 
 ```python
 from __future__ import annotations
@@ -1441,12 +1441,12 @@ def detectar(raiz: Path, perfil) -> dict:
 
 Diferenças conscientes frente ao MVP (registre no commit): `raiz` nova; com o fasoft, a pasta de administração (`00 - …`) nunca casava `disciplina_pasta` com `01 - Planejamento` dentro, então pular `re_administracao` não muda o resultado. Se `semestre_valido` não for usado aqui, não o importe. Confira se `relativo_posix` aceita base `None`; se `base` for `None` não há semestres, então o laço não roda.
 
-- [ ] **Step 5: Rodar**
+- [x] **Step 5: Rodar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_raiz_estrutura.py testes/unidade/test_consulta.py testes/unidade/test_configuracao_guiada.py testes/integracao/test_paridade_cronograma.py -v`, `.venv/Scripts/python -m pytest -q`, `.venv/Scripts/python -m pytest -q -m drive`
 Expected: PASS.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add acad/perfil/detectar.py acad/cronograma/consulta.py acad/comandos/base.py testes
