@@ -2154,7 +2154,7 @@ E um teste de CLI que monta `turma-TA.yaml`, `calendario.yaml` confirmado e `dis
 **Interfaces:**
 - Produces: `minutos_validos(encontros) -> int` (soma de `minutos` com status ≠ `cancelado`); `em_unidade(minutos: int, unidade: str, minutos_hora_aula: int | None) -> float` (`hora_relogio`: /60; `hora_aula`: /`minutos_hora_aula`); `verificar_carga(encontros, carga_horaria: dict) -> list[Achado]` — `unidade` nula → `carga-unidade-nao-confirmada` (aviso, mensagem cita D3 em linguagem simples: "Ainda falta você me dizer se a carga da disciplina é contada em hora-aula ou em hora cheia."); senão compara com `valor` (tolerância 0,01) → `carga-horaria-incompativel` (erro) com "faltam X h" ou "sobram X h" na unidade declarada.
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_carga.py
@@ -2188,8 +2188,8 @@ def test_unidade_pendente_d3():
     assert a.codigo == "carga-unidade-nao-confirmada" and a.nivel == "aviso"
 ```
 
-- [ ] **Step 2–4:** falhar, implementar, passar (formatar horas com vírgula decimal: `f"{x:.1f}".replace(".", ",").removesuffix(",0")`).
-- [ ] **Step 5: Commit** — `git commit -m "feat: verificação de carga horária nas duas unidades"`
+- [x] **Step 2–4:** falhar, implementar, passar (formatar horas com vírgula decimal: `f"{x:.1f}".replace(".", ",").removesuffix(",0")`).
+- [x] **Step 5: Commit** — `git commit -m "feat: verificação de carga horária nas duas unidades"`
 
 ### Tarefa 17: Importar cronograma `.xlsx` para YAML (`acad cronograma importar`)
 
