@@ -2737,9 +2737,9 @@ def test_titulo_presente():
 
 **Interfaces:**
 - Produces: `exportar_ics(encontros: list[Encontro], disciplina_nome: str, turma: str, fuso: str, aulas: dict[str, str]) -> bytes` — um `VEVENT` por encontro não cancelado; `UID` estável `<disciplina-slug>-<turma>-<data>-<inicio>@librarius`; `SUMMARY` "Estrutura de Dados 2 (TA) — Aula 03: Rotações AVL" (ou "Avaliação"); `DTSTART`/`DTEND` com `TZID` do fuso; `PRODID:-//Librarius//acad//PT`. CLI `acad exportar ics <DISC> --turma TA` → proposta criando/substituindo `01 - Planejamento/Cronograma - <Disciplina> - TA.ics`.
-- [ ] **Step 1: Testes que falham** — reabrir com `icalendar` e conferir número de eventos (cancelados fora), UID estável entre duas exportações, horário 19:00 em `America/Sao_Paulo`.
-- [ ] **Step 2–4:** falhar, implementar, passar.
-- [ ] **Step 5: Commit** — `git commit -m "feat: exportação do cronograma para agenda"`
+- [x] **Step 1: Testes que falham** — reabrir com `icalendar` e conferir número de eventos (cancelados fora), UID estável entre duas exportações, horário 19:00 em `America/Sao_Paulo`.
+- [x] **Step 2–4:** falhar, implementar, passar.
+- [x] **Step 5: Commit** — `git commit -m "feat: exportação do cronograma para agenda"`
 
 ### Tarefa 29: Regenerar a planilha do cronograma a partir do modelo (`acad cronograma exportar-planilha`)
 
