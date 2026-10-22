@@ -2750,9 +2750,9 @@ def test_titulo_presente():
 
 **Interfaces:**
 - Produces: `exportar_planilha(titulo: str, encontros: list[Encontro], aulas: dict[str, dict]) -> bytes` — mesmo leiaute da planilha real (título em B1, cabeçalho na linha 3 `Semanas | Datas | Aulas | Tópicos` em B–E, dados a partir da linha 4, uma linha por encontro, "Semana N" só na primeira linha de cada semana ISO, encontro cancelado com o motivo em Tópicos, avaliação com "AVALIAÇÃO"). CLI `acad cronograma exportar-planilha <DISC> --turma TA` → proposta **substituindo** `Cronograma - <Disciplina>.xlsx` (a versão anterior vai para `99 - Arquivo` pela regra da Tarefa 11).
-- [ ] **Step 1: Teste que falha (ida e volta):** `importar_cronograma(ler_cronograma(exportar_planilha(...)))` reproduz os mesmos encontros (data, aulas, função, status) e as mesmas aulas da importação da amostra real.
-- [ ] **Step 2–4:** falhar, implementar, passar.
-- [ ] **Step 5: Commit** — `git commit -m "feat: planilha do cronograma regenerada a partir do plano"`
+- [x] **Step 1: Teste que falha (ida e volta):** `importar_cronograma(ler_cronograma(exportar_planilha(...)))` reproduz os mesmos encontros (data, aulas, função, status) e as mesmas aulas da importação da amostra real.
+- [x] **Step 2–4:** falhar, implementar, passar.
+- [x] **Step 5: Commit** — `git commit -m "feat: planilha do cronograma regenerada a partir do plano"`
 
 ---
 
