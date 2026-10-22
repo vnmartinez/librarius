@@ -2348,7 +2348,7 @@ def test_resumo_em_portugues():
 - Consumes: `Workspace`, `relativo_posix`, `nfc`.
 - Produces (spec §6): `hash_bytes(b: bytes) -> str` (`"sha256:" + hex`); `hash_item(obj: dict, ignorar=("manifesto",)) -> str` (JSON canônico `sort_keys=True, ensure_ascii=False, separators=(",", ":")`, UTF-8); `hash_pasta(ws, pasta: Path) -> str` (lista ordenada `[rel_posix_nfc, hash_bytes]`, ignora `~$*`, `node_modules`, `.git`); `hash_entrada(ws, semestre: Path, chave: str, itens: dict[str, dict] | None = None) -> str | None` (chave `"<rel>#<id>"` → item de `aulas.yaml`; pasta → `hash_pasta`; arquivo → `hash_bytes`; inexistente → `None`); `montar_manifesto(artefatos: list[str], entradas: dict[str, str], versao: str, agora: datetime) -> dict` (`aprovado: False`, `aprovado_em: None`); `divergencias(manifesto: dict, calcular: Callable[[str], str | None]) -> list[str]` (chaves cujo hash atual ≠ registrado, inclusive `None`).
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_manifestos.py
@@ -2382,8 +2382,8 @@ def test_divergencias():
     assert divergencias(m, {"a": "sha256:1"}.get) == ["b"]
 ```
 
-- [ ] **Step 2–4:** falhar, implementar, passar. `gerado_em` com fuso: `agora.astimezone().isoformat(timespec="seconds")`.
-- [ ] **Step 5: Commit** — `git commit -m "feat: hashes e manifestos de artefatos"`
+- [x] **Step 2–4:** falhar, implementar, passar. `gerado_em` com fuso: `agora.astimezone().isoformat(timespec="seconds")`.
+- [x] **Step 5: Commit** — `git commit -m "feat: hashes e manifestos de artefatos"`
 
 ### Tarefa 21: Regras de planejamento
 
