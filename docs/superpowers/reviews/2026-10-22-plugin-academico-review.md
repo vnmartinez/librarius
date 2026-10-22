@@ -170,3 +170,121 @@ Nenhum defeito impeditivo ou desvio não planejado encontrado.
 ## 6. Conclusão da Revisão
 
 A branch `vnmartinez/plugin-academico-mvp` cumpriu com distinção todos os objetivos do MVP. O código está robusto, elegantemente documentado e pronto para ser integrado à branch principal (`main`).
+
+
+---
+
+## 7. Rodada 2 — D3 e D4
+
+**Data:** 22/10/2026  
+**Revisor:** Antigravity (Processo 3 do ciclo orquestrado)  
+**Commits auditados:** `d307538` (D3 fechada) e `5fd8a0e` (D4 fechada; Tarefa 26)  
+**HEAD da branch:** `5fd8a0e`  
+**Árvore:** Limpa (`working tree clean`)
+
+### 7.1 Veredito da Rodada 2
+
+**Veredito:** `Ready to merge`
+
+As decisões D3 e D4 foram formalmente fechadas pelo professor e implementadas com total aderência às especificações e contratos. A Tarefa 26 (slides `.pptx`) saiu do bloqueio e foi concluída com excelência. Todos os 324 testes automatizados estão verdes, mantendo intactas todas as garantias de privacidade, isolamento de dados de alunos e integridade do Drive.
+
+---
+
+### 7.2 Evidências dos Comandos (Execução Literal)
+
+#### Suíte Padrão de Testes
+```
+$ .venv/Scripts/python -m pytest -q
+........................................................................ [ 23%]
+........................................................................ [ 46%]
+........................................................................ [ 69%]
+........................................................................ [ 92%]
+........................                                                 [100%]
+312 passed, 12 deselected in 110.26s (0:01:50)
+```
+
+#### Marcador `drive` (3 testes executados contra o Drive real em modo estritamente leitura)
+```
+$ .venv/Scripts/python -m pytest -q -m drive
+...                                                                      [100%]
+3 passed, 321 deselected in 24.95s
+```
+
+#### Marcador `hosts` (Validações não invasivas de CLIs)
+```
+$ .venv/Scripts/python -m pytest -q -m hosts
+.......                                                                  [100%]
+7 passed, 317 deselected in 11.89s
+```
+
+#### Marcador `rede` (Lançador stdlib e venv isolado)
+```
+$ .venv/Scripts/python -m pytest -q -m rede
+.                                                                        [100%]
+1 passed, 323 deselected in 69.11s (0:01:09)
+```
+
+#### Marcador `latex` (Compilação real em PDF)
+```
+$ .venv/Scripts/python -m pytest -q -m latex
+.                                                                        [100%]
+1 passed, 323 deselected in 4.98s
+```
+
+**Total geral de testes verificados na Rodada 2:** **324 testes aprovados** (312 padrão + 3 drive + 7 hosts + 1 rede + 1 latex). Zero falhas, zero erros.
+
+#### Verificações de Ambiente, Versão e Manifestos
+- `.venv/Scripts/python scripts/acad.py ambiente verificar --json`: `{"ok": true, "dados": {"python": "3.14.7", "faltando": []}}`.
+- `.venv/Scripts/python scripts/sincronizar-versao.py --verificar`: `0.1.0` sincronizada em todos os manifestos.
+- `.venv/Scripts/python scripts/sincronizar-skills.py --verificar`: exit 0; 7 skills sincronizadas.
+- `.venv/Scripts/python scripts/validar-manifestos.py`: `claude: ok`, `codex: ok`, `antigravity: ok`, `opencode: ok`.
+
+---
+
+### 7.3 Auditoria da Decisão D3 (Carga Horária)
+
+1. **Configuração do Perfil:** `acad/perfil/perfis/fasoft.yaml` declara explicitamente:
+   ```yaml
+   carga_horaria: { unidade: hora_aula, minutos_hora_aula: 50 }
+   ```
+2. **Julgamento Ativo da Regra:** `verificar_carga()` em `acad/encontros/carga.py` agora recebe o `padrao` do perfil institucional quando a disciplina não declara a sua unidade. Quando há divergência entre a soma dos encontros válidos e o valor esperado, emite `carga-horaria-incompativel` com nível `erro` (julgamento de fato), eliminando o aviso genérico anterior. O achado `carga-unidade-nao-confirmada` deixou de ser o fluxo padrão e só é acionado se nem a disciplina nem o perfil definirem unidade.
+3. **Validação Aritmética com a Ficha Real:**
+   - Disciplina típica: 4 créditos = 72 horas-aula no semestre.
+   - Horário docente UniRV Fasoft: 2 encontros semanais das 19:00 às 20:40 (100 minutos cada).
+   - Cada encontro de 100 minutos equivale a 2 tempos de 50 minutos (2 horas-aula).
+   - Semestre letivo de 18 semanas: 18 semanas × 2 encontros = 36 encontros.
+   - 36 encontros × 100 minutos = 3.600 minutos.
+   - 3.600 min ÷ 50 min/hora-aula = exatamente 72 horas-aula. A conta fecha com precisão absoluta.
+4. **Alinhamento Documental:** A spec (§2), o plano e o perfil registram formalmente o fechamento da decisão D3 em 22/10/2026.
+
+---
+
+### 7.4 Auditoria da Decisão D4 e Tarefa 26 (Slides `.pptx`)
+
+1. **Reimplementação sem Node.js:** O gerador foi construído em `acad/geracao/slides_pptx.py` utilizando `python-pptx` (dependência versionada em `pyproject.toml`). O `GeradorSlidesBloqueado` foi substituído pelo `GeradorSlidesPptx`.
+2. **Inspeção Direta do Arquivo Gerado:** Uma apresentação real foi gerada através do produto consumindo os contratos de dados e inspecionada via script:
+   - **Formato e Proporção:** Exatamente 16:9 — 10,000 × 5,625 polegadas (9.144.000 × 5.143.500 EMU).
+   - **Paleta de Cores UniRV:** `VERDE` (`015537`), `VERDE2` (`0E7A4E`), `CODIGO_FUNDO` (`10231B`), `VERDE_CLARO` (`E4EFE9`), `VERDE_CLARO2` (`F2F7F4`), `SUBTITULO_CAPA` (`D7E7DF`).
+   - **Tipografia:** Uso estrito de `Calibri` e `Courier New` (restrita a blocos de código). Nenhum texto com tamanho inferior a 9 pt (tamanhos observados entre 9,0 pt e 27,0 pt).
+   - **Componentes Cobertos:** Capa institucional com caixa verde e títulos proporcionais, tópicos com bullets e nota de fecho, blocos de código escuros com destaque de comentários, tabelas zebradas com cabeçalho institucional, cards com tags numéricas, fluxo de etapas, slides de notas e referências ABNT.
+   - **Imagens e Logos:** Os logos institucionais (`logo-header-unirv.png`, `logo-unirv.png`, `logo-fasoft.png`) são lidos estritamente em tempo de execução da pasta do modelo no workspace (`09 - Modelos/Modelo de Slides UniRV/assets/`), sem jamais serem versionados no Git.
+   - **Textos Institucionais:** Textos padrão adequados ao modelo acadêmico ("UNIVERSIDADE DE RIO VERDE (UniRV)", "Bacharelado em Engenharia de Software").
+3. **Ressalva Honesta do que Não Foi Comprovado:**
+   - **Renderização Gráfica / Comparação Pixel a Pixel:** Por restrição de ambiente (ausência de LibreOffice headless ou Microsoft PowerPoint COM para exportação em PNG no runner), não foi realizada comparação gráfica pixel a pixel contra as imagens de `referencia/*.png`. A correspondência foi validada estruturalmente (formas geométricas, caixas delimitadoras em EMU, propriedades de linha, preenchimento, fontes e textos) e espelha a saída do script de referência `unirv-slides.js`. A homologação estética visual final permanece como conferência humana do professor.
+4. **Estado da Tarefa 26 no Plano:** Marcada como **FEITA** em `docs/superpowers/plans/2026-10-22-plugin-academico-mvp.md`.
+
+---
+
+### 7.5 Reconfirmação das Regras Invariantes
+
+- [x] **Zero dados de alunos:** Verificada a ausência de qualquer dado sensível, nota ou documento de aluno.
+- [x] **Drive `G:\Meu Drive\Fasoft` intacto:** Dois testes de integração com monkeypatch de proteção contra escrita comprovam a execução estritamente somente leitura.
+- [x] **`.gitignore` íntegro:** Nenhum artefato transitório adicionado.
+- [x] **Versão única (0.1.0):** Sincronização checada em todos os arquivos de configuração e esquemas.
+- [x] **Comunicação em português simples:** Mensagens e erros sem termos técnicos de computação direcionados ao usuário final.
+
+---
+
+### 7.6 Conclusão da Rodada 2
+
+Com o fechamento exemplar de D3 e D4, todos os requisitos funcionais previstos para o código do MVP do Librarius estão integralmente implementados e verificados. A branch `vnmartinez/plugin-academico-mvp` está **pronta para merge** (`Ready to merge`). Apenas a instalação manual nos clientes locais da máquina (Tarefa 42) segue aguardando autorização humana.
