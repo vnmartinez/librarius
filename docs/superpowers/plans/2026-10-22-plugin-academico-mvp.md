@@ -2073,7 +2073,7 @@ def _importar(p):
   - `planejamento.arquivos`: `ler_turma(ws, disc, id) -> dict`, `ler_encontros(ws, disc, id) -> list[Encontro]` (vazio se não existe), `documento_encontros(encontros, entradas: dict[str,str], versao: str, agora: datetime) -> dict`, `ler_aulas(ws, disc) -> dict` (documento `aulas.yaml` ou `{"versao_esquema":1,"disciplina":..., "aulas": []}`), `ler_disciplina(ws, disc) -> dict`, `ler_avaliacoes(ws, disc) -> list[dict]` (vazio se não há pasta), `caminho(disc, nome) -> str` (relativo ao semestre: `<disc>/01 - Planejamento/<nome>`).
   - `acad encontros gerar <DISC> --turma TA [--raiz]` — exige calendário `confirmado` (senão `ErroAcad("calendario-nao-confirmado", "O calendário ainda não foi conferido por você.", saida=1)`); gera proposta criando/substituindo `encontros-TA.yaml`; mensagem: "N encontros previstos, M cancelados por feriado ou recesso" + diff de ids quando já existia.
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_encontros.py
@@ -2140,10 +2140,10 @@ def test_minutos():
 
 E um teste de CLI que monta `turma-TA.yaml`, `calendario.yaml` confirmado e `disciplina.yaml` no `semestre_sintetico` e confere a proposta (`destino` termina em `01 - Planejamento/encontros-TA.yaml`) e a recusa com calendário em rascunho (`codigo == "calendario-nao-confirmado"`).
 
-- [ ] **Step 2: Rodar e ver falhar.**
-- [ ] **Step 3: Implementar** conforme o algoritmo da interface. Reposição explícita entra mesmo fora de `inicio..fim` (o professor a declarou); `funcao` padrão `conteudo`.
-- [ ] **Step 4: Rodar e ver passar.**
-- [ ] **Step 5: Commit** — `git commit -m "feat: geração de encontros por turma"`
+- [x] **Step 2: Rodar e ver falhar.**
+- [x] **Step 3: Implementar** conforme o algoritmo da interface. Reposição explícita entra mesmo fora de `inicio..fim` (o professor a declarou); `funcao` padrão `conteudo`.
+- [x] **Step 4: Rodar e ver passar.**
+- [x] **Step 5: Commit** — `git commit -m "feat: geração de encontros por turma"`
 
 ### Tarefa 16: Carga horária
 
