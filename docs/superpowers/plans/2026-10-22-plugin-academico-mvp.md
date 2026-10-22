@@ -71,12 +71,12 @@
 **Interfaces:**
 - Produces: `acad.__version__: str = "0.1.0"`; `python -m acad` chama `acad.cli.main()` (criado na Tarefa 12; até lá `__main__` só imprime a versão).
 
-- [ ] **Step 1: Criar venv e instalar pytest**
+- [x] **Step 1: Criar venv e instalar pytest**
 
 Run: `python -m venv .venv && .venv/Scripts/python -m pip install --upgrade pip pytest`
 Expected: termina sem erro.
 
-- [ ] **Step 2: Escrever o teste que falha**
+- [x] **Step 2: Escrever o teste que falha**
 
 ```python
 # testes/unidade/test_pacote.py
@@ -108,12 +108,12 @@ def dados_isolados(tmp_path, monkeypatch):
     monkeypatch.setenv("ACAD_DADOS", str(tmp_path / "_dados"))
 ```
 
-- [ ] **Step 3: Rodar e ver falhar**
+- [x] **Step 3: Rodar e ver falhar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_pacote.py -v`
 Expected: FAIL (`ModuleNotFoundError: No module named 'acad'`).
 
-- [ ] **Step 4: Implementar**
+- [x] **Step 4: Implementar**
 
 Consultar versões: `.venv/Scripts/python -m pip index versions pyyaml`, idem `jsonschema`, `openpyxl`, `pytest`. Preencher `X.Y` com a última estável.
 
@@ -180,12 +180,12 @@ Acrescentar ao `.gitignore`: `.venv/`, `__pycache__/`, `*.egg-info/`, `.pytest_c
 
 Run: `.venv/Scripts/python -m pip install -e ".[teste]"`
 
-- [ ] **Step 5: Rodar e ver passar**
+- [x] **Step 5: Rodar e ver passar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_pacote.py -v`
 Expected: 2 passed.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add pyproject.toml acad testes .gitignore

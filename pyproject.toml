@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "librarius"
+version = "0.1.0"
+description = "Núcleo acad do plugin Librarius para professores universitários"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+dependencies = [
+  "pyyaml>=6.0.3,<7",
+  "jsonschema>=4.26,<5",
+  "openpyxl>=3.1.5,<4",
+]
+
+[project.optional-dependencies]
+teste = ["pytest>=9.1.1,<10"]
+
+[project.scripts]
+acad = "acad.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["acad*"]
+
+[tool.setuptools.package-data]
+acad = ["perfil/perfis/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["testes"]
