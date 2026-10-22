@@ -3150,10 +3150,10 @@ def test_claude_validate_oficial():
 
 **Interfaces:**
 - Produces: `chatgpt.empacotar(raiz: Path, destino: Path) -> list[Path]` — um `dist/chatgpt/<skill>.zip` por skill, com **uma pasta de topo** `<skill>/` e exatamente um `SKILL.md`; no `SKILL.md` empacotado, o trecho "Como chamar o núcleo" é trocado por `chamar-nucleo-chatgpt.md` ("Nesta versão do ChatGPT eu não acesso os arquivos do seu computador. Posso explicar, planejar com você e redigir textos; para gravar, conferir datas ou ler suas pastas, use o assistente instalado no computador."); tamanho ≤ 50 MB; `dist/` continua no `.gitignore`.
-- [ ] **Step 0:** tentar de novo https://help.openai.com/en/articles/20001066-skills-in-chatgpt. Se abrir, atualizar `plataformas/chatgpt/FONTE.md` e ajustar o formato do zip ao que a página disser; se continuar inacessível, seguir o formato da API (registrado no `FONTE.md`) e anotar a pendência no `FONTE.md`.
-- [ ] **Step 1: Testes que falham:** para cada zip, `ZipFile.namelist()` tem um único prefixo de topo igual ao nome da skill e exatamente um `SKILL.md`; o `SKILL.md` empacotado não contém `scripts/acad.py` nem `${CLAUDE_PLUGIN_ROOT}`; frontmatter preservado (`skills.problemas` sobre a pasta extraída, ignorando a regra do trecho comum).
-- [ ] **Step 2–4:** falhar, implementar, passar.
-- [ ] **Step 5: Commit** — `git commit -m "feat: pacotes de skills para o ChatGPT"`
+- [x] **Step 0:** tentar de novo https://help.openai.com/en/articles/20001066-skills-in-chatgpt. Se abrir, atualizar `plataformas/chatgpt/FONTE.md` e ajustar o formato do zip ao que a página disser; se continuar inacessível, seguir o formato da API (registrado no `FONTE.md`) e anotar a pendência no `FONTE.md`.
+- [x] **Step 1: Testes que falham:** para cada zip, `ZipFile.namelist()` tem um único prefixo de topo igual ao nome da skill e exatamente um `SKILL.md`; o `SKILL.md` empacotado não contém `scripts/acad.py` nem `${CLAUDE_PLUGIN_ROOT}`; frontmatter preservado (`skills.problemas` sobre a pasta extraída, ignorando a regra do trecho comum).
+- [x] **Step 2–4:** falhar, implementar, passar.
+- [x] **Step 5: Commit** — `git commit -m "feat: pacotes de skills para o ChatGPT"`
 
 ### Tarefa 39: `INSTALAR.md` e `README.md`
 
