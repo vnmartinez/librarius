@@ -3001,8 +3001,8 @@ Regra de todas as tarefas desta fase: **Step 0 = reler `plataformas/<host>/FONTE
 }
 ```
 
-- [ ] **Step 0:** reler `plataformas/claude/FONTE.md` e https://code.claude.com/docs/en/plugins-reference, https://code.claude.com/docs/en/plugin-marketplaces; atualizar se preciso.
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 0:** reler `plataformas/claude/FONTE.md` e https://code.claude.com/docs/en/plugins-reference, https://code.claude.com/docs/en/plugin-marketplaces; atualizar se preciso.
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_manifestos_hosts.py
@@ -3040,9 +3040,9 @@ def test_claude_validate_oficial():
     assert r.returncode == 0 and "Validation passed" in r.stdout, r.stdout + r.stderr
 ```
 
-- [ ] **Step 2–4:** falhar, escrever manifestos e validador, passar (`$PY -m pytest testes/unidade/test_manifestos_hosts.py -v` e `-m hosts`). `claude plugin validate` só lê arquivos: não instala nada.
-- [ ] **Step 5 (opcional, hook de sessão):** consultar https://code.claude.com/docs/en/hooks (evento `SessionStart` e formato de saída que injeta contexto), registrar em `plataformas/claude/FONTE.md`, e só então criar `hooks/hooks.json` que injeta um lembrete para carregar `usando-agente-academico`. Se a documentação não for clara, não criar (nenhuma função depende do hook).
-- [ ] **Step 6: Commit** — `git commit -m "feat: manifestos do Claude Code e validador de manifestos"`
+- [x] **Step 2–4:** falhar, escrever manifestos e validador, passar (`$PY -m pytest testes/unidade/test_manifestos_hosts.py -v` e `-m hosts`). `claude plugin validate` só lê arquivos: não instala nada.
+- [x] **Step 5 (opcional, hook de sessão):** consultar https://code.claude.com/docs/en/hooks (evento `SessionStart` e formato de saída que injeta contexto), registrar em `plataformas/claude/FONTE.md`, e só então criar `hooks/hooks.json` que injeta um lembrete para carregar `usando-agente-academico`. Se a documentação não for clara, não criar (nenhuma função depende do hook).
+- [x] **Step 6: Commit** — `git commit -m "feat: manifestos do Claude Code e validador de manifestos"`
 
 ### Tarefa 34: Adaptador Codex e `plugin.json` da raiz (portátil)
 

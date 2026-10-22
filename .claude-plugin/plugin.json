@@ -1,0 +1,11 @@
+{
+  "name": "librarius",
+  "displayName": "Librarius",
+  "version": "0.1.0",
+  "description": "Assistente para professores universitários: cronograma, aulas, provas e organização de pastas, com conferência automática de datas, carga horária e nomes.",
+  "author": { "name": "Vinicius Martinez" },
+  "homepage": "https://github.com/vnmartinez/librarius",
+  "repository": "https://github.com/vnmartinez/librarius",
+  "license": "MIT",
+  "keywords": ["professor", "universidade", "cronograma", "aulas", "provas"]
+}
