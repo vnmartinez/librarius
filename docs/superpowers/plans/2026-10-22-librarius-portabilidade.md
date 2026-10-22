@@ -56,16 +56,16 @@
 
 **Files:** nenhum versionado (`.venv/` já é ignorado; confira com `git check-ignore .venv`).
 
-- [ ] **Step 1: Criar o venv local**
+- [x] **Step 1: Criar o venv local**
 
 Run (PowerShell): `py -3 -m venv .venv; .venv\Scripts\pip install -e ".[dev]"` — se o extra `dev` não existir em `pyproject.toml`, rode `.venv\Scripts\pip install -e . pytest`.
 
-- [ ] **Step 2: Rodar a suíte de base**
+- [x] **Step 2: Rodar a suíte de base**
 
 Run: `.venv/Scripts/python -m pytest -q`
 Expected: tudo verde (312 passam no padrão; os marcados ficam de fora). Anote o número exato; ele é a linha de base. Se algo falhar já aqui, pare e avise o orquestrador — não é falha deste plano.
 
-- [ ] **Step 3: Conferir `python-pptx`**
+- [x] **Step 3: Conferir `python-pptx`**
 
 Run: `.venv/Scripts/python -c "import pptx; print(pptx.__version__)"` e anote a versão.
 
