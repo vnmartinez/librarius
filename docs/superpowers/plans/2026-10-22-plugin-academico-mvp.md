@@ -719,7 +719,7 @@ def carregar_perfil(id: str = "fasoft") -> Perfil:
   11-Relatórios/rel.docx
 ```
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/conftest.py  (acrescentar)
@@ -799,9 +799,9 @@ def test_ignora_bloqueio_do_office(ws, semestre_sintetico):
     assert ws.listar(semestre_sintetico / "01 - Disc A - 3º Período" / "02 - Aulas") == []
 ```
 
-- [ ] **Step 2: Rodar e ver falhar.**
+- [x] **Step 2: Rodar e ver falhar.**
 
-- [ ] **Step 3: Implementar**
+- [x] **Step 3: Implementar**
 
 ```python
 # acad/arquivos/privacidade.py
@@ -887,8 +887,8 @@ class Workspace:
 
 Observação: `fnmatch` deixa `*` casar `/`; por isso `*/04 - Projetos e Entregáveis` pega a pasta em qualquer disciplina. Tudo é comparado em minúsculas e NFC.
 
-- [ ] **Step 4: Rodar e ver passar** — `$PY -m pytest testes/unidade/test_privacidade.py -v`.
-- [ ] **Step 5: Commit** — `git commit -m "feat: workspace com lista de exclusão de dados de alunos"`
+- [x] **Step 4: Rodar e ver passar** — `$PY -m pytest testes/unidade/test_privacidade.py -v`.
+- [x] **Step 5: Commit** — `git commit -m "feat: workspace com lista de exclusão de dados de alunos"`
 
 ### Tarefa 6: Amostras reais anonimizadas e oráculo da skill `cronograma`
 
