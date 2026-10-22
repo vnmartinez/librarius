@@ -1869,7 +1869,7 @@ git commit -m "feat: comandos para criar, importar e listar perfis de instituiç
 - Run: `scripts/sincronizar-skills.py`
 - Test: `testes/unidade/test_skills.py`, `testes/unidade/test_documentacao.py`, `testes/unidade/test_agents_md.py`
 
-- [ ] **Step 1: Texto da skill organizadora** — antes do passo atual de `acad iniciar`, acrescente, no tom das linhas vizinhas:
+- [x] **Step 1: Texto da skill organizadora** — antes do passo atual de `acad iniciar`, acrescente, no tom das linhas vizinhas:
 
 ```markdown
 1. Pergunte de qual instituição é o professor. Rode `acad perfil listar`. Se já houver um perfil dela, use esse.
@@ -1881,12 +1881,12 @@ git commit -m "feat: comandos para criar, importar e listar perfis de instituiç
 
 Renumere os passos seguintes. Em `usando-agente-academico`, acrescente uma linha: "Funciona com qualquer instituição: o organizador monta o perfil a partir da pasta do professor; sem perfil, os slides saem sem marca."
 
-- [ ] **Step 2: Sincronizar e testar**
+- [x] **Step 2: Sincronizar e testar**
 
 Run: `.venv/Scripts/python scripts/sincronizar-skills.py` e `.venv/Scripts/python -m pytest testes/unidade/test_skills.py testes/unidade/test_documentacao.py testes/unidade/test_agents_md.py -v`
 Expected: PASS. Se algum teste fixar trecho de texto da skill, ajuste o texto da skill, não o teste.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add skills scripts README.md INSTALAR.md

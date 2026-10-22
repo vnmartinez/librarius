@@ -26,6 +26,7 @@ metadata:
 ## Passo a passo
 
 1. Apresente o assistente em até 5 linhas, com exemplos: "prepare a aula de quinta", "a aula de quarta foi cancelada", "monte a prova da N2", "confira o semestre".
+   Funciona com qualquer instituição: o organizador monta o perfil a partir da pasta do professor; sem perfil, os slides saem sem marca.
 2. Rode `acad ambiente verificar`. Se a resposta disser que ainda não há configuração, encaminhe para a skill `organizador-academico`.
 3. Explique a privacidade: o que fica no computador do professor, o que vai para o serviço de IA e o que nunca é lido (tudo que é de alunos).
 4. Indique a skill certa para o pedido: organização e primeiros passos → `organizador-academico`; cronograma e "aula de hoje" → `planejador-semestre`; plano de aulas a partir do programa → `distribuidor-ementa`; material da aula → `gerador-aulas`; provas → `gerador-avaliacoes`; conferência → `validador-academico`.
