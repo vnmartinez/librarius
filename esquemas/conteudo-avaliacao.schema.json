@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["aulas_cobertas", "questoes"],
+  "properties": {
+    "aulas_cobertas": {"type": "array", "items": {"type": "string", "pattern": "^Aula [0-9]{2}$"}},
+    "objetivos": {"type": "array", "items": {"type": "string"}},
+    "questoes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "enunciado", "tipo", "resposta", "pontos"],
+        "properties": {
+          "id": {"type": "string"},
+          "enunciado": {"type": "string"},
+          "tipo": {"enum": ["multipla-escolha", "discursiva", "verdadeiro-falso"]},
+          "alternativas": {"type": "array", "items": {"type": "string"}},
+          "resposta": {"type": ["string", "boolean", "number"]},
+          "objetivos": {"type": "array", "items": {"type": "string"}},
+          "aulas": {"type": "array", "items": {"type": "string", "pattern": "^Aula [0-9]{2}$"}},
+          "bloom": {"enum": ["lembrar", "entender", "aplicar", "analisar", "avaliar", "criar"]},
+          "pontos": {"type": "number", "minimum": 0}
+        }
+      }
+    }
+  }
+}
