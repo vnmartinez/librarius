@@ -899,7 +899,7 @@ Observação: `fnmatch` deixa `*` casar `/`; por isso `*/04 - Projetos e Entreg�
 - Consumes: `Workspace`, `carregar_perfil`.
 - Produces: árvore `testes/amostras/fasoft/` com `AGENTS.md`, `2026/Segundo Semestre/README.md`, e espelho de nomes (arquivos vazios) de `00 - Administração Acadêmica`, `04 - Estrutura de Dados 2 - 5º Período` (exceto `04 - Projetos e Entregáveis` conteúdo, pela exclusão) e `09 - Modelos` (sem descer em `node_modules`, `assets`, `referencia`); conteúdo real só de `Cronograma - Estrutura de Dados 2.xlsx`. Constante de teste `AMOSTRA = Path("testes/amostras/fasoft")`.
 
-- [ ] **Step 1: Teste que falha**
+- [x] **Step 1: Teste que falha**
 
 ```python
 # testes/unidade/test_amostras.py
@@ -934,9 +934,9 @@ def test_oraculo_copiado():
     assert (Path(__file__).resolve().parents[1] / "referencia" / "verificar_cronograma.py").exists()
 ```
 
-- [ ] **Step 2: Rodar e ver falhar.**
+- [x] **Step 2: Rodar e ver falhar.**
 
-- [ ] **Step 3: Implementar o espelhador (só lê a origem)**
+- [x] **Step 3: Implementar o espelhador (só lê a origem)**
 
 ```python
 # testes/ferramentas/espelhar-amostras.py
@@ -987,8 +987,8 @@ Depois: `cp "/g/Meu Drive/Fasoft/.agents/skills/cronograma/scripts/verificar_cro
 `testes/referencia/LEIA-ME.md`: "Cópia sem alteração do script da skill `cronograma` do professor (Drive, `.agents/skills/cronograma/scripts/`), copiada em <data>. É o oráculo dos testes de paridade da Tarefa 10. Não editar."
 Conferir com `git status` que nada fora de `testes/` mudou e que nenhum `.png` foi copiado.
 
-- [ ] **Step 4: Rodar e ver passar** — `$PY -m pytest testes/unidade/test_amostras.py -v`.
-- [ ] **Step 5: Commit** — `git add testes && git commit -m "test: amostras espelhadas do Drive e oráculo da skill cronograma"`
+- [x] **Step 4: Rodar e ver passar** — `$PY -m pytest testes/unidade/test_amostras.py -v`.
+- [x] **Step 5: Commit** — `git add testes && git commit -m "test: amostras espelhadas do Drive e oráculo da skill cronograma"`
 
 ---
 
