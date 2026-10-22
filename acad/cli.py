@@ -49,7 +49,8 @@ def _montar() -> argparse.ArgumentParser:
     return raiz
 
 
-def main(argv: list[str] | None = None) -> int:
+def executar(argv: list[str] | None = None) -> tuple[int, Resultado]:
+    """Roda um subcomando e devolve (código de saída, resultado), sem imprimir nada."""
     from acad import comandos  # noqa: F401
 
     args = _montar().parse_args(argv)
@@ -67,7 +68,13 @@ def main(argv: list[str] | None = None) -> int:
         resultado = Resultado(ok=False, mensagem=mensagem,
                               erros=[{"codigo": "erro-inesperado", "mensagem": mensagem, "detalhe_tecnico": ""}])
         codigo = 2
+    return codigo, resultado
+
+
+def main(argv: list[str] | None = None) -> int:
+    codigo, resultado = executar(argv)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
-    print(resultado.para_json() if getattr(args, "json", False) else resultado.para_texto())
+    usar_json = "--json" in (sys.argv[1:] if argv is None else argv)
+    print(resultado.para_json() if usar_json else resultado.para_texto())
     return codigo

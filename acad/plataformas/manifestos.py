@@ -168,6 +168,11 @@ def validar_opencode(raiz: Path) -> list[str]:
                     continue
                 if not (raiz / c).exists():
                     achados.append(f"opencode.json: caminho de skills não existe: {c}")
+    mcp = (m or {}).get("mcp")
+    if mcp is not None:
+        srv = mcp.get("librarius") if isinstance(mcp, dict) else None
+        if not isinstance(srv, dict) or srv.get("type") != "local" or not isinstance(srv.get("command"), list):
+            achados.append("opencode.json: mcp.librarius deve ser local, com command em lista")
     roteiro = raiz / ".opencode" / "INSTALAR.md"
     if not roteiro.exists():
         achados.append("falta .opencode/INSTALAR.md")
@@ -178,6 +183,29 @@ def validar_opencode(raiz: Path) -> list[str]:
     return achados
 
 
+def validar_mcp(raiz: Path) -> list[str]:
+    """Declarações do servidor MCP: mcp.json portátil (Codex/Antigravity) e .mcp.json (Claude)."""
+    import jsonschema
+
+    achados: list[str] = []
+    portatil = _json(raiz / "mcp.json", achados)
+    if portatil is not None:
+        esquema = json.loads((raiz / "plataformas" / "codex" / "mcp.schema.json").read_text(encoding="utf-8"))
+        for erro in jsonschema.Draft202012Validator(esquema).iter_errors(portatil):
+            achados.append(f"mcp.json: {erro.message}")
+        srv = (portatil.get("mcpServers") or {}).get("librarius")
+        if not srv or "${PLUGIN_ROOT}" not in " ".join(srv.get("args", [])):
+            achados.append("mcp.json: librarius deve usar ${PLUGIN_ROOT} em args")
+    claude = _json(raiz / ".mcp.json", achados)
+    if claude is not None:
+        srv = (claude.get("mcpServers") or {}).get("librarius")
+        if not srv or not srv.get("command"):
+            achados.append(".mcp.json: falta mcpServers.librarius.command")
+        elif "${CLAUDE_PLUGIN_ROOT}" not in " ".join(srv.get("args", [])):
+            achados.append(".mcp.json: args deve usar ${CLAUDE_PLUGIN_ROOT}")
+    return achados
+
+
 def validar_todos(raiz: Path) -> dict[str, list[str]]:
-    return {"claude": validar_claude(raiz), "codex": validar_codex(raiz), "antigravity": validar_antigravity(raiz),
+    return {"claude": validar_claude(raiz), "codex": validar_codex(raiz) + validar_mcp(raiz), "antigravity": validar_antigravity(raiz),
             "opencode": validar_opencode(raiz)}

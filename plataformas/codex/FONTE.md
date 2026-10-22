@@ -29,3 +29,7 @@ Consulta: 22/10/2026. Reconfirmar antes de gerar ou alterar qualquer manifesto.
 - Se `path: "./"` (plugin = raiz do marketplace) é aceito; o superpowers usa `{"source": "url", "url": "./"}`.
 - Se `${CLAUDE_PLUGIN_ROOT}` é substituído em `args` do `.mcp.json` e no corpo de `SKILL.md` no Codex.
 - Comando de validação estrutural oficial: a página não documenta nenhum.
+
+## MCP (Tarefa 40, 22/10/2026)
+
+- O manifesto portátil usa `mcp.json` na raiz (esquema Agent Plugins, `plataformas/codex/mcp.schema.json`, `${PLUGIN_ROOT}`); o mesmo arquivo serve ao Antigravity. `.mcp.json` (formato do Claude) fica como compatibilidade. Reconfirmar na matriz qual dos dois o Codex carrega.

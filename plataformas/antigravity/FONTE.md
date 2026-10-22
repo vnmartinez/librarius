@@ -33,3 +33,9 @@ Consulta: 22/10/2026. Reconfirmar antes de gerar ou alterar qualquer manifesto.
 
 - Formato exato de `mcp_config.json` e de `hooks.json`; variável de ambiente com a raiz do plugin.
 - Se o Antigravity rejeita `$schema` apontando para o esquema Agent Plugins.
+
+## MCP (Tarefa 40, 22/10/2026)
+
+- Com o plugin carregado como Agent Plugins (`$schema` no `plugin.json`), o Antigravity lê `mcp.json` na raiz, não `mcp_config.json` (`agy plugin validate` avisa que o segundo é ignorado). Formato (https://agent-plugins.org/specification): só `$schema` e `mcpServers`; servidor stdio com `type`, `command` (um executável, sem expansão), `args`/`env`/`cwd` com `${PLUGIN_ROOT}` e `${PLUGIN_DATA}`. Esquema salvo em `plataformas/codex/mcp.schema.json`.
+- O repositório traz `mcp.json` com `${PLUGIN_ROOT}`; `agy plugin validate` reconhece 1 servidor MCP.
+- **Pendência:** se a flag `enable-agent-plugins-spec` estiver desligada, o plugin vira "nativo" e usaria `mcp_config.json` (formato `mcpServers` com `command`/`args`/`env`/`cwd`, em https://antigravity.google/docs/mcp). A variável da raiz do plugin nesse modo não está documentada; por isso o arquivo não foi criado. As skills funcionam sem MCP.

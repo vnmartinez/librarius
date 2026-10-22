@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "librarius": {
+      "command": "python",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/acad.py", "mcp"]
+    }
+  }
+}

@@ -21,3 +21,7 @@ Consulta: 22/10/2026. Reconfirmar antes de gerar ou alterar qualquer arquivo de 
 ## Não verificado
 
 - Qual versão (estável ou v2) o professor terá; o roteiro `.opencode/INSTALAR.md` cobre as duas (opção `skills` na v2; cópia/link em `~/.config/opencode/skills` na estável).
+
+## MCP (Tarefa 40, 22/10/2026)
+
+- `opencode.json` do repositório declara `mcp.librarius` (`type: local`, `command` em lista, `enabled: true`), com caminho relativo `./scripts/acad.py` que resolve a partir do diretório de trabalho (OpenCode aberto na raiz do clone). Para uso global, usar o caminho absoluto do clone.

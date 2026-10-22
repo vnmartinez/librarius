@@ -3208,8 +3208,8 @@ def test_readme_publico_certo():
   - Antigravity — `mcp_config.json`: **formato ainda não verificado** (spec §12); Step 0 obrigatório: achar a documentação oficial do `mcp_config.json` de plugin; se não houver, não criar o arquivo e registrar a pendência no `FONTE.md`.
   - OpenCode — `opencode.json`: `"mcp": {"librarius": {"type": "local", "command": ["python", "./scripts/acad.py", "mcp"], "enabled": true}}`.
 
-- [ ] **Step 0:** ler a documentação do SDK Python oficial (https://github.com/modelcontextprotocol/python-sdk, README da versão instalada) e usar só a API que estiver lá para servidor stdio e cliente stdio; reler `FONTE.md` de Claude, Codex, Antigravity e OpenCode na parte de MCP.
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 0:** ler a documentação do SDK Python oficial (https://github.com/modelcontextprotocol/python-sdk, README da versão instalada) e usar só a API que estiver lá para servidor stdio e cliente stdio; reler `FONTE.md` de Claude, Codex, Antigravity e OpenCode na parte de MCP.
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/integracao/test_mcp.py
@@ -3237,9 +3237,9 @@ async def test_ferramenta_de_escrita_so_propoe(tmp_path, semestre_sintetico):
 `_sessao_mcp(raiz, ferramenta, argumentos) -> tuple[list[str], str]` é um auxiliar no próprio arquivo de teste, escrito com a API do cliente stdio do SDK lida no Step 0. Se o SDK não trouxer suporte a `pytest` assíncrono, acrescentar `pytest-asyncio` (versão via `pip index versions`) às dependências de teste, ou usar `anyio.run` dentro de um teste síncrono — o que o README do SDK recomendar.
 Acrescentar a `test_manifestos_hosts.py`: `.mcp.json` válido (Claude: `mcpServers.librarius.command`/`args` com `${CLAUDE_PLUGIN_ROOT}`), `opencode.json` com `mcp.librarius.type == "local"` e `command` lista.
 
-- [ ] **Step 2–4:** falhar, implementar, passar (`$PY -m pytest testes/integracao/test_mcp.py -v` e a suíte inteira).
-- [ ] **Step 5 (`hosts`, sem instalar):** `claude plugin validate . --strict` continua passando com o `.mcp.json` (a CLI também checa servidores MCP declarados).
-- [ ] **Step 6: Commit** — `git commit -m "feat: servidor MCP local do núcleo"`
+- [x] **Step 2–4:** falhar, implementar, passar (`$PY -m pytest testes/integracao/test_mcp.py -v` e a suíte inteira).
+- [x] **Step 5 (`hosts`, sem instalar):** `claude plugin validate . --strict` continua passando com o `.mcp.json` (a CLI também checa servidores MCP declarados).
+- [x] **Step 6: Commit** — `git commit -m "feat: servidor MCP local do núcleo"`
 
 ---
 

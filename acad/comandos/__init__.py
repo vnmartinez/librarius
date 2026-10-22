@@ -8,3 +8,4 @@ from acad.comandos import perfil  # noqa: F401
 from acad.comandos import gerar  # noqa: F401
 from acad.comandos import aula  # noqa: F401
 from acad.comandos import exportar  # noqa: F401
+from acad.comandos import mcp  # noqa: F401

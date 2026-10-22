@@ -117,3 +117,28 @@ def test_opencode_instalar_cita_as_duas_formas(tmp_path):
     d = _copia(tmp_path)
     (d / ".opencode" / "INSTALAR.md").write_text("só a opção skills", encoding="utf-8")
     assert any("INSTALAR" in p for p in manifestos.validar_opencode(d))
+
+
+def test_mcp_declarado_nos_hosts():
+    claude = json.loads((RAIZ / ".mcp.json").read_text(encoding="utf-8"))["mcpServers"]["librarius"]
+    assert claude["command"] == "python" and "${CLAUDE_PLUGIN_ROOT}" in claude["args"][0] and claude["args"][-1] == "mcp"
+    oc = json.loads((RAIZ / "opencode.json").read_text(encoding="utf-8"))["mcp"]["librarius"]
+    assert oc["type"] == "local" and isinstance(oc["command"], list) and oc["command"][-1] == "mcp"
+
+def test_mcp_portatil_valida_no_esquema():
+    assert manifestos.validar_mcp(RAIZ) == []
+
+def test_mcp_portatil_recusa_root_errada(tmp_path):
+    d = _copia(tmp_path)
+    _editar(d, "mcp.json", lambda j: j["mcpServers"]["librarius"].update(extra=1))
+    assert manifestos.validar_mcp(d)
+
+def test_mcp_claude_recusa_sem_variavel_de_raiz(tmp_path):
+    d = _copia(tmp_path)
+    _editar(d, ".mcp.json", lambda j: j["mcpServers"]["librarius"].update(args=["scripts/acad.py", "mcp"]))
+    assert manifestos.validar_mcp(d)
+
+def test_opencode_mcp_exige_lista(tmp_path):
+    d = _copia(tmp_path)
+    _editar(d, "opencode.json", lambda j: j["mcp"]["librarius"].update(command="python ./scripts/acad.py mcp"))
+    assert manifestos.validar_opencode(d)

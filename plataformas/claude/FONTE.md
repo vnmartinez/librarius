@@ -27,3 +27,7 @@ Consulta: 22/10/2026. Reconfirmar antes de gerar ou alterar qualquer manifesto.
 ## Não verificado (reconfirmar na fase de matriz)
 
 - Fluxo gráfico do app Claude/Cowork para adicionar marketplace ou enviar zip, e quais componentes Cowork carrega (MCP stdio? hooks?).
+
+## MCP (Tarefa 40, 22/10/2026)
+
+- `.mcp.json` na raiz com `mcpServers.librarius` (`command: python`, `args: ["${CLAUDE_PLUGIN_ROOT}/scripts/acad.py", "mcp"]`); `${CLAUDE_PLUGIN_ROOT}` expande em `command`/`args`/`env` de MCP stdio. `claude plugin validate . --strict` aceita (v2.1.302). No Windows o comando `python` pode não existir; reconfirmar na matriz.
