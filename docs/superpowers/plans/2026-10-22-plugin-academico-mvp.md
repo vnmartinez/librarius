@@ -2246,7 +2246,7 @@ Para criar `testes/esperados/ed2-aulas.yaml`: rodar a função uma vez, **confer
 - Produces: `ordenar_por_prerequisitos(aulas: list[dict]) -> list[dict]` (Kahn estável: respeita a ordem original quando não há dependência; ciclo → `ErroAcad("prerequisitos-em-ciclo", "Duas aulas dependem uma da outra: …")`); `distribuir(aulas: list[dict], encontros: list[Encontro]) -> tuple[list[Encontro], list[str]]` — encontros `realizado` mantêm suas aulas; aulas `ministrada` não se movem; as demais aulas (ordenadas) ocupam, em sequência, os encontros `previsto` com `funcao == "conteudo"` (limpando o mapeamento antigo desses encontros), `encontros_necessarios` encontros consecutivos cada; devolve `(encontros, aulas_sem_encontro)`.
 - CLI: `acad plano distribuir <DISC> --turma TA` → proposta substituindo `encontros-TA.yaml`; mensagem com a lista "Aula 01 → 03/08; Aula 05 → 17/08 e 19/08…" e aviso se sobrar aula.
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_distribuir.py
@@ -2290,8 +2290,8 @@ def test_ciclo():
         ordenar_por_prerequisitos([_a("Aula 01", pre=["Aula 02"]), _a("Aula 02", pre=["Aula 01"])])
 ```
 
-- [ ] **Step 2–4:** falhar, implementar, passar.
-- [ ] **Step 5: Commit** — `git commit -m "feat: distribuição das aulas sobre os encontros"`
+- [x] **Step 2–4:** falhar, implementar, passar.
+- [x] **Step 5: Commit** — `git commit -m "feat: distribuição das aulas sobre os encontros"`
 
 ### Tarefa 19: Replanejamento com relatório de diff (`acad plano replanejar`)
 
