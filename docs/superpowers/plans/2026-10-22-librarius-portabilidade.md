@@ -407,7 +407,7 @@ git commit -m "feat: perfil v2 com estrutura e modelos, v1 continua válido"
 - Consumes: `perfil_de_documento` (Tarefa 2).
 - Produces: `problemas_do_perfil(documento: dict) -> list[str]`; `validar_perfil_ou_falhar(documento: dict) -> None` (levanta `ErroAcad("perfil-invalido", …, saida=1)`); `pasta_perfis_usuario() -> Path` (`dir_dados() / "perfis"`); `ler_documento_perfil(id: str) -> dict`; `perfis_disponiveis() -> dict[str, str]` (id → `"usuario"` ou `"pacote"`); `ID_PERFIL: re.Pattern`.
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 ```python
 # testes/unidade/test_perfil_usuario.py
@@ -485,12 +485,12 @@ def test_perfil_quebrado_no_usuario_da_erro_simples():
 
 `testes/conftest.py` já isola `ACAD_DADOS` por teste (fixture `dados_isolados`), então `pasta_perfis_usuario()` cai em `tmp_path`.
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_perfil_usuario.py -v`
 Expected: FAIL (`ImportError`).
 
-- [ ] **Step 3: `acad/perfil/validar.py`**
+- [x] **Step 3: `acad/perfil/validar.py`**
 
 ```python
 """Problemas do perfil em português simples (o esquema dá o técnico; aqui vira frase)."""
@@ -580,7 +580,7 @@ def validar_perfil_ou_falhar(documento: dict) -> None:
 
 Atenção: a mensagem do teste é `"O perfil da instituição tem problemas: Falta o nome da instituição."` — os itens já terminam em ponto e são unidos por espaço. O código precisa rodar em Python 3.11: não aninhe aspas iguais dentro de f-strings.
 
-- [ ] **Step 4: Leitura usuário → pacote em `acad/perfil/perfil.py`**
+- [x] **Step 4: Leitura usuário → pacote em `acad/perfil/perfil.py`**
 
 ```python
 from acad.config import dir_dados
@@ -630,12 +630,12 @@ def carregar_perfil(id: str = "fasoft") -> Perfil:
 
 Confira se `acad.config` não importa `acad.perfil` (evita ciclo); hoje não importa.
 
-- [ ] **Step 5: Rodar**
+- [x] **Step 5: Rodar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_perfil_usuario.py testes/unidade/test_perfil.py -v` e `.venv/Scripts/python -m pytest -q`
 Expected: PASS; suíte verde.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add acad/perfil/validar.py acad/perfil/perfil.py testes/unidade/test_perfil_usuario.py

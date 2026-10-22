@@ -6,7 +6,12 @@ from importlib import resources
 from pathlib import Path
 
 from acad import esquemas
+from acad.config import dir_dados
+from acad.erros import ErroAcad
 from acad.perfil.padroes import ESTRUTURA_V1
+from acad.perfil.validar import validar_perfil_ou_falhar
+
+ID_PERFIL = re.compile(r"^[a-z0-9][a-z0-9-]{0,39}$")
 
 
 @dataclass(frozen=True)
@@ -90,7 +95,38 @@ def perfil_de_documento(documento: dict) -> Perfil:
 
 
 def carregar_perfil(id: str = "fasoft") -> Perfil:
-    texto = (resources.files("acad.perfil") / "perfis" / f"{id}.yaml").read_text(encoding="utf-8")
-    documento = esquemas.carregar_yaml(texto)
-    esquemas.validar_ou_falhar("perfil", documento)
+    documento = ler_documento_perfil(id)
+    validar_perfil_ou_falhar(documento)
     return perfil_de_documento(documento)
+
+
+def pasta_perfis_usuario() -> Path:
+    return dir_dados() / "perfis"
+
+
+def _empacotados():
+    return resources.files("acad.perfil") / "perfis"
+
+
+def perfis_disponiveis() -> dict[str, str]:
+    disponiveis = {item.name[:-5]: "pacote" for item in _empacotados().iterdir() if item.name.endswith(".yaml")}
+    pasta = pasta_perfis_usuario()
+    if pasta.is_dir():
+        disponiveis.update({item.stem: "usuario" for item in pasta.glob("*.yaml") if ID_PERFIL.fullmatch(item.stem)})
+    return dict(sorted(disponiveis.items()))
+
+
+def ler_documento_perfil(id: str) -> dict:
+    if not isinstance(id, str) or not ID_PERFIL.fullmatch(id):
+        raise ErroAcad("perfil-invalido", "O nome do perfil só pode ter letras minúsculas, números e traços.",
+                       repr(id), saida=1)
+    usuario = pasta_perfis_usuario() / f"{id}.yaml"
+    pacote = _empacotados() / f"{id}.yaml"
+    if usuario.is_file():
+        texto = usuario.read_text(encoding="utf-8")
+    elif pacote.is_file():
+        texto = pacote.read_text(encoding="utf-8")
+    else:
+        raise ErroAcad("perfil-nao-encontrado",
+                       f"Não encontrei o perfil “{id}”. Quer criar um a partir da sua pasta?", id, saida=4)
+    return esquemas.carregar_yaml(texto)
