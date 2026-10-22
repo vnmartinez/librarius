@@ -2553,9 +2553,9 @@ def test_validar_drive_real_sem_escrever(capsys, monkeypatch):
   - `acad turma criar <DISC> --turma TA --horario "2 19:00 20:40 [sala]" [--horario …] [--fuso America/Sao_Paulo]` → proposta `turma-TA.yaml`.
   - `acad disciplina estrutura <DISC>` → proposta com `criar-pasta` para cada subpasta padrão faltando.
 
-- [ ] **Step 1: Testes que falham** (no `semestre_sintetico`): `detectar` acha 1 disciplina e `subpastas_faltando == ["04 - Projetos e Entregáveis"]`? — não: essa pasta existe mas é protegida; garantir que pasta protegida **existente** não conte como faltando (`subpastas_faltando == []`); `iniciar` sem `--confirmar` não cria `configuracao.yaml`, com `--confirmar` cria e o `contexto.raiz_semestre` passa a funcionar sem `--raiz`; `turma criar` com `--horario "8 19:00 20:40"` falha com mensagem "dia da semana vai de 1 (segunda) a 7 (domingo)"; `disciplina criar --unidade hora_aula` sem `--minutos-hora-aula` falha explicando; `disciplina estrutura` após apagar `05 - Materiais de Referência` propõe `criar-pasta` só para ela.
-- [ ] **Step 2–4:** falhar, implementar, passar.
-- [ ] **Step 5: Commit** — `git commit -m "feat: núcleo da configuração guiada"`
+- [x] **Step 1: Testes que falham** (no `semestre_sintetico`): `detectar` acha 1 disciplina e `subpastas_faltando == ["04 - Projetos e Entregáveis"]`? — não: essa pasta existe mas é protegida; garantir que pasta protegida **existente** não conte como faltando (`subpastas_faltando == []`); `iniciar` sem `--confirmar` não cria `configuracao.yaml`, com `--confirmar` cria e o `contexto.raiz_semestre` passa a funcionar sem `--raiz`; `turma criar` com `--horario "8 19:00 20:40"` falha com mensagem "dia da semana vai de 1 (segunda) a 7 (domingo)"; `disciplina criar --unidade hora_aula` sem `--minutos-hora-aula` falha explicando; `disciplina estrutura` após apagar `05 - Materiais de Referência` propõe `criar-pasta` só para ela.
+- [x] **Step 2–4:** falhar, implementar, passar.
+- [x] **Step 5: Commit** — `git commit -m "feat: núcleo da configuração guiada"`
 
 ### Tarefa 24: Gerar aula — roteiro, código, lista e manifesto (`acad gerar aula`)
 

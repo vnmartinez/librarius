@@ -21,6 +21,14 @@ def carregar_configuracao() -> dict | None:
     return documento
 
 
+def gravar_configuracao(documento: dict) -> Path:
+    esquemas.validar_ou_falhar("semestre", documento)
+    destino = dir_dados() / "configuracao.yaml"
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    destino.write_text(esquemas.para_yaml(documento), encoding="utf-8")
+    return destino
+
+
 def raiz_semestre(args) -> Path:
     informada = getattr(args, "raiz", None)
     configuracao = carregar_configuracao()
