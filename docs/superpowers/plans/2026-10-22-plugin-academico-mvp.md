@@ -2662,6 +2662,8 @@ def test_conteudo_invalido(semestre_sintetico, disc):
 
 ### Tarefa 26: Gerador de slides `.pptx` — **BLOQUEADA (D4)**
 
+**Estado da execução (2026-10-22): BLOQUEADA.** A decisão D4 sobre o modelo visual e a abordagem ainda não está registrada; esta tarefa foi pulada conforme o prompt do executor. `obter_gerador()` permanece bloqueado e a geração dos demais materiais da aula segue disponível.
+
 Só começar depois que o professor confirmar o modelo de referência (spec §2.1) e a abordagem. O executor **não** decide sozinho: se a decisão não estiver registrada no `ANDAMENTO.md`/spec, pule esta tarefa.
 
 **Files (abordagem 1, recomendada):**
