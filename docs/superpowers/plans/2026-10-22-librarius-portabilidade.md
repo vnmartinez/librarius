@@ -1071,7 +1071,7 @@ git commit -m "feat: perfil neutro de reserva e fim do padrão fasoft implícito
 - Consumes: `Perfil.modelo_slides`, `Perfil.modelo_prova`, `Perfil.slides`, `Perfil.pasta_modelos`, `obter_gerador(ler_bytes, identidade)`.
 - Produces: `planejar_aula(..., perfil=None)` — novo parâmetro nomeado opcional no fim (padrão `contexto.perfil()`).
 
-- [ ] **Step 1: Testes que falham**
+- [x] **Step 1: Testes que falham**
 
 Em `testes/unidade/test_gerar_aula.py` acrescente (use os fixtures `disc`/`semestre_sintetico` e a forma como os testes vizinhos chamam `planejar_aula`; copie a chamada de um teste existente e acrescente `perfil=`):
 
@@ -1110,12 +1110,12 @@ def test_modelo_declarado_ausente_avisa(disc, semestre_sintetico):
 
 Em `testes/unidade/test_avaliacao.py`, ache o teste que gera prova sem `Modelo LaTeX` (cai no genérico) e acrescente a asserção `assert "Usei o modelo simples de prova, sem o cabeçalho da instituição." in dados["avisos"]`; se não houver esse teste, crie um copiando o teste de geração de prova mais simples do arquivo. No teste que usa o modelo institucional (se existir), garanta que esse aviso **não** aparece.
 
-- [ ] **Step 2: Rodar e ver falhar**
+- [x] **Step 2: Rodar e ver falhar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_gerar_aula.py testes/unidade/test_avaliacao.py -v`
 Expected: FAIL (`planejar_aula() got an unexpected keyword argument 'perfil'`; aviso ausente).
 
-- [ ] **Step 3: `aula.py`**
+- [x] **Step 3: `aula.py`**
 
 Assinatura: acrescente `perfil=None` como último parâmetro; no início, `perfil = perfil or contexto.perfil()` (import local `from acad import contexto` se houver risco de ciclo). Troque o bloco 102-115 por:
 
@@ -1136,7 +1136,7 @@ Assinatura: acrescente `perfil=None` como último parâmetro; no início, `perfi
 
 No fasoft (`pasta_modelos` = `^\d{2} - Modelos$`, modelo `Modelo de Slides UniRV`, com logos) o resultado é o de hoje. Os demais literais de `aula.py` (`01 - Planejamento`, `05 - Materiais de Referência`) ficam para a Tarefa 7.
 
-- [ ] **Step 4: `gerar.py`**
+- [x] **Step 4: `gerar.py`**
 
 `gerar aula`: `perfil = contexto.perfil()`; `obter_gerador(ws.ler_bytes, perfil.slides)`; passe `perfil=perfil` a `planejar_aula`.
 
@@ -1157,12 +1157,12 @@ Modelo de prova (linhas 93-104):
 
 Inicialize `avisos_modelo = []` antes do `if` e some `avisos_modelo` à lista `avisos` que já existe logo abaixo (`avisos = []` → `avisos = list(avisos_modelo)`).
 
-- [ ] **Step 5: Rodar**
+- [x] **Step 5: Rodar**
 
 Run: `.venv/Scripts/python -m pytest testes/unidade/test_gerar_aula.py testes/unidade/test_avaliacao.py -v`, `.venv/Scripts/python -m pytest -q` e `.venv/Scripts/python -m pytest -q -m latex`
 Expected: PASS.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add acad/geracao/aula.py acad/comandos/gerar.py testes/unidade/test_gerar_aula.py testes/unidade/test_avaliacao.py

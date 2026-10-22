@@ -57,7 +57,9 @@ def _duracao_encontros(ws, disc: Path, id_aula: str) -> int:
 
 def planejar_aula(ws, semestre: Path, disc: Path, num: str, conteudo: dict,
                   gerador: GeradorSlides, agora: datetime,
-                  revisar: bool = False) -> tuple[list[Operacao], list[str]]:
+                  revisar: bool = False, perfil=None) -> tuple[list[Operacao], list[str]]:
+    from acad import contexto as contexto_academico
+    perfil = perfil or contexto_academico.perfil()
     esquemas.validar_ou_falhar("conteudo-aula", conteudo)
     id_aula = f"Aula {int(num):02d}"
     documento = ler_aulas(ws, disc)
@@ -100,18 +102,19 @@ def planejar_aula(ws, semestre: Path, disc: Path, num: str, conteudo: dict,
         adicionar(nomes["lista"], _lista(conteudo).encode("utf-8"), "lista de atividades")
         aula["lista"] = f"{prefixo}/{nomes['lista']}"
     pasta_modelos = next((p for p in ws.listar(semestre)
-                          if p.is_dir() and "Modelos" in p.name), None)
+                          if p.is_dir() and perfil.pasta_modelos.match(p.name)), None)
     if "slides" in conteudo:
         modelo_slides = None
-        if pasta_modelos is not None:
-            candidato = pasta_modelos / "Modelo de Slides UniRV"
+        if pasta_modelos is not None and perfil.modelo_slides:
+            candidato = pasta_modelos / perfil.modelo_slides
             modelo_slides = candidato if candidato.is_dir() else None
         dados_disciplina = ler_disciplina(ws, disc) if ws.existe(disc / "01 - Planejamento" / "disciplina.yaml") else {}
         contexto = {**conteudo, "aula_id": id_aula, "curso": dados_disciplina.get("nome", "")}
         adicionar(nomes["slides"], gerador.gerar(contexto, modelo_slides), "slides da aula")
         aula["slides"] = f"{prefixo}/{nomes['slides']}"
-        avisos += avisos_editoriais(conteudo["slides"]["slides"])
-        if modelo_slides is None:
+        avisos += avisos_editoriais(conteudo["slides"]["slides"], perfil.slides.limites)
+        quer_logos = bool(perfil.slides.logo_cabecalho or perfil.slides.logos_capa)
+        if perfil.modelo_slides and quer_logos and modelo_slides is None:
             avisos.append("Não achei o modelo de slides na pasta de modelos; os slides saem sem os logotipos.")
 
     aula["tema"] = conteudo["tema"]
