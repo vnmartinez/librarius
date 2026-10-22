@@ -1,0 +1,190 @@
+versao_esquema: 1
+disciplina: ED2
+aulas:
+- id: Aula 01
+  tema: Apresentação da Disciplina/Ementa/Cronograma
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 02
+  tema: Introdução a Linguagem Go
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 03
+  tema: 'Fundamentos: Memória e Endereço / Ponteiros e Passagem de Parâmetros'
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 04
+  tema: Atividades complementares
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 05
+  tema: Structs e Alocação de Memória
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 06
+  tema: Atividades complementares
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 07
+  tema: Árvores Binárias de Busca (BST)
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 08
+  tema: Atividades complementares 1/3
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 09
+  tema: Atividades complementares 2/3
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 10
+  tema: Atividades complementares 3/3
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 14
+  tema: Árvore Binária de Busca Auto-Balanceada (AVL) 1/2
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 15
+  tema: Árvore Binária de Busca Auto-Balanceada (AVL) 2/2
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 16
+  tema: Atividades complementares 1/2
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 17
+  tema: Atividades complementares 2/2
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 18
+  tema: Árvores Rubro-Negras - Propriedades e Inserção
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 19
+  tema: Atividades complementares
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 20
+  tema: Árvores Rubro-Negras - Exclusão
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 21
+  tema: Atividades complementares 1/2
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 22
+  tema: Árvores B - Teoria
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 23
+  tema: Árvores B e Aplicações
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 24
+  tema: Árvores B - Exclusão
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 25
+  tema: GINCANA
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 28
+  tema: Busca em Largura (BFS) e Profundidade (DFS)
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 29
+  tema: 'Teoria dos Grafos: Representação Computacional e Caminhos Mínimos: Dijkstra
+    (Teoria)'
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 30
+  tema: 'Trabalho Final: Definição e Orientação'
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 31
+  tema: Desenvolvimento 1/2
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 32
+  tema: Desenvolvimento 2/2 (Plantão de Dúvidas)
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 33
+  tema: APRESENTAÇÃO DO TRABALHO FINAL DA DISCIPLINA 1/2
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 34
+  tema: APRESENTAÇÃO DO TRABALHO FINAL DA DISCIPLINA 2/2
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 35
+  tema: Encerramento da Disciplina
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1
+- id: Aula 36
+  tema: Atendimento Final e Fechamento
+  status: planejada
+  objetivos: []
+  prerequisitos: []
+  encontros_necessarios: 1

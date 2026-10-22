@@ -1,0 +1,42 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "versao_esquema",
+    "perfil",
+    "raiz_workspace",
+    "semestre_atual"
+  ],
+  "properties": {
+    "versao_esquema": {
+      "const": 1
+    },
+    "perfil": {
+      "type": "string"
+    },
+    "raiz_workspace": {
+      "type": "string"
+    },
+    "semestre_atual": {
+      "type": "string",
+      "pattern": "^\\d{4}-[12]$"
+    },
+    "disciplinas": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "turmas": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/vnmartinez/librarius/esquemas/semestre.schema.json"
+}

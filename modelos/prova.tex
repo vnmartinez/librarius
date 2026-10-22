@@ -1,0 +1,20 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\newcommand{\avaliacaoTitulo}[1]{\def\tituloProva{#1}}
+\newcommand{\avaliacaoDisciplina}[1]{\def\disciplinaProva{#1}}
+\newcommand{\avaliacaoProfessor}[1]{\def\professorProva{#1}}
+\newcommand{\avaliacaoData}[1]{\def\dataProva{#1}}
+\avaliacaoTitulo{}
+\avaliacaoDisciplina{}
+\avaliacaoProfessor{}
+\avaliacaoData{}
+\begin{document}
+\begin{center}\Large\textbf{\tituloProva}\end{center}
+\noindent\textbf{Disciplina:} \disciplinaProva\\
+\textbf{Professor:} \professorProva\\
+\textbf{Data:} \dataProva
+\bigskip
+%% CORPO %%
+\end{document}

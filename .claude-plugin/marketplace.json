@@ -1,0 +1,9 @@
+{
+  "name": "librarius",
+  "description": "Plugins do projeto Librarius",
+  "owner": { "name": "Vinicius Martinez" },
+  "plugins": [
+    { "name": "librarius", "source": "./", "version": "0.1.0",
+      "description": "Assistente para professores universitários" }
+  ]
+}

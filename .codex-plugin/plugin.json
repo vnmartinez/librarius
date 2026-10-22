@@ -1,0 +1,21 @@
+{
+  "name": "librarius",
+  "version": "0.1.0",
+  "description": "Assistente para professores universitários: cronograma, aulas, provas e organização de pastas.",
+  "author": { "name": "Vinicius Martinez", "url": "https://github.com/vnmartinez" },
+  "homepage": "https://github.com/vnmartinez/librarius",
+  "repository": "https://github.com/vnmartinez/librarius",
+  "license": "MIT",
+  "keywords": ["professor", "universidade", "cronograma", "aulas", "provas"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Librarius",
+    "shortDescription": "Cronograma, aulas e provas para professores",
+    "longDescription": "Planeja o semestre, prepara aulas e provas no modelo da instituição e confere datas, carga horária e nomes de arquivo, sempre pedindo aprovação antes de gravar.",
+    "developerName": "Vinicius Martinez",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "defaultPrompt": ["Qual é a minha aula de hoje?", "Prepare a aula de quinta."],
+    "websiteURL": "https://github.com/vnmartinez/librarius"
+  }
+}

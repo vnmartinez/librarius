@@ -1,0 +1,56 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "versao_esquema",
+    "manifesto"
+  ],
+  "properties": {
+    "versao_esquema": {
+      "const": 1
+    },
+    "manifesto": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artefatos",
+        "gerado_em",
+        "entradas",
+        "aprovado",
+        "versao_acad"
+      ],
+      "properties": {
+        "artefatos": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "gerado_em": {
+          "type": "string"
+        },
+        "entradas": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        },
+        "aprovado": {
+          "type": "boolean"
+        },
+        "aprovado_em": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "versao_acad": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/vnmartinez/librarius/esquemas/manifesto.schema.json"
+}

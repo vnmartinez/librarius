@@ -1,0 +1,120 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "versao_esquema",
+    "perfil"
+  ],
+  "properties": {
+    "versao_esquema": {
+      "const": 1
+    },
+    "perfil": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "instituicao",
+        "semestre_pasta",
+        "disciplina_pasta",
+        "subpastas_disciplina",
+        "nomenclatura",
+        "carga_horaria",
+        "exclusao"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "instituicao": {
+          "type": "string"
+        },
+        "semestre_pasta": {
+          "type": "string"
+        },
+        "disciplina_pasta": {
+          "type": "string"
+        },
+        "subpastas_disciplina": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pasta_arquivo": {
+          "type": "string"
+        },
+        "pasta_avaliacoes": {
+          "type": "string"
+        },
+        "pasta_modelos": {
+          "type": "string"
+        },
+        "etapas_avaliacao": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "nomenclatura": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "aula",
+            "lista",
+            "pasta",
+            "sufixos_proibidos"
+          ],
+          "properties": {
+            "aula": {
+              "type": "string"
+            },
+            "lista": {
+              "type": "string"
+            },
+            "pasta": {
+              "type": "string"
+            },
+            "sufixos_proibidos": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "carga_horaria": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "unidade",
+            "minutos_hora_aula"
+          ],
+          "properties": {
+            "unidade": {
+              "enum": [
+                "hora_relogio",
+                "hora_aula",
+                null
+              ]
+            },
+            "minutos_hora_aula": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          }
+        },
+        "exclusao": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/vnmartinez/librarius/esquemas/perfil.schema.json"
+}

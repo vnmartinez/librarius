@@ -1,0 +1,11 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "skills": ["./skills"],
+  "mcp": {
+    "librarius": {
+      "type": "local",
+      "command": ["python", "./scripts/acad.py", "mcp"],
+      "enabled": true
+    }
+  }
+}
