@@ -2656,9 +2656,9 @@ def test_conteudo_invalido(semestre_sintetico, disc):
 
 **Interfaces:**
 - Produces: `TRANSICOES = {"planejada": {"rascunho"}, "rascunho": {"revisada", "planejada"}, "revisada": {"aprovada", "rascunho"}, "aprovada": {"ministrada"}, "ministrada": set()}`; `mudar_status(aula: dict, novo: str, agora: datetime, encontro: str | None = None) -> dict` — transição fora da tabela → `ErroAcad("transicao-invalida", "Uma aula em rascunho precisa ser revisada antes de ser aprovada.")` (mensagem por caso); `aprovada` grava `manifesto.aprovado = True`, `aprovado_em`; `ministrada` exige `encontro` e acrescenta em `ministrada_em`. CLI `acad aula status <DISC> --aula NN <novo> [--encontro E05]` → proposta substituindo `aulas.yaml` (e `encontros-*.yaml` marcando o encontro `realizado` quando `ministrada`).
-- [ ] **Step 1: Testes que falham** — tabela completa de transições válidas e inválidas (parametrize), aprovação grava `aprovado_em`, `ministrada` sem encontro falha, `ministrada` marca o encontro `realizado`.
-- [ ] **Step 2–4:** falhar, implementar, passar.
-- [ ] **Step 5: Commit** — `git commit -m "feat: ciclo de status da aula com aprovação do professor"`
+- [x] **Step 1: Testes que falham** — tabela completa de transições válidas e inválidas (parametrize), aprovação grava `aprovado_em`, `ministrada` sem encontro falha, `ministrada` marca o encontro `realizado`.
+- [x] **Step 2–4:** falhar, implementar, passar.
+- [x] **Step 5: Commit** — `git commit -m "feat: ciclo de status da aula com aprovação do professor"`
 
 ### Tarefa 26: Gerador de slides `.pptx` — **BLOQUEADA (D4)**
 
